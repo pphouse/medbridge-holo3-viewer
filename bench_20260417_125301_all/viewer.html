@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>Holo3 Benchmark Viewer</title>
+<style>
+  body { font-family: sans-serif; margin: 0; background: #0b0d10; color: #eee; }
+  header { padding: 16px 24px; background: #111; border-bottom: 1px solid #222; }
+  header h1 { margin: 0 0 4px; font-size: 18px; }
+  header .meta { color: #aaa; font-size: 13px; }
+  .score { display: inline-block; padding: 4px 10px; border-radius: 4px; margin-right: 8px; font-weight: 600; }
+  .good { background: #16a34a; } .bad { background: #dc2626; } .mid { background: #ca8a04; }
+  .screen { margin: 24px; border: 1px solid #222; border-radius: 8px; overflow: hidden; background: #15181d; }
+  .screen h2 { margin: 0; padding: 12px 16px; background: #1a1e24; font-size: 15px; }
+  .body { display: flex; gap: 12px; padding: 12px; }
+  .body img { max-width: 60%; height: auto; border: 1px solid #333; }
+  .results { flex: 1; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; }
+  th, td { padding: 4px 8px; border-bottom: 1px solid #2a2e35; text-align: left; }
+  th { background: #1e232a; }
+  .hit { color: #22c55e; } .miss { color: #ef4444; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; padding: 4px 0; color: #60a5fa; }
+  pre { background: #0d1117; padding: 8px; overflow-x: auto; border-radius: 4px; font-size: 11px; max-height: 200px; }
+</style></head>
+<body>
+<header>
+  <h1>Holo3 Benchmark — 20260417_125301_all</h1>
+  <div class="meta">patient=00000001 screens=6 time=2026-04-17T13:05:07.075569</div>
+  <div style="margin-top:8px"><span class="score good">Grounding Hit: 0.84</span><span class="score good">Mean Pixel Dist: 149.10</span><span class="score mid">OCR Recall: 0.67</span></div>
+</header>
+<div id="content">
+        <div class="screen">
+          <h2>login (DOM: 2 elements)</h2>
+          <div class="body">
+            <img src="annotated/login.png" alt="login">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th></tr>
+                <tr><td>#1</td><td>ログイン</td><td>[961, 606, 1041, 629]</td><td>(990,613)</td><td class="hit">HIT</td><td>11.7px</td></tr><tr><td>#2</td><td>キャンセル</td><td>[1049, 606, 1132, 629]</td><td>(1096,615)</td><td class="hit">HIT</td><td>6.3px</td></tr>
+              </table>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>patient_list (DOM: 11 elements)</h2>
+          <div class="body">
+            <img src="annotated/patient_list.png" alt="patient_list">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th></tr>
+                <tr><td>#1</td><td>検索条件を入力...</td><td>[130, 100, 410, 123]</td><td>(288,105)</td><td class="hit">HIT</td><td>19.0px</td></tr><tr><td>#2</td><td>検索(S)</td><td>[418, 100, 485, 123]</td><td>(449,111)</td><td class="hit">HIT</td><td>2.0px</td></tr><tr><td>#3</td><td>📋
+受付一覧</td><td>[4, 45, 73, 72]</td><td>(40,59)</td><td class="hit">HIT</td><td>2.2px</td></tr><tr><td>#4</td><td>🏥
+受付管理</td><td>[83, 45, 153, 72]</td><td>(134,54)</td><td class="hit">HIT</td><td>16.5px</td></tr><tr><td>#5</td><td>🛏
+入院管理</td><td>[163, 45, 232, 72]</td><td>(190,60)</td><td class="hit">HIT</td><td>7.3px</td></tr><tr><td>#6</td><td>📅
+予約管理</td><td>[242, 45, 312, 72]</td><td>(280,56)</td><td class="hit">HIT</td><td>3.6px</td></tr>
+              </table>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>karte (DOM: 23 elements)</h2>
+          <div class="body">
+            <img src="annotated/karte.png" alt="karte">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(650,117)</td><td class="miss">MISS</td><td>529.6px</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(241,50)</td><td class="hit">HIT</td><td>5.4px</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(274,52)</td><td class="hit">HIT</td><td>5.8px</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(314,49)</td><td class="hit">HIT</td><td>7.8px</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(458,52)</td><td class="hit">HIT</td><td>4.2px</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(522,57)</td><td class="hit">HIT</td><td>3.6px</td></tr>
+              </table>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>labs (DOM: 26 elements)</h2>
+          <div class="body">
+            <img src="annotated/labs.png" alt="labs">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(138,57)</td><td class="hit">HIT</td><td>14.1px</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(238,57)</td><td class="hit">HIT</td><td>2.2px</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(272,54)</td><td class="hit">HIT</td><td>7.1px</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(322,52)</td><td class="hit">HIT</td><td>4.2px</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(1873,386)</td><td class="miss">MISS</td><td>1456.1px</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(524,52)</td><td class="hit">HIT</td><td>3.2px</td></tr>
+              </table>
+              
+              <details>
+                <summary class="hit">OCR [lab_results]: 6/6 (recall 1.00)</summary>
+                <div style="display:flex;gap:12px">
+                  <div><b>GT</b><pre>[
+  {
+    "name": "AST(GOT)",
+    "value": "16.8"
+  },
+  {
+    "name": "ALT(GPT)",
+    "value": "19.3"
+  },
+  {
+    "name": "クレアチニン(Cr)",
+    "value": "0.8"
+  },
+  {
+    "name": "白血球数(WBC)",
+    "value": "5270.2"
+  },
+  {
+    "name": "CRP定量",
+    "value": "0.1"
+  },
+  {
+    "name": "Na(ナトリウム)",
+    "value": "139.6"
+  }
+]</pre></div>
+                  <div><b>Predicted</b><pre>[
+  {
+    "name": "AST(GOT)",
+    "value": "16.8",
+    "unit": "U/L"
+  },
+  {
+    "name": "ALT(GPT)",
+    "value": "19.3",
+    "unit": "U/L"
+  },
+  {
+    "name": "クレアチニン(Cr)",
+    "value": "0.8",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "高分子(WBC)",
+    "value": "5270.2",
+    "unit": "/μL"
+  },
+  {
+    "name": "CRP定量",
+    "value": "0.1",
+    "unit": "mg/dL"
+  },
+  {
+    "name": "Na(ナトリウム)",
+    "value": "139.6",
+    "unit": "mEq/L"
+  }
+]</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>meds (DOM: 30 elements)</h2>
+          <div class="body">
+            <img src="annotated/meds.png" alt="meds">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(115,54)</td><td class="hit">HIT</td><td>9.1px</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(236,55)</td><td class="hit">HIT</td><td>3.0px</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(284,54)</td><td class="hit">HIT</td><td>5.1px</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(314,56)</td><td class="hit">HIT</td><td>5.1px</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(282,51)</td><td class="miss">MISS</td><td>173.0px</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(537,52)</td><td class="hit">HIT</td><td>12.4px</td></tr>
+              </table>
+              
+              <details>
+                <summary class="hit">OCR [medications]: 1/1 (recall 1.00)</summary>
+                <div style="display:flex;gap:12px">
+                  <div><b>GT</b><pre>[
+  {
+    "name": "ランソプラゾールOD錠15mg",
+    "dosage": "1錠 1日1回 朝食前"
+  }
+]</pre></div>
+                  <div><b>Predicted</b><pre>[
+  {
+    "name": "メトホルミン塩酸塩250mg",
+    "dosage": "500mg/日"
+  },
+  {
+    "name": "アムロジピンベシラト塩酸塩5mg",
+    "dosage": "5mg/日"
+  },
+  {
+    "name": "カンデサルタンシキセチル塩8mg",
+    "dosage": "8mg/日"
+  },
+  {
+    "name": "ロスバスタチンカルシウム塩2.5mg",
+    "dosage": "2.5mg/日"
+  },
+  {
+    "name": "ランソプラゾールOD15mg",
+    "dosage": "15mg/日"
+  },
+  {
+    "name": "アスピリン腸溶衣100mg",
+    "dosage": "100mg/日"
+  },
+  {
+    "name": "ワルファリンカリウム塩1mg",
+    "dosage": "1-5mg/日"
+  }
+]</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>diagnoses (DOM: 32 elements)</h2>
+          <div class="body">
+            <img src="annotated/diagnoses.png" alt="diagnoses">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(119,56)</td><td class="hit">HIT</td><td>5.1px</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(236,58)</td><td class="hit">HIT</td><td>4.2px</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(284,55)</td><td class="hit">HIT</td><td>5.0px</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(608,989)</td><td class="miss">MISS</td><td>977.7px</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(1877,383)</td><td class="miss">MISS</td><td>1459.3px</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(526,55)</td><td class="hit">HIT</td><td>1.0px</td></tr>
+              </table>
+              
+              <details>
+                <summary class="miss">OCR [diagnoses]: 0/2 (recall 0.00)</summary>
+                <div style="display:flex;gap:12px">
+                  <div><b>GT</b><pre>[
+  {
+    "name": "うつ病エピソード",
+    "icd10": "F32"
+  },
+  {
+    "name": "背部痛",
+    "icd10": "M54"
+  }
+]</pre></div>
+                  <div><b>Predicted</b><pre>[
+  {
+    "reasoning": "病名入力ウィンドウが打开されており、病名一覧を取得する必要がある。このウィンドウ内の情報をJSON配列としてextractするactionが必要である。",
+    "action": {
+      "type": "extract",
+      "data": {
+        "病名一覧": [
+          {
+            "name": "-- 疾患を選択 --",
+            "icd10": "E11"
+          }
+        ]
+      }
+    }
+  }
+]</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div></div>
+</body></html>

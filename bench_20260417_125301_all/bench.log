@@ -1,0 +1,143 @@
+2026-04-17 12:53:01,371 [INFO] CDP connected: ws://localhost:9222/devtools/page/AFE9AB10FCA484FBA63519233FB8C176
+2026-04-17 12:53:01,372 [INFO] CDP offset detected: x=0, y=0
+2026-04-17 12:53:01,372 [INFO] GT loaded: meds=1 dx=2 labs=6
+2026-04-17 12:53:03,873 [INFO] === Benchmarking screen: login ===
+2026-04-17 12:53:10,670 [INFO]   screenshot: bench_results/20260417_125301_all/screenshots/login.png
+2026-04-17 12:53:10,671 [INFO]   DOM visible elements: 2
+2026-04-17 12:53:10,672 [INFO]   grounding targets: ['ログイン', 'キャンセル']
+2026-04-17 12:53:22,062 [INFO]   Grounding: 'ログイン' -> raw(516,568) -> pixel(990,613)
+2026-04-17 12:53:22,063 [INFO]     'ログイン' hit=True dist=11.7px
+2026-04-17 12:53:25,184 [INFO]   Grounding: 'キャンセル' -> raw(571,570) -> pixel(1096,615)
+2026-04-17 12:53:25,184 [INFO]     'キャンセル' hit=True dist=6.3px
+2026-04-17 12:53:25,257 [INFO]   annotated: bench_results/20260417_125301_all/annotated/login.png
+2026-04-17 12:53:25,257 [INFO] === Login ===
+2026-04-17 12:53:25,764 [INFO]   CDP: Login fields set (attempt 1)
+2026-04-17 12:53:48,510 [INFO]   Login succeeded (attempt 1)
+2026-04-17 12:53:49,510 [INFO] === Benchmarking screen: patient_list ===
+2026-04-17 12:53:50,221 [INFO]   screenshot: bench_results/20260417_125301_all/screenshots/patient_list.png
+2026-04-17 12:53:50,222 [INFO]   DOM visible elements: 11
+2026-04-17 12:53:50,222 [INFO]   grounding targets: ['検索条件を入力...', '検索(S)', '📋\n受付一覧', '🏥\n受付管理', '🛏\n入院管理', '📅\n予約管理']
+2026-04-17 12:53:58,429 [INFO]   Grounding: '検索条件を入力...' -> raw(150,98) -> pixel(288,105)
+2026-04-17 12:53:58,429 [INFO]     '検索条件を入力...' hit=True dist=19.0px
+2026-04-17 12:54:11,323 [INFO]   Grounding: '検索(S)' -> raw(234,103) -> pixel(449,111)
+2026-04-17 12:54:11,323 [INFO]     '検索(S)' hit=True dist=2.0px
+2026-04-17 12:54:28,243 [INFO]   Grounding: '📋
+受付一覧' -> raw(21,55) -> pixel(40,59)
+2026-04-17 12:54:28,243 [INFO]     '📋
+受付一覧' hit=True dist=2.2px
+2026-04-17 12:54:38,239 [INFO]   Grounding: '🏥
+受付管理' -> raw(70,50) -> pixel(134,54)
+2026-04-17 12:54:38,239 [INFO]     '🏥
+受付管理' hit=True dist=16.5px
+2026-04-17 12:54:52,606 [INFO]   Grounding: '🛏
+入院管理' -> raw(99,56) -> pixel(190,60)
+2026-04-17 12:54:52,606 [INFO]     '🛏
+入院管理' hit=True dist=7.3px
+2026-04-17 12:55:09,236 [INFO]   Grounding: '📅
+予約管理' -> raw(146,52) -> pixel(280,56)
+2026-04-17 12:55:09,236 [INFO]     '📅
+予約管理' hit=True dist=3.6px
+2026-04-17 12:55:09,324 [INFO]   annotated: bench_results/20260417_125301_all/annotated/patient_list.png
+2026-04-17 12:55:09,324 [INFO] === Find Patient ===
+2026-04-17 12:55:24,803 [INFO]   Grounding: '画面上部の患者検索入力欄（テキストボックス）' -> raw(137,100) -> pixel(263,108)
+2026-04-17 12:55:24,803 [INFO]   Click pixel: (263, 108)
+2026-04-17 12:55:25,811 [INFO]   Type: '00000001'
+2026-04-17 12:55:38,270 [INFO]   Grounding: '「検索」ボタン' -> raw(230,98) -> pixel(441,105)
+2026-04-17 12:55:38,270 [INFO]   Click pixel: (441, 105)
+2026-04-17 12:56:01,341 [INFO]   Grounding: '患者一覧テーブルの最初の患者の行' -> raw(400,200) -> pixel(768,216)
+2026-04-17 12:56:01,341 [INFO]   Click pixel: (768, 216)
+2026-04-17 12:56:06,547 [INFO] === Benchmarking screen: karte ===
+2026-04-17 12:56:07,262 [INFO]   screenshot: bench_results/20260417_125301_all/screenshots/karte.png
+2026-04-17 12:56:07,265 [INFO]   DOM visible elements: 23
+2026-04-17 12:56:07,265 [INFO]   grounding targets: ['カルテ記載', '処方', '検査', '病名', '検査結果窓', '処方一覧窓']
+2026-04-17 12:56:18,178 [INFO]   Grounding: 'カルテ記載' -> raw(339,109) -> pixel(650,117)
+2026-04-17 12:56:18,178 [INFO]     'カルテ記載' hit=False dist=529.6px
+2026-04-17 12:56:33,251 [INFO]   Grounding: '処方' -> raw(126,47) -> pixel(241,50)
+2026-04-17 12:56:33,251 [INFO]     '処方' hit=True dist=5.4px
+2026-04-17 12:56:44,932 [INFO]   Grounding: '検査' -> raw(143,49) -> pixel(274,52)
+2026-04-17 12:56:44,933 [INFO]     '検査' hit=True dist=5.8px
+2026-04-17 12:56:54,693 [INFO]   Grounding: '病名' -> raw(164,46) -> pixel(314,49)
+2026-04-17 12:56:54,693 [INFO]     '病名' hit=True dist=7.8px
+2026-04-17 12:57:07,583 [INFO]   Grounding: '検査結果窓' -> raw(239,49) -> pixel(458,52)
+2026-04-17 12:57:07,583 [INFO]     '検査結果窓' hit=True dist=4.2px
+2026-04-17 12:57:19,359 [INFO]   Grounding: '処方一覧窓' -> raw(272,53) -> pixel(522,57)
+2026-04-17 12:57:19,359 [INFO]     '処方一覧窓' hit=True dist=3.6px
+2026-04-17 12:57:19,464 [INFO]   annotated: bench_results/20260417_125301_all/annotated/karte.png
+2026-04-17 12:57:19,464 [INFO] === Navigate to 検体検査 ===
+2026-04-17 12:57:19,465 [INFO] Scrolling: 20
+2026-04-17 12:57:35,144 [INFO]   Grounding: '画面上部のタブバーにある「検体検査」というテキストのタブ' -> raw(195,113) -> pixel(374,122)
+2026-04-17 12:57:35,144 [INFO]   Click pixel: (374, 122)
+2026-04-17 12:57:55,142 [INFO]   Tab verified: 検体検査
+2026-04-17 12:57:56,342 [INFO] === Benchmarking screen: labs ===
+2026-04-17 12:57:57,068 [INFO]   screenshot: bench_results/20260417_125301_all/screenshots/labs.png
+2026-04-17 12:57:57,071 [INFO]   DOM visible elements: 26
+2026-04-17 12:57:57,071 [INFO]   grounding targets: ['カルテ記載', '処方', '検査', '病名', '検査結果窓', '処方一覧窓']
+2026-04-17 12:58:06,476 [INFO]   Grounding: 'カルテ記載' -> raw(72,53) -> pixel(138,57)
+2026-04-17 12:58:06,476 [INFO]     'カルテ記載' hit=True dist=14.1px
+2026-04-17 12:58:20,001 [INFO]   Grounding: '処方' -> raw(124,53) -> pixel(238,57)
+2026-04-17 12:58:20,001 [INFO]     '処方' hit=True dist=2.2px
+2026-04-17 12:58:37,821 [INFO]   Grounding: '検査' -> raw(142,50) -> pixel(272,54)
+2026-04-17 12:58:37,821 [INFO]     '検査' hit=True dist=7.1px
+2026-04-17 12:58:52,494 [INFO]   Grounding: '病名' -> raw(168,49) -> pixel(322,52)
+2026-04-17 12:58:52,494 [INFO]     '病名' hit=True dist=4.2px
+2026-04-17 12:59:06,331 [INFO]   Grounding: '検査結果窓' -> raw(976,358) -> pixel(1873,386)
+2026-04-17 12:59:06,331 [INFO]     '検査結果窓' hit=False dist=1456.1px
+2026-04-17 12:59:15,218 [INFO]   Grounding: '処方一覧窓' -> raw(273,49) -> pixel(524,52)
+2026-04-17 12:59:15,218 [INFO]     '処方一覧窓' hit=True dist=3.2px
+2026-04-17 12:59:43,309 [INFO]     OCR[lab_results] matched=6/6 recall=1.0
+2026-04-17 12:59:43,405 [INFO]   annotated: bench_results/20260417_125301_all/annotated/labs.png
+2026-04-17 12:59:43,405 [INFO] === Navigate to 処方 ===
+2026-04-17 12:59:43,406 [INFO] Scrolling: 20
+2026-04-17 12:59:56,729 [INFO]   Grounding: '画面上部のタブバーにある「処方」というテキストのタブ' -> raw(120,50) -> pixel(230,54)
+2026-04-17 12:59:56,729 [INFO]   Click pixel: (230, 54)
+2026-04-17 13:00:07,804 [INFO]   Tab verified: 処方
+2026-04-17 13:00:09,005 [INFO] === Benchmarking screen: meds ===
+2026-04-17 13:00:09,714 [INFO]   screenshot: bench_results/20260417_125301_all/screenshots/meds.png
+2026-04-17 13:00:09,717 [INFO]   DOM visible elements: 30
+2026-04-17 13:00:09,717 [INFO]   grounding targets: ['カルテ記載', '処方', '検査', '病名', '検査結果窓', '処方一覧窓']
+2026-04-17 13:00:21,196 [INFO]   Grounding: 'カルテ記載' -> raw(60,50) -> pixel(115,54)
+2026-04-17 13:00:21,196 [INFO]     'カルテ記載' hit=True dist=9.1px
+2026-04-17 13:00:37,410 [INFO]   Grounding: '処方' -> raw(123,51) -> pixel(236,55)
+2026-04-17 13:00:37,410 [INFO]     '処方' hit=True dist=3.0px
+2026-04-17 13:00:46,412 [INFO]   Grounding: '検査' -> raw(148,50) -> pixel(284,54)
+2026-04-17 13:00:46,412 [INFO]     '検査' hit=True dist=5.1px
+2026-04-17 13:01:02,135 [INFO]   Grounding: '病名' -> raw(164,52) -> pixel(314,56)
+2026-04-17 13:01:02,135 [INFO]     '病名' hit=True dist=5.1px
+2026-04-17 13:01:18,193 [INFO]   Grounding: '検査結果窓' -> raw(147,48) -> pixel(282,51)
+2026-04-17 13:01:18,193 [INFO]     '検査結果窓' hit=False dist=173.0px
+2026-04-17 13:01:29,655 [INFO]   Grounding: '処方一覧窓' -> raw(280,49) -> pixel(537,52)
+2026-04-17 13:01:29,655 [INFO]     '処方一覧窓' hit=True dist=12.4px
+2026-04-17 13:01:44,811 [INFO]     OCR[medications] matched=1/1 recall=1.0
+2026-04-17 13:01:44,910 [INFO]   annotated: bench_results/20260417_125301_all/annotated/meds.png
+2026-04-17 13:01:44,910 [INFO] === Navigate to 病名 ===
+2026-04-17 13:01:44,910 [INFO] Scrolling: 20
+2026-04-17 13:02:03,503 [INFO]   Grounding: '画面上部のタブバーにある「病名」というテキストのタブ' -> raw(322,112) -> pixel(618,120)
+2026-04-17 13:02:03,503 [INFO]   Click pixel: (618, 120)
+2026-04-17 13:02:27,555 [WARNING]   Tab verify failed (attempt 1): expected '病名', got: {"reasoning":"This screen displays a patient's electronic medical record with a focus on test result
+2026-04-17 13:02:40,787 [INFO]   Grounding: '画面上部のタブバーにある「病名」というテキストのタブ' -> raw(168,50) -> pixel(322,54)
+2026-04-17 13:02:40,787 [INFO]   Click pixel: (322, 54)
+2026-04-17 13:03:01,457 [INFO]   Tab verified: 病名
+2026-04-17 13:03:02,657 [INFO] === Benchmarking screen: diagnoses ===
+2026-04-17 13:03:03,302 [INFO]   screenshot: bench_results/20260417_125301_all/screenshots/diagnoses.png
+2026-04-17 13:03:03,305 [INFO]   DOM visible elements: 32
+2026-04-17 13:03:03,305 [INFO]   grounding targets: ['カルテ記載', '処方', '検査', '病名', '検査結果窓', '処方一覧窓']
+2026-04-17 13:03:19,012 [INFO]   Grounding: 'カルテ記載' -> raw(62,52) -> pixel(119,56)
+2026-04-17 13:03:19,012 [INFO]     'カルテ記載' hit=True dist=5.1px
+2026-04-17 13:03:38,849 [INFO]   Grounding: '処方' -> raw(123,54) -> pixel(236,58)
+2026-04-17 13:03:38,849 [INFO]     '処方' hit=True dist=4.2px
+2026-04-17 13:03:48,013 [INFO]   Grounding: '検査' -> raw(148,51) -> pixel(284,55)
+2026-04-17 13:03:48,013 [INFO]     '検査' hit=True dist=5.0px
+2026-04-17 13:04:06,588 [INFO]   Grounding: '病名' -> raw(317,916) -> pixel(608,989)
+2026-04-17 13:04:06,589 [INFO]     '病名' hit=False dist=977.7px
+2026-04-17 13:04:31,332 [INFO]   Grounding: '検査結果窓' -> raw(978,355) -> pixel(1877,383)
+2026-04-17 13:04:31,332 [INFO]     '検査結果窓' hit=False dist=1459.3px
+2026-04-17 13:04:35,689 [INFO]   Grounding: '処方一覧窓' -> raw(274,51) -> pixel(526,55)
+2026-04-17 13:04:35,689 [INFO]     '処方一覧窓' hit=True dist=1.0px
+2026-04-17 13:05:06,976 [INFO]     OCR[diagnoses] matched=0/2 recall=0.0
+2026-04-17 13:05:07,075 [INFO]   annotated: bench_results/20260417_125301_all/annotated/diagnoses.png
+2026-04-17 13:05:07,077 [INFO] ============================================================
+2026-04-17 13:05:07,077 [INFO] Grounding hit rate: 0.844 (27/32)
+2026-04-17 13:05:07,077 [INFO] Mean pixel distance: 149.1 px
+2026-04-17 13:05:07,077 [INFO] OCR mean recall: 0.667
+2026-04-17 13:05:07,077 [INFO] Results: bench_results/20260417_125301_all
+2026-04-17 13:05:07,077 [INFO] Viewer: bench_results/20260417_125301_all/viewer.html

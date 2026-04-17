@@ -2,21 +2,45 @@
 <html lang="ja"><head><meta charset="utf-8">
 <title>MedBridge Sandbox — Experiment Viewers</title>
 <style>
-  body { font-family: sans-serif; margin: 0; background: #0b0d10; color: #eee; padding: 24px; }
+  body { font-family: sans-serif; margin: 0 auto; background: #0b0d10; color: #eee; padding: 24px; max-width: 1000px; }
   h1 { margin: 0 0 12px; font-size: 22px; }
+  h2 { margin: 32px 0 8px; font-size: 16px; color: #9ca3af; border-bottom: 1px solid #222; padding-bottom: 4px; }
   p { color: #aaa; }
   .card { background: #15181d; border: 1px solid #222; border-radius: 8px; padding: 16px; margin: 12px 0; }
   .card a { color: #60a5fa; font-weight: 600; font-size: 15px; text-decoration: none; }
   .card a:hover { text-decoration: underline; }
   .meta { color: #9ca3af; font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 6px; }
+  .good { background: #16a34a; } .mid { background: #ca8a04; } .bad { background: #dc2626; } .info { background: #2563eb; }
 </style></head>
 <body>
 <h1>MedBridge Sandbox — Experiment Viewers</h1>
-<p>電子カルテ退院サマリ自動抽出パイプラインの実験結果スナップショット</p>
+<p>Holo3 + Cerebras を使った電子カルテ退院サマリ自動抽出パイプラインの実験結果スナップショット (合成データ)</p>
+
+<h2>Task Suites — 退院サマリ抽出</h2>
 
 <div class="card">
   <a href="task_suite_20260417_140320/viewer.html">Task Suite — 20260417_140320</a>
-  <div class="meta">Patient 00000001 • 7タスク/19分 • Holo3 hardcoded • Mean Score 0.86</div>
+  <div class="meta">
+    <span class="chip good">Score 0.86</span>
+    <span class="chip info">7 tasks</span>
+    <span class="chip info">19分</span>
+    <span class="chip info">Holo3 hardcoded</span>
+    Patient 00000001
+  </div>
+</div>
+
+<h2>Benchmarks — Holo3 単体能力測定</h2>
+
+<div class="card">
+  <a href="bench_20260417_125301_all/viewer.html">Holo3 Grounding/OCR Benchmark — 20260417_125301</a>
+  <div class="meta">
+    <span class="chip good">Grounding 0.84 (27/32)</span>
+    <span class="chip mid">OCR 0.67</span>
+    <span class="chip info">6 screens</span>
+    <span class="chip info">Mean 149px</span>
+    Patient 00000001
+  </div>
 </div>
 
 </body></html>
