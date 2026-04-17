@@ -1,0 +1,187 @@
+{
+  "metadata": {
+    "session_name": "04_extract-labs",
+    "start_time": "2026-04-17T14:08:28.263061",
+    "patient_id": "00000001",
+    "task": "extract-labs",
+    "server_url": "http://localhost:8000",
+    "status": "success",
+    "end_time": "2026-04-17T14:11:54.971938",
+    "total_steps": 4,
+    "total_duration_sec": 206.71,
+    "summary_data": {
+      "lab_results": [
+        {
+          "test_name": "AST(GOT)",
+          "value": "16.8",
+          "unit": "U/L",
+          "flag": ""
+        },
+        {
+          "test_name": "ALT(GPT)",
+          "value": "19.3",
+          "unit": "U/L",
+          "flag": ""
+        },
+        {
+          "test_name": "クレアチニン(Cr)",
+          "value": "0.8",
+          "unit": "mg/dL",
+          "flag": ""
+        },
+        {
+          "test_name": "高分子球数(WBC)",
+          "value": "5270.2",
+          "unit": "/μL",
+          "flag": ""
+        },
+        {
+          "test_name": "CRP定量",
+          "value": "0.1",
+          "unit": "mg/dL",
+          "flag": ""
+        },
+        {
+          "test_name": "Na(ナトリウム)",
+          "value": "139.6",
+          "unit": "mEq/L",
+          "flag": ""
+        },
+        {
+          "test_name": "AST(GOT)",
+          "value": "16.8",
+          "unit": "U/L",
+          "flag": "L"
+        },
+        {
+          "test_name": "ALT(GPT)",
+          "value": "19.3",
+          "unit": "U/L",
+          "flag": "L"
+        },
+        {
+          "test_name": "クレアチニン(Cr)",
+          "value": "0.8",
+          "unit": "mg/dL",
+          "flag": "L"
+        },
+        {
+          "test_name": "실에数(WBC)",
+          "value": "5270.2",
+          "unit": "/μL",
+          "flag": "L"
+        },
+        {
+          "test_name": "CRP定量",
+          "value": "0.1",
+          "unit": "mg/dL",
+          "flag": "L"
+        },
+        {
+          "test_name": "Na(ナトリウム)",
+          "value": "139.6",
+          "unit": "mEq/L",
+          "flag": "L"
+        },
+        {
+          "test_name": "AST(GOT)",
+          "value": "16.8",
+          "unit": "U/L",
+          "flag": "H"
+        },
+        {
+          "test_name": "ALT(GPT)",
+          "value": "19.3",
+          "unit": "U/L",
+          "flag": "H"
+        },
+        {
+          "test_name": "クレアチニン(Cr)",
+          "value": "0.8",
+          "unit": "mg/dL",
+          "flag": "H"
+        },
+        {
+          "test_name": "실에数(WBC)",
+          "value": "5270.2",
+          "unit": "/μL",
+          "flag": "H"
+        },
+        {
+          "test_name": "CRP定量",
+          "value": "0.1",
+          "unit": "mg/dL",
+          "flag": "H"
+        },
+        {
+          "test_name": "Na(ナトリウム)",
+          "value": "139.6",
+          "unit": "mEq/L",
+          "flag": "H"
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "timestamp": "2026-04-17T14:08:54.085505",
+      "elapsed_sec": 25.82,
+      "phase": "goto_labs",
+      "prompt": "Click: 画面上部のタブバーにある「検体検査」というテキストのタブ",
+      "screenshot_path": "recordings/task_suite_20260417_140320/04_extract-labs/screenshots/step_0001.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {
+        "type": "click",
+        "x": 378,
+        "y": 116
+      },
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 25.82
+    },
+    {
+      "step_number": 2,
+      "timestamp": "2026-04-17T14:09:28.221116",
+      "elapsed_sec": 59.96,
+      "phase": "extract_labs_scroll0",
+      "prompt": "Extract: 画面に表示されている検体検査結果を全て読み取ってください。検査名、値、単位、異常フラグ(H/L)をJSON配列で返してください: {\"lab_results\": [{\"test_name\": \"...\", \"value\": \"...\", \"unit\": \"...\", \"flag\": \"H/L/\"}]}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/04_extract-labs/screenshots/step_0002.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 59.96
+    },
+    {
+      "step_number": 3,
+      "timestamp": "2026-04-17T14:10:16.707260",
+      "elapsed_sec": 108.44,
+      "phase": "extract_labs_scroll1",
+      "prompt": "Extract: 画面に表示されている検体検査結果を全て読み取ってください。検査名、値、単位、異常フラグ(H/L)をJSON配列で返してください: {\"lab_results\": [{\"test_name\": \"...\", \"value\": \"...\", \"unit\": \"...\", \"flag\": \"H/L/\"}]}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/04_extract-labs/screenshots/step_0003.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 108.44
+    },
+    {
+      "step_number": 4,
+      "timestamp": "2026-04-17T14:11:04.840541",
+      "elapsed_sec": 156.58,
+      "phase": "extract_labs_scroll2",
+      "prompt": "Extract: 画面に表示されている検体検査結果を全て読み取ってください。検査名、値、単位、異常フラグ(H/L)をJSON配列で返してください: {\"lab_results\": [{\"test_name\": \"...\", \"value\": \"...\", \"unit\": \"...\", \"flag\": \"H/L/\"}]}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/04_extract-labs/screenshots/step_0004.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 156.58
+    }
+  ]
+}

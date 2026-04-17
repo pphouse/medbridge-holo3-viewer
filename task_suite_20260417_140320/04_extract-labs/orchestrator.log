@@ -1,0 +1,16 @@
+2026-04-17 14:08:28,763 [INFO] === Task: extract-labs (session=04_extract-labs) ===
+2026-04-17 14:08:28,764 [INFO] === Navigate to 検体検査 ===
+2026-04-17 14:08:28,764 [INFO] Scrolling: 20
+2026-04-17 14:08:53,380 [INFO]   Grounding: '画面上部のタブバーにある「検体検査」というテキストのタブ' -> raw(197,108) -> pixel(378,116)
+2026-04-17 14:08:54,085 [INFO]   Click pixel: (378, 116)
+2026-04-17 14:09:25,088 [INFO]   Tab verified: 検体検査
+2026-04-17 14:09:27,088 [INFO] === Extract Labs ===
+2026-04-17 14:09:57,732 [INFO] Extracted (extract_labs_scroll0): {"lab_results": [{"test_name": "AST(GOT)", "value": "16.8", "unit": "U/L", "flag": ""}, {"test_name": "ALT(GPT)", "value": "19.3", "unit": "U/L", "flag": ""}, {"test_name": "クレアチニン(Cr)", "value": "0.8
+2026-04-17 14:10:14,386 [INFO]   Scrolling down for more data...
+2026-04-17 14:10:14,387 [INFO] Scrolling: -5
+2026-04-17 14:10:45,951 [INFO] Extracted (extract_labs_scroll1): {"lab_results": [{"test_name": "AST(GOT)", "value": "16.8", "unit": "U/L", "flag": "L"}, {"test_name": "ALT(GPT)", "value": "19.3", "unit": "U/L", "flag": "L"}, {"test_name": "クレアチニン(Cr)", "value": "0
+2026-04-17 14:11:02,512 [INFO]   Scrolling down for more data...
+2026-04-17 14:11:02,512 [INFO] Scrolling: -5
+2026-04-17 14:11:38,154 [INFO] Extracted (extract_labs_scroll2): {"lab_results": [{"test_name": "AST(GOT)", "value": "16.8", "unit": "U/L", "flag": "H"}, {"test_name": "ALT(GPT)", "value": "19.3", "unit": "U/L", "flag": "H"}, {"test_name": "クレアチニン(Cr)", "value": "0
+2026-04-17 14:11:54,971 [INFO]   No more data to scroll (3 pages read)
+2026-04-17 14:11:54,971 [INFO] Total extracted (extract_labs): {"lab_results": [{"test_name": "AST(GOT)", "value": "16.8", "unit": "U/L", "flag": ""}, {"test_name": "ALT(GPT)", "value": "19.3", "unit": "U/L", "flag": ""}, {"test_name": "クレアチニン(Cr)", "value": "0.8

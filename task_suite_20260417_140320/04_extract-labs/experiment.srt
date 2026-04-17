@@ -1,0 +1,17 @@
+1
+00:00:25,820 --> 00:00:59,960
+[Step 1] goto_labs
+Action: click (378,116)
+
+2
+00:00:59,960 --> 00:01:48,439
+[Step 2] extract_labs_scroll0
+
+3
+00:01:48,439 --> 00:02:36,580
+[Step 3] extract_labs_scroll1
+
+4
+00:02:36,580 --> 00:02:41,580
+[Step 4] extract_labs_scroll2
+

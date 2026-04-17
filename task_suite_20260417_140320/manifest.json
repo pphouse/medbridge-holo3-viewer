@@ -1,0 +1,328 @@
+{
+  "metadata": {
+    "session_name": "task_suite_20260417_140320",
+    "patient_id": "00000001",
+    "server_url": "http://localhost:8000",
+    "start_time": "2026-04-17T14:03:20.626209",
+    "end_time": "2026-04-17T14:22:14.572330"
+  },
+  "summary": {
+    "tasks_total": 7,
+    "tasks_success": 7,
+    "tasks_failed": 0,
+    "total_duration_sec": 1133.95,
+    "holo3_calls_total": 31,
+    "cerebras_calls_total": 0,
+    "mean_score": 0.857
+  },
+  "tasks": [
+    {
+      "task_id": "login",
+      "status": "success",
+      "start_time": "2026-04-17T14:03:21.127324",
+      "end_time": "2026-04-17T14:03:52.025525",
+      "duration_sec": 30.9,
+      "output": {
+        "ok": true
+      },
+      "session_dir": "01_login",
+      "error": "",
+      "holo3_calls": 0,
+      "cerebras_calls": 0,
+      "score": 1.0,
+      "score_matched": 1,
+      "score_total": 1,
+      "score_note": "binary: ok"
+    },
+    {
+      "task_id": "find-patient",
+      "status": "success",
+      "start_time": "2026-04-17T14:03:53.861517",
+      "end_time": "2026-04-17T14:04:52.069245",
+      "duration_sec": 58.21,
+      "output": {
+        "ok": true,
+        "patient_id": "00000001"
+      },
+      "session_dir": "02_find-patient",
+      "error": "",
+      "holo3_calls": 3,
+      "cerebras_calls": 0,
+      "score": 1.0,
+      "score_matched": 1,
+      "score_total": 1,
+      "score_note": "binary: ok"
+    },
+    {
+      "task_id": "extract-karte",
+      "status": "success",
+      "start_time": "2026-04-17T14:04:54.651662",
+      "end_time": "2026-04-17T14:08:22.407056",
+      "duration_sec": 207.76,
+      "output": {
+        "chief_complaint": "リハビり後、装着感ある\n主訴：特異なし\n主訴なし。SpO2安定。\n訴えなし。SpO2安定",
+        "hospital_course": "2026-02-18: 退院。本日用。Rp）ランソプラゾールOD15mg 1日1回 朝空腹後 28日分\n2026-02-17: 入院16日。バイタル、装感ある。内服継続\n2026-02-16: 入院15日。バイタル、装感ある。内服継続\n2026-02-15: 入院14日。バイタル、装感ある。内服継続\n【入院15日目の回診】バイタルが安定、特変なし。【入院14日目の回診】症状徐々に改善傾向、SpO2やや改善。【入院13日目の回診】夜間特訴えなし、食事摂取良好。【入院12日目の回診】バイタルが安定、特変なし。訴えなし、SpO2安定。明日採血予定、朝空腹後の空腹時採血。排便1回あり、腹部膨満なし。\n2026-02-13: 訴えなし。SpO2安定。検温実施。バイタルが安定。2026-02-12: 訴えなし。SpO2安定。明日採血予定。朝食前の空腹時採血。排便1回あり。腹部膨満なし。2026-02-11: 訴えなし。SpO2安定。朝食全量摂取。夜間良眠。2026-02-10: 訴えなし。SpO2安定。朝食全量摂取。\n2026-02-11: 訴えなし。SpO2安定。リハ毕後やや根部感あり。転倒注意。2026-02-10: 入院10日目回診。バイタル。2026-02-09: 入院9日回診。患者さんは穩やかな表情。SpO2やや改善。2026-02-08: 入院8日回診。症状は徐々に改善傾向。明日採血予定。朝食前の空腹時採血。",
+        "hpi": "リハビり後、装着感ある。\n現病歴：訴えなし、SpO2安定\n朝食前の空腹時採血。明日採血予定。\nリハ毕後やや roots感あり。転倒注意。",
+        "vitals": "SpO2: 92%\n血圧: 120/80 mmHg\nバイタルが安定、SpO2安定\nSpO2安定。検温実施。バイタルが安定。\nSpO2安定。",
+        "diagnoses_visible": [
+          "心不全"
+        ]
+      },
+      "session_dir": "03_extract-karte",
+      "error": "",
+      "holo3_calls": 4,
+      "cerebras_calls": 0,
+      "score": 1.0,
+      "score_matched": 1,
+      "score_total": 1,
+      "score_note": "content length 802 chars"
+    },
+    {
+      "task_id": "extract-labs",
+      "status": "success",
+      "start_time": "2026-04-17T14:08:28.763946",
+      "end_time": "2026-04-17T14:11:54.971927",
+      "duration_sec": 206.21,
+      "output": {
+        "lab_results": [
+          {
+            "test_name": "AST(GOT)",
+            "value": "16.8",
+            "unit": "U/L",
+            "flag": ""
+          },
+          {
+            "test_name": "ALT(GPT)",
+            "value": "19.3",
+            "unit": "U/L",
+            "flag": ""
+          },
+          {
+            "test_name": "クレアチニン(Cr)",
+            "value": "0.8",
+            "unit": "mg/dL",
+            "flag": ""
+          },
+          {
+            "test_name": "高分子球数(WBC)",
+            "value": "5270.2",
+            "unit": "/μL",
+            "flag": ""
+          },
+          {
+            "test_name": "CRP定量",
+            "value": "0.1",
+            "unit": "mg/dL",
+            "flag": ""
+          },
+          {
+            "test_name": "Na(ナトリウム)",
+            "value": "139.6",
+            "unit": "mEq/L",
+            "flag": ""
+          },
+          {
+            "test_name": "AST(GOT)",
+            "value": "16.8",
+            "unit": "U/L",
+            "flag": "L"
+          },
+          {
+            "test_name": "ALT(GPT)",
+            "value": "19.3",
+            "unit": "U/L",
+            "flag": "L"
+          },
+          {
+            "test_name": "クレアチニン(Cr)",
+            "value": "0.8",
+            "unit": "mg/dL",
+            "flag": "L"
+          },
+          {
+            "test_name": "실에数(WBC)",
+            "value": "5270.2",
+            "unit": "/μL",
+            "flag": "L"
+          },
+          {
+            "test_name": "CRP定量",
+            "value": "0.1",
+            "unit": "mg/dL",
+            "flag": "L"
+          },
+          {
+            "test_name": "Na(ナトリウム)",
+            "value": "139.6",
+            "unit": "mEq/L",
+            "flag": "L"
+          },
+          {
+            "test_name": "AST(GOT)",
+            "value": "16.8",
+            "unit": "U/L",
+            "flag": "H"
+          },
+          {
+            "test_name": "ALT(GPT)",
+            "value": "19.3",
+            "unit": "U/L",
+            "flag": "H"
+          },
+          {
+            "test_name": "クレアチニン(Cr)",
+            "value": "0.8",
+            "unit": "mg/dL",
+            "flag": "H"
+          },
+          {
+            "test_name": "실에数(WBC)",
+            "value": "5270.2",
+            "unit": "/μL",
+            "flag": "H"
+          },
+          {
+            "test_name": "CRP定量",
+            "value": "0.1",
+            "unit": "mg/dL",
+            "flag": "H"
+          },
+          {
+            "test_name": "Na(ナトリウム)",
+            "value": "139.6",
+            "unit": "mEq/L",
+            "flag": "H"
+          }
+        ]
+      },
+      "session_dir": "04_extract-labs",
+      "error": "",
+      "holo3_calls": 4,
+      "cerebras_calls": 0,
+      "score": 1.0,
+      "score_matched": 6,
+      "score_total": 6,
+      "score_note": "6/6 lab tests found"
+    },
+    {
+      "task_id": "extract-medications",
+      "status": "success",
+      "start_time": "2026-04-17T14:12:01.134711",
+      "end_time": "2026-04-17T14:15:40.561081",
+      "duration_sec": 219.43,
+      "output": {
+        "medications": [
+          {
+            "drug_name": "ランソプラゾールOD錠10",
+            "dose": "10mg",
+            "frequency": "1日1回 食前"
+          },
+          {
+            "drug_name": "レボパザマールOD",
+            "dose": "0.1mg",
+            "frequency": "1日1回 食前"
+          },
+          {
+            "drug_name": "アロ 사로ールOD",
+            "dose": "0.2mg",
+            "frequency": "1日1回 食後"
+          },
+          {
+            "drug_name": "オメプラazoleOD",
+            "dose": "10mg",
+            "frequency": "1日1回 食前"
+          },
+          {
+            "drug_name": "ラミブジンOD",
+            "dose": "100mg",
+            "frequency": "1日1回 食後"
+          },
+          {
+            "drug_name": "ランソプラゾールOD錠10mg",
+            "dose": "1日1回",
+            "frequency": "食前"
+          },
+          {
+            "drug_name": "ランソプラゾールOD tablet 10",
+            "dose": "",
+            "frequency": "",
+            "precaution": "",
+            "note": "",
+            "etc_flag": false
+          },
+          {
+            "drug_name": "ランソプラゾールOD剤15mg",
+            "dose": "15mg",
+            "frequency": "1日1回"
+          }
+        ]
+      },
+      "session_dir": "05_extract-medications",
+      "error": "",
+      "holo3_calls": 8,
+      "cerebras_calls": 0,
+      "score": 1.0,
+      "score_matched": 1,
+      "score_total": 1,
+      "score_note": "1/1 meds found"
+    },
+    {
+      "task_id": "extract-diagnoses",
+      "status": "success",
+      "start_time": "2026-04-17T14:15:47.194660",
+      "end_time": "2026-04-17T14:20:05.873844",
+      "duration_sec": 258.68,
+      "output": {
+        "diagnoses": [
+          {
+            "disease_name": "2型糖尿病",
+            "icd10_code": "E11",
+            "status": "Active (現病)"
+          },
+          {
+            "disease_name": "2型糖尿病",
+            "icd10_code": "E11",
+            "status": "現病"
+          },
+          {
+            "disease_name": "2型糖尿病",
+            "icd10_code": "E11",
+            "status": "Active（現病）"
+          }
+        ]
+      },
+      "session_dir": "06_extract-diagnoses",
+      "error": "",
+      "holo3_calls": 8,
+      "cerebras_calls": 0,
+      "score": 0.0,
+      "score_matched": 0,
+      "score_total": 2,
+      "score_note": "0/2 diagnoses found"
+    },
+    {
+      "task_id": "extract-allergies",
+      "status": "success",
+      "start_time": "2026-04-17T14:20:13.453658",
+      "end_time": "2026-04-17T14:22:11.061543",
+      "duration_sec": 117.61,
+      "output": {
+        "allergies": [
+          {
+            "substance": "ロキソプロフェン",
+            "category": "medication"
+          }
+        ],
+        "note": null
+      },
+      "session_dir": "07_extract-allergies",
+      "error": "",
+      "holo3_calls": 4,
+      "cerebras_calls": 0,
+      "score": 1.0,
+      "score_matched": 1,
+      "score_total": 1,
+      "score_note": "1/1 allergies found"
+    }
+  ]
+}

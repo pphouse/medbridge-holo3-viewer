@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "session_name": "01_login",
+    "start_time": "2026-04-17T14:03:20.626347",
+    "patient_id": "00000001",
+    "task": "login",
+    "server_url": "http://localhost:8000",
+    "status": "success",
+    "end_time": "2026-04-17T14:03:52.025533",
+    "total_steps": 3,
+    "total_duration_sec": 31.4,
+    "summary_data": {
+      "ok": true
+    }
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "timestamp": "2026-04-17T14:03:28.159986",
+      "elapsed_sec": 7.53,
+      "phase": "login",
+      "prompt": "CDP直接ログイン開始",
+      "screenshot_path": "recordings/task_suite_20260417_140320/01_login/screenshots/step_0001.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 7.53
+    },
+    {
+      "step_number": 2,
+      "timestamp": "2026-04-17T14:03:29.364875",
+      "elapsed_sec": 8.74,
+      "phase": "login",
+      "prompt": "CDP: ログインボタンクリック (attempt 1)",
+      "screenshot_path": "recordings/task_suite_20260417_140320/01_login/screenshots/step_0002.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 8.74
+    },
+    {
+      "step_number": 3,
+      "timestamp": "2026-04-17T14:03:52.025219",
+      "elapsed_sec": 31.4,
+      "phase": "login",
+      "prompt": "ログイン成功",
+      "screenshot_path": "recordings/task_suite_20260417_140320/01_login/screenshots/step_0003.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 31.4
+    }
+  ]
+}

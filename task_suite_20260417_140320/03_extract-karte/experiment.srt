@@ -1,0 +1,16 @@
+1
+00:00:01,889 --> 00:01:01,920
+[Step 1] extract_karte_scroll0
+
+2
+00:01:01,920 --> 00:02:00,010
+[Step 2] extract_karte_scroll1
+
+3
+00:02:00,010 --> 00:02:51,340
+[Step 3] extract_karte_scroll2
+
+4
+00:02:51,340 --> 00:02:56,340
+[Step 4] extract_karte_scroll3
+

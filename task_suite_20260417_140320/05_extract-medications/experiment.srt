@@ -1,0 +1,26 @@
+1
+00:00:22,379 --> 00:00:58,659
+[Step 1] goto_meds
+Action: click (528,54)
+
+2
+00:00:58,659 --> 00:01:30,359
+[Step 2] goto_meds
+Action: click (153,54)
+
+3
+00:01:30,359 --> 00:02:11,110
+[Step 3] extract_meds_scroll0
+
+4
+00:02:11,110 --> 00:02:45,330
+[Step 4] extract_meds_scroll1
+
+5
+00:02:45,330 --> 00:03:11,659
+[Step 5] extract_meds_scroll2
+
+6
+00:03:11,659 --> 00:03:16,659
+[Step 6] extract_meds_scroll3
+

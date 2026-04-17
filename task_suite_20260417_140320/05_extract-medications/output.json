@@ -1,0 +1,47 @@
+{
+  "medications": [
+    {
+      "drug_name": "ランソプラゾールOD錠10",
+      "dose": "10mg",
+      "frequency": "1日1回 食前"
+    },
+    {
+      "drug_name": "レボパザマールOD",
+      "dose": "0.1mg",
+      "frequency": "1日1回 食前"
+    },
+    {
+      "drug_name": "アロ 사로ールOD",
+      "dose": "0.2mg",
+      "frequency": "1日1回 食後"
+    },
+    {
+      "drug_name": "オメプラazoleOD",
+      "dose": "10mg",
+      "frequency": "1日1回 食前"
+    },
+    {
+      "drug_name": "ラミブジンOD",
+      "dose": "100mg",
+      "frequency": "1日1回 食後"
+    },
+    {
+      "drug_name": "ランソプラゾールOD錠10mg",
+      "dose": "1日1回",
+      "frequency": "食前"
+    },
+    {
+      "drug_name": "ランソプラゾールOD tablet 10",
+      "dose": "",
+      "frequency": "",
+      "precaution": "",
+      "note": "",
+      "etc_flag": false
+    },
+    {
+      "drug_name": "ランソプラゾールOD剤15mg",
+      "dose": "15mg",
+      "frequency": "1日1回"
+    }
+  ]
+}

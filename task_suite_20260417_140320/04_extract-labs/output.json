@@ -1,0 +1,112 @@
+{
+  "lab_results": [
+    {
+      "test_name": "AST(GOT)",
+      "value": "16.8",
+      "unit": "U/L",
+      "flag": ""
+    },
+    {
+      "test_name": "ALT(GPT)",
+      "value": "19.3",
+      "unit": "U/L",
+      "flag": ""
+    },
+    {
+      "test_name": "クレアチニン(Cr)",
+      "value": "0.8",
+      "unit": "mg/dL",
+      "flag": ""
+    },
+    {
+      "test_name": "高分子球数(WBC)",
+      "value": "5270.2",
+      "unit": "/μL",
+      "flag": ""
+    },
+    {
+      "test_name": "CRP定量",
+      "value": "0.1",
+      "unit": "mg/dL",
+      "flag": ""
+    },
+    {
+      "test_name": "Na(ナトリウム)",
+      "value": "139.6",
+      "unit": "mEq/L",
+      "flag": ""
+    },
+    {
+      "test_name": "AST(GOT)",
+      "value": "16.8",
+      "unit": "U/L",
+      "flag": "L"
+    },
+    {
+      "test_name": "ALT(GPT)",
+      "value": "19.3",
+      "unit": "U/L",
+      "flag": "L"
+    },
+    {
+      "test_name": "クレアチニン(Cr)",
+      "value": "0.8",
+      "unit": "mg/dL",
+      "flag": "L"
+    },
+    {
+      "test_name": "실에数(WBC)",
+      "value": "5270.2",
+      "unit": "/μL",
+      "flag": "L"
+    },
+    {
+      "test_name": "CRP定量",
+      "value": "0.1",
+      "unit": "mg/dL",
+      "flag": "L"
+    },
+    {
+      "test_name": "Na(ナトリウム)",
+      "value": "139.6",
+      "unit": "mEq/L",
+      "flag": "L"
+    },
+    {
+      "test_name": "AST(GOT)",
+      "value": "16.8",
+      "unit": "U/L",
+      "flag": "H"
+    },
+    {
+      "test_name": "ALT(GPT)",
+      "value": "19.3",
+      "unit": "U/L",
+      "flag": "H"
+    },
+    {
+      "test_name": "クレアチニン(Cr)",
+      "value": "0.8",
+      "unit": "mg/dL",
+      "flag": "H"
+    },
+    {
+      "test_name": "실에数(WBC)",
+      "value": "5270.2",
+      "unit": "/μL",
+      "flag": "H"
+    },
+    {
+      "test_name": "CRP定量",
+      "value": "0.1",
+      "unit": "mg/dL",
+      "flag": "H"
+    },
+    {
+      "test_name": "Na(ナトリウム)",
+      "value": "139.6",
+      "unit": "mEq/L",
+      "flag": "H"
+    }
+  ]
+}

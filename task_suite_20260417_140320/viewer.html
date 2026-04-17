@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>Task Suite Viewer</title>
+<style>
+  body { font-family: sans-serif; margin: 0; background: #0b0d10; color: #eee; }
+  header { padding: 16px 24px; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 10; }
+  header h1 { margin: 0 0 4px; font-size: 18px; }
+  header .meta { color: #aaa; font-size: 13px; }
+  .chip { display: inline-block; padding: 4px 10px; border-radius: 4px; margin-right: 8px; font-weight: 600; font-size: 13px; }
+  .good { background: #16a34a; } .bad { background: #dc2626; } .mid { background: #ca8a04; } .info { background: #2563eb; }
+  .overview { margin: 16px 24px; background: #15181d; border: 1px solid #222; border-radius: 8px; padding: 12px; }
+  .overview .bar { height: 28px; background: #2a2e35; border-radius: 4px; position: relative; margin: 6px 0; }
+  .overview .bar-fill { height: 100%; border-radius: 4px; position: absolute; display: flex; align-items: center; padding: 0 8px; font-size: 12px; color: #fff; overflow: hidden; white-space: nowrap; cursor: pointer; }
+  .overview .bar-fill:hover { outline: 2px solid #fff; }
+  .task { margin: 16px 24px; border: 1px solid #222; border-radius: 8px; overflow: hidden; background: #15181d; }
+  .task h2 { margin: 0; padding: 12px 16px; background: #1a1e24; font-size: 15px; display: flex; align-items: center; gap: 12px; }
+  .task-body { padding: 12px; }
+  .video-wrap { position: relative; width: 100%; max-width: 1100px; margin: 0 auto; }
+  .video-wrap video { width: 100%; height: auto; border: 1px solid #333; border-radius: 4px 4px 0 0; background: #000; display: block; }
+  /* タスク専用タイムライン (動画編集風) */
+  .task-timeline {
+    position: relative; height: 44px; background: #1a1e24;
+    border: 1px solid #333; border-top: none; border-radius: 0 0 4px 4px;
+    user-select: none;
+  }
+  .tl-track { position: absolute; left: 0; right: 0; top: 10px; height: 8px; background: #2a2e35; border-radius: 2px; }
+  .tl-progress { position: absolute; left: 0; top: 0; height: 100%; background: #3b82f6; border-radius: 2px; }
+  .tl-ruler { position: absolute; left: 0; right: 0; bottom: 2px; height: 14px; font-size: 9px; color: #6b7280; font-family: monospace; }
+  .tl-ruler span { position: absolute; transform: translateX(-50%); }
+  .tl-marker {
+    position: absolute; top: 6px; width: 2px; height: 16px;
+    background: #f59e0b; cursor: pointer; border-radius: 1px;
+    transition: transform 0.1s;
+  }
+  .tl-marker:hover { transform: scaleX(3); background: #fbbf24; }
+  .tl-marker.click { background: #22c55e; }
+  .tl-marker.type { background: #a855f7; }
+  .tl-marker.extract { background: #06b6d4; }
+  .tl-marker.scroll { background: #6b7280; }
+  .tl-marker.verify { background: #ef4444; }
+  .tl-tooltip {
+    position: absolute; display: none; background: #000; color: #fff;
+    padding: 4px 8px; font-size: 11px; border-radius: 4px; z-index: 20;
+    pointer-events: none; white-space: nowrap; max-width: 400px;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .tl-legend { font-size: 11px; color: #9ca3af; padding: 4px 8px; }
+  .tl-legend .chip { font-size: 10px; padding: 2px 6px; }
+  .details { margin-top: 12px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .details .box { flex: 1; min-width: 300px; background: #0d1117; padding: 8px; border-radius: 4px; border: 1px solid #222; }
+  pre { background: #0d1117; padding: 8px; overflow-x: auto; border-radius: 4px; font-size: 11px; max-height: 360px; margin: 0; }
+  .log-panel {
+    background: #0d1117; border: 1px solid #222; border-radius: 4px;
+    padding: 8px; margin-top: 12px; max-height: 360px; overflow-y: auto;
+    font-family: monospace; font-size: 11px; line-height: 1.5;
+  }
+  .log-panel-wrap { margin-top: 12px; }
+  .log-panel-wrap summary { cursor: pointer; padding: 6px 10px; background: #1a1e24; border-radius: 4px; font-size: 13px; }
+  .log-line { padding: 1px 4px; border-radius: 2px; white-space: pre-wrap; word-break: break-all; cursor: default; }
+  .log-line .ts { color: #6b7280; }
+  .log-line.info .lv { color: #60a5fa; }
+  .log-line.warn .lv { color: #f59e0b; }
+  .log-line.err .lv { color: #ef4444; }
+  .log-line.active { background: #1e3a8a; outline: 1px solid #3b82f6; }
+  .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .log-header b { color: #eee; }
+  .log-header label { font-size: 11px; color: #9ca3af; cursor: pointer; }
+  a { color: #60a5fa; }
+  table.stats { font-size: 12px; border-collapse: collapse; width: 100%; }
+  table.stats td, table.stats th { padding: 4px 8px; border-bottom: 1px solid #2a2e35; text-align: left; }
+</style></head>
+<body>
+<header>
+  <h1>Task Suite — task_suite_20260417_140320</h1>
+  <div class="meta">patient=00000001 | tasks=7 success=7 failed=0 | total=1133.95s | start=2026-04-17T14:03:20.626209</div>
+  <div style="margin-top:8px"><span class="chip good">Score: 0.86</span><span class="chip info">Total: 1133.95s</span><span class="chip good">7/7 success</span><span class="chip info">Holo3: 31</span><span class="chip info">Cerebras: 0</span></div>
+</header>
+
+
+        <div class="task" id="task-1" data-task-index="1"
+             data-duration="30.9" data-steps="[{&quot;step_number&quot;: 1, &quot;phase&quot;: &quot;login&quot;, &quot;elapsed_sec&quot;: 7.53}, {&quot;step_number&quot;: 2, &quot;phase&quot;: &quot;login&quot;, &quot;elapsed_sec&quot;: 8.74}, {&quot;step_number&quot;: 3, &quot;phase&quot;: &quot;login&quot;, &quot;elapsed_sec&quot;: 31.4}]">
+          <h2>
+            <span class="chip good">SUCCESS</span>
+            <span class="chip good" title="binary: ok">Score 1.00 (1/1)</span>
+            #1 login
+            <span style="color:#888;font-weight:normal;font-size:13px">
+              30.9s | Holo3 0 | Cerebras 0 | steps 3
+            </span>
+          </h2>
+          <div class="task-body">
+            <div class="video-wrap">
+              <video id="video-1" src="01_login/experiment.mp4" controls preload="metadata"></video>
+              <div class="task-timeline" id="tl-1">
+                <div class="tl-track"><div class="tl-progress"></div></div>
+                <div class="tl-ruler"></div>
+              </div>
+              <div class="tl-legend"><span class="chip" style="background:#22c55e">click</span><span class="chip" style="background:#a855f7">type</span><span class="chip" style="background:#06b6d4">extract</span><span class="chip" style="background:#6b7280">scroll</span><span class="chip" style="background:#ef4444">verify/retry</span><span class="chip" style="background:#f59e0b">other</span></div>
+            </div>
+            <details class="log-panel-wrap">
+              <summary>Log (動画と同期、展開してクリック)</summary>
+              <div class="log-panel" id="log-1">
+                <div class="log-header">
+                  <b>Log</b>
+                  <label><input type="checkbox" id="autoscroll-1" checked> 自動スクロール</label>
+                </div>
+                <div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Task: login (session=01_login) ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Login ===</div>
+<div class="log-line info" data-t="7.54"><span class="ts">   7.54s</span> <span class="lv">[I]</span> CDP: Login fields set (attempt 1)</div>
+<div class="log-line info" data-t="30.24"><span class="ts">  30.24s</span> <span class="lv">[I]</span> Login succeeded (attempt 1)</div>
+              </div>
+            </details>
+            <div class="details">
+              <div class="box">
+                <b>Meta</b>
+                <table class="stats">
+                  <tr><th>start</th><td>2026-04-17T14:03:21.127324</td></tr>
+                  <tr><th>end</th><td>2026-04-17T14:03:52.025525</td></tr>
+                  <tr><th>session</th><td><a href="01_login/">01_login</a></td></tr>
+                  <tr><th>log</th><td><a href="01_login/orchestrator.log">orchestrator.log</a></td></tr>
+                  <tr><th>output</th><td><a href="01_login/output.json">output.json</a></td></tr>
+                </table>
+              </div>
+              <div class="box">
+                <b>Output</b>
+                <pre>{
+  "ok": true
+}</pre>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="task" id="task-2" data-task-index="2"
+             data-duration="58.21" data-steps="[{&quot;step_number&quot;: 1, &quot;phase&quot;: &quot;search&quot;, &quot;elapsed_sec&quot;: 14.98}, {&quot;step_number&quot;: 2, &quot;phase&quot;: &quot;search&quot;, &quot;elapsed_sec&quot;: 16.63}, {&quot;step_number&quot;: 3, &quot;phase&quot;: &quot;search&quot;, &quot;elapsed_sec&quot;: 32.17}, {&quot;step_number&quot;: 4, &quot;phase&quot;: &quot;search&quot;, &quot;elapsed_sec&quot;: 54.7}]">
+          <h2>
+            <span class="chip good">SUCCESS</span>
+            <span class="chip good" title="binary: ok">Score 1.00 (1/1)</span>
+            #2 find-patient
+            <span style="color:#888;font-weight:normal;font-size:13px">
+              58.21s | Holo3 3 | Cerebras 0 | steps 4
+            </span>
+          </h2>
+          <div class="task-body">
+            <div class="video-wrap">
+              <video id="video-2" src="02_find-patient/experiment.mp4" controls preload="metadata"></video>
+              <div class="task-timeline" id="tl-2">
+                <div class="tl-track"><div class="tl-progress"></div></div>
+                <div class="tl-ruler"></div>
+              </div>
+              <div class="tl-legend"><span class="chip" style="background:#22c55e">click</span><span class="chip" style="background:#a855f7">type</span><span class="chip" style="background:#06b6d4">extract</span><span class="chip" style="background:#6b7280">scroll</span><span class="chip" style="background:#ef4444">verify/retry</span><span class="chip" style="background:#f59e0b">other</span></div>
+            </div>
+            <details class="log-panel-wrap">
+              <summary>Log (動画と同期、展開してクリック)</summary>
+              <div class="log-panel" id="log-2">
+                <div class="log-header">
+                  <b>Log</b>
+                  <label><input type="checkbox" id="autoscroll-2" checked> 自動スクロール</label>
+                </div>
+                <div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Task: find-patient (session=02_find-patient) ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Find Patient ===</div>
+<div class="log-line info" data-t="13.92"><span class="ts">  13.92s</span> <span class="lv">[I]</span> Grounding: &#x27;画面上部の患者検索入力欄（テキストボックス）&#x27; -&gt; raw(140,100) -&gt; pixel(268,108)</div>
+<div class="log-line info" data-t="14.48"><span class="ts">  14.48s</span> <span class="lv">[I]</span> Click pixel: (268, 108)</div>
+<div class="log-line info" data-t="16.13"><span class="ts">  16.13s</span> <span class="lv">[I]</span> Type: &#x27;00000001&#x27;</div>
+<div class="log-line info" data-t="31.02"><span class="ts">  31.02s</span> <span class="lv">[I]</span> Grounding: &#x27;「検索」ボタン&#x27; -&gt; raw(230,100) -&gt; pixel(441,108)</div>
+<div class="log-line info" data-t="31.67"><span class="ts">  31.67s</span> <span class="lv">[I]</span> Click pixel: (441, 108)</div>
+<div class="log-line info" data-t="53.52"><span class="ts">  53.52s</span> <span class="lv">[I]</span> Grounding: &#x27;患者一覧テーブルの最初の患者の行&#x27; -&gt; raw(38,200) -&gt; pixel(72,216)</div>
+<div class="log-line info" data-t="54.2"><span class="ts">  54.20s</span> <span class="lv">[I]</span> Click pixel: (72, 216)</div>
+              </div>
+            </details>
+            <div class="details">
+              <div class="box">
+                <b>Meta</b>
+                <table class="stats">
+                  <tr><th>start</th><td>2026-04-17T14:03:53.861517</td></tr>
+                  <tr><th>end</th><td>2026-04-17T14:04:52.069245</td></tr>
+                  <tr><th>session</th><td><a href="02_find-patient/">02_find-patient</a></td></tr>
+                  <tr><th>log</th><td><a href="02_find-patient/orchestrator.log">orchestrator.log</a></td></tr>
+                  <tr><th>output</th><td><a href="02_find-patient/output.json">output.json</a></td></tr>
+                </table>
+              </div>
+              <div class="box">
+                <b>Output</b>
+                <pre>{
+  "ok": true,
+  "patient_id": "00000001"
+}</pre>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="task" id="task-3" data-task-index="3"
+             data-duration="207.76" data-steps="[{&quot;step_number&quot;: 1, &quot;phase&quot;: &quot;extract_karte_scroll0&quot;, &quot;elapsed_sec&quot;: 1.89}, {&quot;step_number&quot;: 2, &quot;phase&quot;: &quot;extract_karte_scroll1&quot;, &quot;elapsed_sec&quot;: 61.92}, {&quot;step_number&quot;: 3, &quot;phase&quot;: &quot;extract_karte_scroll2&quot;, &quot;elapsed_sec&quot;: 120.01}, {&quot;step_number&quot;: 4, &quot;phase&quot;: &quot;extract_karte_scroll3&quot;, &quot;elapsed_sec&quot;: 171.34}]">
+          <h2>
+            <span class="chip good">SUCCESS</span>
+            <span class="chip good" title="content length 802 chars">Score 1.00 (1/1)</span>
+            #3 extract-karte
+            <span style="color:#888;font-weight:normal;font-size:13px">
+              207.76s | Holo3 4 | Cerebras 0 | steps 4
+            </span>
+          </h2>
+          <div class="task-body">
+            <div class="video-wrap">
+              <video id="video-3" src="03_extract-karte/experiment.mp4" controls preload="metadata"></video>
+              <div class="task-timeline" id="tl-3">
+                <div class="tl-track"><div class="tl-progress"></div></div>
+                <div class="tl-ruler"></div>
+              </div>
+              <div class="tl-legend"><span class="chip" style="background:#22c55e">click</span><span class="chip" style="background:#a855f7">type</span><span class="chip" style="background:#06b6d4">extract</span><span class="chip" style="background:#6b7280">scroll</span><span class="chip" style="background:#ef4444">verify/retry</span><span class="chip" style="background:#f59e0b">other</span></div>
+            </div>
+            <details class="log-panel-wrap">
+              <summary>Log (動画と同期、展開してクリック)</summary>
+              <div class="log-panel" id="log-3">
+                <div class="log-header">
+                  <b>Log</b>
+                  <label><input type="checkbox" id="autoscroll-3" checked> 自動スクロール</label>
+                </div>
+                <div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Task: extract-karte (session=03_extract-karte) ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Extract Karte ===</div>
+<div class="log-line info" data-t="40.67"><span class="ts">  40.67s</span> <span class="lv">[I]</span> Extracted (extract_karte_scroll0): {&quot;chief_complaint&quot;: &quot;リハビり後、装着感ある&quot;, &quot;hospital_course&quot;: &quot;2026-02-18: 退院。本日用。Rp）ランソプラゾールOD15mg 1日1回 朝空腹後 28日分\n2026-02-17: 入院16日。バイタル、装感ある。内服継続\n2026-02-16: 入院15日。バイタル、装感ある。内服継続\n2026-02-15: 入院14日。バイタル、装</div>
+<div class="log-line info" data-t="59.26"><span class="ts">  59.26s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="59.26"><span class="ts">  59.26s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="102.82"><span class="ts"> 102.82s</span> <span class="lv">[I]</span> Extracted (extract_karte_scroll1): {&quot;chief_complaint&quot;: &quot;主訴：特異なし&quot;, &quot;hospital_course&quot;: &quot;【入院15日目の回診】バイタルが安定、特変なし。【入院14日目の回診】症状徐々に改善傾向、SpO2やや改善。【入院13日目の回診】夜間特訴えなし、食事摂取良好。【入院12日目の回診】バイタルが安定、特変なし。訴えなし、SpO2安定。明日採血予定、朝空腹後の空腹時採血。排便1回あり、腹部膨満なし。&quot;</div>
+<div class="log-line info" data-t="117.32"><span class="ts"> 117.32s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="117.32"><span class="ts"> 117.32s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="153.22"><span class="ts"> 153.22s</span> <span class="lv">[I]</span> Extracted (extract_karte_scroll2): {&quot;chief_complaint&quot;: &quot;主訴なし。SpO2安定。&quot;, &quot;hospital_course&quot;: &quot;2026-02-13: 訴えなし。SpO2安定。検温実施。バイタルが安定。2026-02-12: 訴えなし。SpO2安定。明日採血予定。朝食前の空腹時採血。排便1回あり。腹部膨満なし。2026-02-11: 訴えなし。SpO2安定。朝食全量摂取。夜間良眠。2026-02-10: 訴えなし</div>
+<div class="log-line info" data-t="168.52"><span class="ts"> 168.52s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="168.52"><span class="ts"> 168.52s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="207.75"><span class="ts"> 207.75s</span> <span class="lv">[I]</span> Extracted (extract_karte_scroll3): {&quot;chief_complaint&quot;: &quot;訴えなし。SpO2安定&quot;, &quot;hospital_course&quot;: &quot;2026-02-11: 訴えなし。SpO2安定。リハ毕後やや根部感あり。転倒注意。2026-02-10: 入院10日目回診。バイタル。2026-02-09: 入院9日回診。患者さんは穩やかな表情。SpO2やや改善。2026-02-08: 入院8日回診。症状は徐々に改善傾向。明日採血予定。朝</div>
+<div class="log-line info" data-t="207.75"><span class="ts"> 207.75s</span> <span class="lv">[I]</span> Total extracted (extract_karte): {&quot;chief_complaint&quot;: &quot;リハビり後、装着感ある\n主訴：特異なし\n主訴なし。SpO2安定。\n訴えなし。SpO2安定&quot;, &quot;hospital_course&quot;: &quot;2026-02-18: 退院。本日用。Rp）ランソプラゾールOD15mg 1日1回 朝空腹後 28日分\n2026-02-17: 入院16日。バイタル、装感ある。内服継続\n2026-02-16: 入院15日。バイタル</div>
+              </div>
+            </details>
+            <div class="details">
+              <div class="box">
+                <b>Meta</b>
+                <table class="stats">
+                  <tr><th>start</th><td>2026-04-17T14:04:54.651662</td></tr>
+                  <tr><th>end</th><td>2026-04-17T14:08:22.407056</td></tr>
+                  <tr><th>session</th><td><a href="03_extract-karte/">03_extract-karte</a></td></tr>
+                  <tr><th>log</th><td><a href="03_extract-karte/orchestrator.log">orchestrator.log</a></td></tr>
+                  <tr><th>output</th><td><a href="03_extract-karte/output.json">output.json</a></td></tr>
+                </table>
+              </div>
+              <div class="box">
+                <b>Output</b>
+                <pre>{
+  "chief_complaint": "リハビり後、装着感ある\n主訴：特異なし\n主訴なし。SpO2安定。\n訴えなし。SpO2安定",
+  "hospital_course": "2026-02-18: 退院。本日用。Rp）ランソプラゾールOD15mg 1日1回 朝空腹後 28日分\n2026-02-17: 入院16日。バイタル、装感ある。内服継続\n2026-02-16: 入院15日。バイタル、装感ある。内服継続\n2026-02-15: 入院14日。バイタル、装感ある。内服継続\n【入院15日目の回診】バイタルが安定、特変なし。【入院14日目の回診】症状徐々に改善傾向、SpO2やや改善。【入院13日目の回診】夜間特訴えなし、食事摂取良好。【入院12日目の回診】バイタルが安定、特変なし。訴えなし、SpO2安定。明日採血予定、朝空腹後の空腹時採血。排便1回あり、腹部膨満なし。\n2026-02-13: 訴えなし。SpO2安定。検温実施。バイタルが安定。2026-02-12: 訴えなし。SpO2安定。明日採血予定。朝食前の空腹時採血。排便1回あり。腹部膨満なし。2026-02-11: 訴えなし。SpO2安定。朝食全量摂取。夜間良眠。2026-02-10: 訴えなし。SpO2安定。朝食全量摂取。\n2026-02-11: 訴えなし。SpO2安定。リハ毕後やや根部感あり。転倒注意。2026-02-10: 入院10日目回診。バイタル。2026-02-09: 入院9日回診。患者さんは穩やかな表情。SpO2やや改善。2026-02-08: 入院8日回診。症状は徐々に改善傾向。明日採血予定。朝食前の空腹時採血。",
+  "hpi": "リハビり後、装着感ある。\n現病歴：訴えなし、SpO2安定\n朝食前の空腹時採血。明日採血予定。\nリハ毕後やや roots感あり。転倒注意。",
+  "vitals": "SpO2: 92%\n血圧: 120/80 mmHg\nバイタルが安定、SpO2安定\nSpO2安定。検温実施。バイタルが安定。\nSpO2安定。",
+  "diagnoses_visible": [
+    "心不全"
+  ]
+}</pre>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="task" id="task-4" data-task-index="4"
+             data-duration="206.21" data-steps="[{&quot;step_number&quot;: 1, &quot;phase&quot;: &quot;goto_labs&quot;, &quot;elapsed_sec&quot;: 25.82}, {&quot;step_number&quot;: 2, &quot;phase&quot;: &quot;extract_labs_scroll0&quot;, &quot;elapsed_sec&quot;: 59.96}, {&quot;step_number&quot;: 3, &quot;phase&quot;: &quot;extract_labs_scroll1&quot;, &quot;elapsed_sec&quot;: 108.44}, {&quot;step_number&quot;: 4, &quot;phase&quot;: &quot;extract_labs_scroll2&quot;, &quot;elapsed_sec&quot;: 156.58}]">
+          <h2>
+            <span class="chip good">SUCCESS</span>
+            <span class="chip good" title="6/6 lab tests found">Score 1.00 (6/6)</span>
+            #4 extract-labs
+            <span style="color:#888;font-weight:normal;font-size:13px">
+              206.21s | Holo3 4 | Cerebras 0 | steps 4
+            </span>
+          </h2>
+          <div class="task-body">
+            <div class="video-wrap">
+              <video id="video-4" src="04_extract-labs/experiment.mp4" controls preload="metadata"></video>
+              <div class="task-timeline" id="tl-4">
+                <div class="tl-track"><div class="tl-progress"></div></div>
+                <div class="tl-ruler"></div>
+              </div>
+              <div class="tl-legend"><span class="chip" style="background:#22c55e">click</span><span class="chip" style="background:#a855f7">type</span><span class="chip" style="background:#06b6d4">extract</span><span class="chip" style="background:#6b7280">scroll</span><span class="chip" style="background:#ef4444">verify/retry</span><span class="chip" style="background:#f59e0b">other</span></div>
+            </div>
+            <details class="log-panel-wrap">
+              <summary>Log (動画と同期、展開してクリック)</summary>
+              <div class="log-panel" id="log-4">
+                <div class="log-header">
+                  <b>Log</b>
+                  <label><input type="checkbox" id="autoscroll-4" checked> 自動スクロール</label>
+                </div>
+                <div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Task: extract-labs (session=04_extract-labs) ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Navigate to 検体検査 ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> Scrolling: 20</div>
+<div class="log-line info" data-t="24.62"><span class="ts">  24.62s</span> <span class="lv">[I]</span> Grounding: &#x27;画面上部のタブバーにある「検体検査」というテキストのタブ&#x27; -&gt; raw(197,108) -&gt; pixel(378,116)</div>
+<div class="log-line info" data-t="25.32"><span class="ts">  25.32s</span> <span class="lv">[I]</span> Click pixel: (378, 116)</div>
+<div class="log-line info" data-t="56.32"><span class="ts">  56.32s</span> <span class="lv">[I]</span> Tab verified: 検体検査</div>
+<div class="log-line info" data-t="58.32"><span class="ts">  58.32s</span> <span class="lv">[I]</span> === Extract Labs ===</div>
+<div class="log-line info" data-t="88.97"><span class="ts">  88.97s</span> <span class="lv">[I]</span> Extracted (extract_labs_scroll0): {&quot;lab_results&quot;: [{&quot;test_name&quot;: &quot;AST(GOT)&quot;, &quot;value&quot;: &quot;16.8&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;&quot;}, {&quot;test_name&quot;: &quot;ALT(GPT)&quot;, &quot;value&quot;: &quot;19.3&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;&quot;}, {&quot;test_name&quot;: &quot;クレアチニン(Cr)&quot;, &quot;value&quot;: &quot;0.8</div>
+<div class="log-line info" data-t="105.62"><span class="ts"> 105.62s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="105.62"><span class="ts"> 105.62s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="137.19"><span class="ts"> 137.19s</span> <span class="lv">[I]</span> Extracted (extract_labs_scroll1): {&quot;lab_results&quot;: [{&quot;test_name&quot;: &quot;AST(GOT)&quot;, &quot;value&quot;: &quot;16.8&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;L&quot;}, {&quot;test_name&quot;: &quot;ALT(GPT)&quot;, &quot;value&quot;: &quot;19.3&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;L&quot;}, {&quot;test_name&quot;: &quot;クレアチニン(Cr)&quot;, &quot;value&quot;: &quot;0</div>
+<div class="log-line info" data-t="153.75"><span class="ts"> 153.75s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="153.75"><span class="ts"> 153.75s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="189.39"><span class="ts"> 189.39s</span> <span class="lv">[I]</span> Extracted (extract_labs_scroll2): {&quot;lab_results&quot;: [{&quot;test_name&quot;: &quot;AST(GOT)&quot;, &quot;value&quot;: &quot;16.8&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;H&quot;}, {&quot;test_name&quot;: &quot;ALT(GPT)&quot;, &quot;value&quot;: &quot;19.3&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;H&quot;}, {&quot;test_name&quot;: &quot;クレアチニン(Cr)&quot;, &quot;value&quot;: &quot;0</div>
+<div class="log-line info" data-t="206.21"><span class="ts"> 206.21s</span> <span class="lv">[I]</span> No more data to scroll (3 pages read)</div>
+<div class="log-line info" data-t="206.21"><span class="ts"> 206.21s</span> <span class="lv">[I]</span> Total extracted (extract_labs): {&quot;lab_results&quot;: [{&quot;test_name&quot;: &quot;AST(GOT)&quot;, &quot;value&quot;: &quot;16.8&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;&quot;}, {&quot;test_name&quot;: &quot;ALT(GPT)&quot;, &quot;value&quot;: &quot;19.3&quot;, &quot;unit&quot;: &quot;U/L&quot;, &quot;flag&quot;: &quot;&quot;}, {&quot;test_name&quot;: &quot;クレアチニン(Cr)&quot;, &quot;value&quot;: &quot;0.8</div>
+              </div>
+            </details>
+            <div class="details">
+              <div class="box">
+                <b>Meta</b>
+                <table class="stats">
+                  <tr><th>start</th><td>2026-04-17T14:08:28.763946</td></tr>
+                  <tr><th>end</th><td>2026-04-17T14:11:54.971927</td></tr>
+                  <tr><th>session</th><td><a href="04_extract-labs/">04_extract-labs</a></td></tr>
+                  <tr><th>log</th><td><a href="04_extract-labs/orchestrator.log">orchestrator.log</a></td></tr>
+                  <tr><th>output</th><td><a href="04_extract-labs/output.json">output.json</a></td></tr>
+                </table>
+              </div>
+              <div class="box">
+                <b>Output</b>
+                <pre>{
+  "lab_results": [
+    {
+      "test_name": "AST(GOT)",
+      "value": "16.8",
+      "unit": "U/L",
+      "flag": ""
+    },
+    {
+      "test_name": "ALT(GPT)",
+      "value": "19.3",
+      "unit": "U/L",
+      "flag": ""
+    },
+    {
+      "test_name": "クレアチニン(Cr)",
+      "value": "0.8",
+      "unit": "mg/dL",
+      "flag": ""
+    },
+    {
+      "test_name": "高分子球数(WBC)",
+      "value": "5270.2",
+      "unit": "/μL",
+      "flag": ""
+    },
+    {
+      "test_name": "CRP定量",
+      "value": "0.1",
+      "unit": "mg/dL",
+      "flag": ""
+    },
+    {
+      "test_name": "Na(ナトリウム)",
+      "value": "139.6",
+      "unit": "mEq/L",
+      "flag": ""
+    },
+    {
+      "test_name": "AST(GOT)",
+      "value": "16.8",
+      "unit": "U/L",
+      "flag": "L"
+    },
+    {
+      "test_name": "ALT(GPT)",
+      "value": "19.3",
+      "unit": "U/L",
+      "flag": "L"
+    },
+    {
+      "test_name": "クレアチニン(Cr)",
+      "value": "0.8",
+      "unit": "mg/dL",
+      "flag": "L"
+    },
+    {
+      "test_name": "실에数(WBC)",
+      "value": "5270.2",
+      "unit": "/μL",
+      "flag": "L"
+    },
+    {
+      "test_name": "CRP定量",
+      "value": "0.1",
+      "unit": "mg/dL",
+      "flag": "L"
+    },
+    {
+      "test_name": "Na(ナトリウム)",
+      "value": "139.6",
+      "unit": "mEq/L",
+      "flag": "L"
+    },
+    {
+      "test_name": "AST(GOT)",
+      "value": "16.8",
+      "unit": "U/L",
+      "flag": "H"
+    },
+    {
+      "test_name": "ALT(GPT)",
+      "value": "19.3",
+      "unit": "U/L",
+      "flag": "H"
+    },
+    {
+      "test_name": "クレアチニン(Cr)",
+      "value": "0.8",
+      "unit": "mg/dL",
+      "flag": "H"
+    },
+    {
+      "test_name": "실에数(WBC)",
+      "value": "5270.2",
+      "unit": "/μL",
+      "flag": "H"
+    },
+    {
+      "test_name": "CRP定量",
+      "value": "0.1",
+      "unit": "mg/dL",
+      "flag": "H"
+    },
+    {
+      "test_name": "Na(ナトリウム)",
+      "value": "139.6",
+      "unit": "mEq/L",
+      "flag": "H"
+    }
+  ]
+}</pre>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="task" id="task-5" data-task-index="5"
+             data-duration="219.43" data-steps="[{&quot;step_number&quot;: 1, &quot;phase&quot;: &quot;goto_meds&quot;, &quot;elapsed_sec&quot;: 22.38}, {&quot;step_number&quot;: 2, &quot;phase&quot;: &quot;goto_meds&quot;, &quot;elapsed_sec&quot;: 58.66}, {&quot;step_number&quot;: 3, &quot;phase&quot;: &quot;extract_meds_scroll0&quot;, &quot;elapsed_sec&quot;: 90.36}, {&quot;step_number&quot;: 4, &quot;phase&quot;: &quot;extract_meds_scroll1&quot;, &quot;elapsed_sec&quot;: 131.11}, {&quot;step_number&quot;: 5, &quot;phase&quot;: &quot;extract_meds_scroll2&quot;, &quot;elapsed_sec&quot;: 165.33}, {&quot;step_number&quot;: 6, &quot;phase&quot;: &quot;extract_meds_scroll3&quot;, &quot;elapsed_sec&quot;: 191.66}]">
+          <h2>
+            <span class="chip good">SUCCESS</span>
+            <span class="chip good" title="1/1 meds found">Score 1.00 (1/1)</span>
+            #5 extract-medications
+            <span style="color:#888;font-weight:normal;font-size:13px">
+              219.43s | Holo3 8 | Cerebras 0 | steps 6
+            </span>
+          </h2>
+          <div class="task-body">
+            <div class="video-wrap">
+              <video id="video-5" src="05_extract-medications/experiment.mp4" controls preload="metadata"></video>
+              <div class="task-timeline" id="tl-5">
+                <div class="tl-track"><div class="tl-progress"></div></div>
+                <div class="tl-ruler"></div>
+              </div>
+              <div class="tl-legend"><span class="chip" style="background:#22c55e">click</span><span class="chip" style="background:#a855f7">type</span><span class="chip" style="background:#06b6d4">extract</span><span class="chip" style="background:#6b7280">scroll</span><span class="chip" style="background:#ef4444">verify/retry</span><span class="chip" style="background:#f59e0b">other</span></div>
+            </div>
+            <details class="log-panel-wrap">
+              <summary>Log (動画と同期、展開してクリック)</summary>
+              <div class="log-panel" id="log-5">
+                <div class="log-header">
+                  <b>Log</b>
+                  <label><input type="checkbox" id="autoscroll-5" checked> 自動スクロール</label>
+                </div>
+                <div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Task: extract-medications (session=05_extract-medications) ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Navigate to 処方 ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> Scrolling: 20</div>
+<div class="log-line info" data-t="21.23"><span class="ts">  21.23s</span> <span class="lv">[I]</span> Grounding: &#x27;画面上部のタブバーにある「処方」というテキストのタブ&#x27; -&gt; raw(275,50) -&gt; pixel(528,54)</div>
+<div class="log-line info" data-t="21.88"><span class="ts">  21.88s</span> <span class="lv">[I]</span> Click pixel: (528, 54)</div>
+<div class="log-line warn" data-t="45.63"><span class="ts">  45.63s</span> <span class="lv">[W]</span> Tab verify failed (attempt 1): expected &#x27;処方&#x27;, got: {&quot;reasoning&quot;:&quot;The screen displays a patient&#x27;s electronic medical record (カルテ) with various sections </div>
+<div class="log-line info" data-t="57.6"><span class="ts">  57.60s</span> <span class="lv">[I]</span> Grounding: &#x27;画面上部のタブバーにある「処方」というテキストのタブ&#x27; -&gt; raw(80,50) -&gt; pixel(153,54)</div>
+<div class="log-line info" data-t="58.16"><span class="ts">  58.16s</span> <span class="lv">[I]</span> Click pixel: (153, 54)</div>
+<div class="log-line warn" data-t="86.49"><span class="ts">  86.49s</span> <span class="lv">[W]</span> Tab verify failed (attempt 2): expected &#x27;処方&#x27;, got: {&quot;reasoning&quot;:&quot;The screen displays a patient record interface with various sections including patient</div>
+<div class="log-line info" data-t="88.5"><span class="ts">  88.50s</span> <span class="lv">[I]</span> === Extract Meds ===</div>
+<div class="log-line info" data-t="108.8"><span class="ts"> 108.80s</span> <span class="lv">[I]</span> Extracted (extract_meds_scroll0): {&quot;medications&quot;: [{&quot;drug_name&quot;: &quot;ランソプラゾールOD錠10&quot;, &quot;dose&quot;: &quot;10mg&quot;, &quot;frequency&quot;: &quot;1日1回 食前&quot;}, {&quot;drug_name&quot;: &quot;レボパザマールOD&quot;, &quot;dose&quot;: &quot;0.1mg&quot;, &quot;frequency&quot;: &quot;1日1回 食前&quot;}, {&quot;drug_name&quot;: &quot;アロ 사로ールOD&quot;, &quot;dose&quot;: &quot;0.2mg&quot;</div>
+<div class="log-line info" data-t="128.3"><span class="ts"> 128.30s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="128.3"><span class="ts"> 128.30s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="148.59"><span class="ts"> 148.59s</span> <span class="lv">[I]</span> Extracted (extract_meds_scroll1): {&quot;medications&quot;: [{&quot;drug_name&quot;: &quot;ランソプラゾールOD錠10mg&quot;, &quot;dose&quot;: &quot;1日1回&quot;, &quot;frequency&quot;: &quot;食前&quot;}]}</div>
+<div class="log-line info" data-t="162.52"><span class="ts"> 162.52s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="162.52"><span class="ts"> 162.52s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="174.27"><span class="ts"> 174.27s</span> <span class="lv">[I]</span> Extracted (extract_meds_scroll2): {&quot;medications&quot;: [{&quot;drug_name&quot;: &quot;ランソプラゾールOD tablet 10&quot;, &quot;dose&quot;: &quot;&quot;, &quot;frequency&quot;: &quot;&quot;, &quot;precaution&quot;: &quot;&quot;, &quot;note&quot;: &quot;&quot;, &quot;etc_flag&quot;: false}]}</div>
+<div class="log-line info" data-t="189.06"><span class="ts"> 189.06s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="189.06"><span class="ts"> 189.06s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="219.43"><span class="ts"> 219.43s</span> <span class="lv">[I]</span> Extracted (extract_meds_scroll3): {&quot;medications&quot;: [{&quot;drug_name&quot;: &quot;ランソプラゾールOD剤15mg&quot;, &quot;dose&quot;: &quot;15mg&quot;, &quot;frequency&quot;: &quot;1日1回&quot;}]}</div>
+<div class="log-line info" data-t="219.43"><span class="ts"> 219.43s</span> <span class="lv">[I]</span> Total extracted (extract_meds): {&quot;medications&quot;: [{&quot;drug_name&quot;: &quot;ランソプラゾールOD錠10&quot;, &quot;dose&quot;: &quot;10mg&quot;, &quot;frequency&quot;: &quot;1日1回 食前&quot;}, {&quot;drug_name&quot;: &quot;レボパザマールOD&quot;, &quot;dose&quot;: &quot;0.1mg&quot;, &quot;frequency&quot;: &quot;1日1回 食前&quot;}, {&quot;drug_name&quot;: &quot;アロ 사로ールOD&quot;, &quot;dose&quot;: &quot;0.2mg&quot;</div>
+              </div>
+            </details>
+            <div class="details">
+              <div class="box">
+                <b>Meta</b>
+                <table class="stats">
+                  <tr><th>start</th><td>2026-04-17T14:12:01.134711</td></tr>
+                  <tr><th>end</th><td>2026-04-17T14:15:40.561081</td></tr>
+                  <tr><th>session</th><td><a href="05_extract-medications/">05_extract-medications</a></td></tr>
+                  <tr><th>log</th><td><a href="05_extract-medications/orchestrator.log">orchestrator.log</a></td></tr>
+                  <tr><th>output</th><td><a href="05_extract-medications/output.json">output.json</a></td></tr>
+                </table>
+              </div>
+              <div class="box">
+                <b>Output</b>
+                <pre>{
+  "medications": [
+    {
+      "drug_name": "ランソプラゾールOD錠10",
+      "dose": "10mg",
+      "frequency": "1日1回 食前"
+    },
+    {
+      "drug_name": "レボパザマールOD",
+      "dose": "0.1mg",
+      "frequency": "1日1回 食前"
+    },
+    {
+      "drug_name": "アロ 사로ールOD",
+      "dose": "0.2mg",
+      "frequency": "1日1回 食後"
+    },
+    {
+      "drug_name": "オメプラazoleOD",
+      "dose": "10mg",
+      "frequency": "1日1回 食前"
+    },
+    {
+      "drug_name": "ラミブジンOD",
+      "dose": "100mg",
+      "frequency": "1日1回 食後"
+    },
+    {
+      "drug_name": "ランソプラゾールOD錠10mg",
+      "dose": "1日1回",
+      "frequency": "食前"
+    },
+    {
+      "drug_name": "ランソプラゾールOD tablet 10",
+      "dose": "",
+      "frequency": "",
+      "precaution": "",
+      "note": "",
+      "etc_flag": false
+    },
+    {
+      "drug_name": "ランソプラゾールOD剤15mg",
+      "dose": "15mg",
+      "frequency": "1日1回"
+    }
+  ]
+}</pre>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="task" id="task-6" data-task-index="6"
+             data-duration="258.68" data-steps="[{&quot;step_number&quot;: 1, &quot;phase&quot;: &quot;goto_diagnosis&quot;, &quot;elapsed_sec&quot;: 16.84}, {&quot;step_number&quot;: 2, &quot;phase&quot;: &quot;goto_diagnosis&quot;, &quot;elapsed_sec&quot;: 57.06}, {&quot;step_number&quot;: 3, &quot;phase&quot;: &quot;extract_diagnosis_scroll0&quot;, &quot;elapsed_sec&quot;: 105.05}, {&quot;step_number&quot;: 4, &quot;phase&quot;: &quot;extract_diagnosis_scroll1&quot;, &quot;elapsed_sec&quot;: 158.25}, {&quot;step_number&quot;: 5, &quot;phase&quot;: &quot;extract_diagnosis_scroll2&quot;, &quot;elapsed_sec&quot;: 186.53}, {&quot;step_number&quot;: 6, &quot;phase&quot;: &quot;extract_diagnosis_scroll3&quot;, &quot;elapsed_sec&quot;: 215.66}]">
+          <h2>
+            <span class="chip good">SUCCESS</span>
+            <span class="chip bad" title="0/2 diagnoses found">Score 0.00 (0/2)</span>
+            #6 extract-diagnoses
+            <span style="color:#888;font-weight:normal;font-size:13px">
+              258.68s | Holo3 8 | Cerebras 0 | steps 6
+            </span>
+          </h2>
+          <div class="task-body">
+            <div class="video-wrap">
+              <video id="video-6" src="06_extract-diagnoses/experiment.mp4" controls preload="metadata"></video>
+              <div class="task-timeline" id="tl-6">
+                <div class="tl-track"><div class="tl-progress"></div></div>
+                <div class="tl-ruler"></div>
+              </div>
+              <div class="tl-legend"><span class="chip" style="background:#22c55e">click</span><span class="chip" style="background:#a855f7">type</span><span class="chip" style="background:#06b6d4">extract</span><span class="chip" style="background:#6b7280">scroll</span><span class="chip" style="background:#ef4444">verify/retry</span><span class="chip" style="background:#f59e0b">other</span></div>
+            </div>
+            <details class="log-panel-wrap">
+              <summary>Log (動画と同期、展開してクリック)</summary>
+              <div class="log-panel" id="log-6">
+                <div class="log-header">
+                  <b>Log</b>
+                  <label><input type="checkbox" id="autoscroll-6" checked> 自動スクロール</label>
+                </div>
+                <div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Task: extract-diagnoses (session=06_extract-diagnoses) ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Navigate to 病名 ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> Scrolling: 20</div>
+<div class="log-line info" data-t="15.78"><span class="ts">  15.78s</span> <span class="lv">[I]</span> Grounding: &#x27;画面上部のタブバーにある「病名」というテキストのタブ&#x27; -&gt; raw(170,49) -&gt; pixel(326,52)</div>
+<div class="log-line info" data-t="16.34"><span class="ts">  16.34s</span> <span class="lv">[I]</span> Click pixel: (326, 52)</div>
+<div class="log-line warn" data-t="42.46"><span class="ts">  42.46s</span> <span class="lv">[W]</span> Tab verify failed (attempt 1): expected &#x27;病名&#x27;, got: {&quot;reasoning&quot;:&quot;The screen displays an electronic medical record system with patient information, incl</div>
+<div class="log-line info" data-t="55.88"><span class="ts">  55.88s</span> <span class="lv">[I]</span> Grounding: &#x27;画面上部のタブバーにある「病名」というテキストのタブ&#x27; -&gt; raw(165,51) -&gt; pixel(316,55)</div>
+<div class="log-line info" data-t="56.56"><span class="ts">  56.56s</span> <span class="lv">[I]</span> Click pixel: (316, 55)</div>
+<div class="log-line warn" data-t="100.18"><span class="ts"> 100.18s</span> <span class="lv">[W]</span> Tab verify failed (attempt 2): expected &#x27;病名&#x27;, got: {
+  &quot;reasoning&quot;: &quot;このスクリーンSHOTは電子カルテシステムの患者カルテ画面を示しています。画面上部には患者情報（石川 弘、ID:00000001）が表示され、中央にはバイタル数値（</div>
+<div class="log-line info" data-t="102.18"><span class="ts"> 102.18s</span> <span class="lv">[I]</span> === Extract Diagnosis ===</div>
+<div class="log-line info" data-t="102.18"><span class="ts"> 102.18s</span> <span class="lv">[I]</span> Scrolling: 10</div>
+<div class="log-line info" data-t="139.54"><span class="ts"> 139.54s</span> <span class="lv">[I]</span> Extracted (extract_diagnosis_scroll0): {&quot;diagnoses&quot;: [{&quot;disease_name&quot;: &quot;2型糖尿病&quot;, &quot;icd10_code&quot;: &quot;E11&quot;, &quot;status&quot;: &quot;Active (現病)&quot;}]}</div>
+<div class="log-line info" data-t="155.38"><span class="ts"> 155.38s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="155.38"><span class="ts"> 155.38s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="167.65"><span class="ts"> 167.65s</span> <span class="lv">[I]</span> Extracted (extract_diagnosis_scroll1): {&quot;diagnoses&quot;: [{&quot;disease_name&quot;: &quot;2型糖尿病&quot;, &quot;icd10_code&quot;: &quot;E11&quot;, &quot;status&quot;: &quot;現病&quot;}]}</div>
+<div class="log-line info" data-t="183.73"><span class="ts"> 183.73s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="183.73"><span class="ts"> 183.73s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="197.51"><span class="ts"> 197.51s</span> <span class="lv">[I]</span> Extracted (extract_diagnosis_scroll2): {&quot;diagnoses&quot;: []}</div>
+<div class="log-line info" data-t="213.02"><span class="ts"> 213.02s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="213.02"><span class="ts"> 213.02s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="258.68"><span class="ts"> 258.68s</span> <span class="lv">[I]</span> Extracted (extract_diagnosis_scroll3): {&quot;diagnoses&quot;: [{&quot;disease_name&quot;: &quot;2型糖尿病&quot;, &quot;icd10_code&quot;: &quot;E11&quot;, &quot;status&quot;: &quot;Active（現病）&quot;}]}</div>
+<div class="log-line info" data-t="258.68"><span class="ts"> 258.68s</span> <span class="lv">[I]</span> Total extracted (extract_diagnosis): {&quot;diagnoses&quot;: [{&quot;disease_name&quot;: &quot;2型糖尿病&quot;, &quot;icd10_code&quot;: &quot;E11&quot;, &quot;status&quot;: &quot;Active (現病)&quot;}, {&quot;disease_name&quot;: &quot;2型糖尿病&quot;, &quot;icd10_code&quot;: &quot;E11&quot;, &quot;status&quot;: &quot;現病&quot;}, {&quot;disease_name&quot;: &quot;2型糖尿病&quot;, &quot;icd10_code&quot;: &quot;E11&quot;, &quot;</div>
+              </div>
+            </details>
+            <div class="details">
+              <div class="box">
+                <b>Meta</b>
+                <table class="stats">
+                  <tr><th>start</th><td>2026-04-17T14:15:47.194660</td></tr>
+                  <tr><th>end</th><td>2026-04-17T14:20:05.873844</td></tr>
+                  <tr><th>session</th><td><a href="06_extract-diagnoses/">06_extract-diagnoses</a></td></tr>
+                  <tr><th>log</th><td><a href="06_extract-diagnoses/orchestrator.log">orchestrator.log</a></td></tr>
+                  <tr><th>output</th><td><a href="06_extract-diagnoses/output.json">output.json</a></td></tr>
+                </table>
+              </div>
+              <div class="box">
+                <b>Output</b>
+                <pre>{
+  "diagnoses": [
+    {
+      "disease_name": "2型糖尿病",
+      "icd10_code": "E11",
+      "status": "Active (現病)"
+    },
+    {
+      "disease_name": "2型糖尿病",
+      "icd10_code": "E11",
+      "status": "現病"
+    },
+    {
+      "disease_name": "2型糖尿病",
+      "icd10_code": "E11",
+      "status": "Active（現病）"
+    }
+  ]
+}</pre>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="task" id="task-7" data-task-index="7"
+             data-duration="117.61" data-steps="[{&quot;step_number&quot;: 1, &quot;phase&quot;: &quot;extract_allergies_scroll0&quot;, &quot;elapsed_sec&quot;: 1.75}, {&quot;step_number&quot;: 2, &quot;phase&quot;: &quot;extract_allergies_scroll1&quot;, &quot;elapsed_sec&quot;: 40.53}, {&quot;step_number&quot;: 3, &quot;phase&quot;: &quot;extract_allergies_scroll2&quot;, &quot;elapsed_sec&quot;: 64.25}, {&quot;step_number&quot;: 4, &quot;phase&quot;: &quot;extract_allergies_scroll3&quot;, &quot;elapsed_sec&quot;: 99.27}]">
+          <h2>
+            <span class="chip good">SUCCESS</span>
+            <span class="chip good" title="1/1 allergies found">Score 1.00 (1/1)</span>
+            #7 extract-allergies
+            <span style="color:#888;font-weight:normal;font-size:13px">
+              117.61s | Holo3 4 | Cerebras 0 | steps 4
+            </span>
+          </h2>
+          <div class="task-body">
+            <div class="video-wrap">
+              <video id="video-7" src="07_extract-allergies/experiment.mp4" controls preload="metadata"></video>
+              <div class="task-timeline" id="tl-7">
+                <div class="tl-track"><div class="tl-progress"></div></div>
+                <div class="tl-ruler"></div>
+              </div>
+              <div class="tl-legend"><span class="chip" style="background:#22c55e">click</span><span class="chip" style="background:#a855f7">type</span><span class="chip" style="background:#06b6d4">extract</span><span class="chip" style="background:#6b7280">scroll</span><span class="chip" style="background:#ef4444">verify/retry</span><span class="chip" style="background:#f59e0b">other</span></div>
+            </div>
+            <details class="log-panel-wrap">
+              <summary>Log (動画と同期、展開してクリック)</summary>
+              <div class="log-panel" id="log-7">
+                <div class="log-header">
+                  <b>Log</b>
+                  <label><input type="checkbox" id="autoscroll-7" checked> 自動スクロール</label>
+                </div>
+                <div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Task: extract-allergies (session=07_extract-allergies) ===</div>
+<div class="log-line info" data-t="0.0"><span class="ts">   0.00s</span> <span class="lv">[I]</span> === Extract Allergies ===</div>
+<div class="log-line info" data-t="24.26"><span class="ts">  24.26s</span> <span class="lv">[I]</span> Extracted (extract_allergies_scroll0): {&quot;allergies&quot;: [], &quot;note&quot;: &quot;画面にアレルギ一情報の表示なし&quot;}</div>
+<div class="log-line info" data-t="37.72"><span class="ts">  37.72s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="37.72"><span class="ts">  37.72s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="48.74"><span class="ts">  48.74s</span> <span class="lv">[I]</span> Extracted (extract_allergies_scroll1): {&quot;allergies&quot;: [], &quot;note&quot;: &quot;画面に allergy 情報の表示なし&quot;}</div>
+<div class="log-line info" data-t="61.38"><span class="ts">  61.38s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="61.38"><span class="ts">  61.38s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="78.7"><span class="ts">  78.70s</span> <span class="lv">[I]</span> Extracted (extract_allergies_scroll2): {&quot;allergies&quot;: [{&quot;substance&quot;: &quot;ロキソプロフェン&quot;, &quot;category&quot;: &quot;medication&quot;}], &quot;note&quot;: null}</div>
+<div class="log-line info" data-t="96.45"><span class="ts">  96.45s</span> <span class="lv">[I]</span> Scrolling down for more data...</div>
+<div class="log-line info" data-t="96.45"><span class="ts">  96.45s</span> <span class="lv">[I]</span> Scrolling: -5</div>
+<div class="log-line info" data-t="117.61"><span class="ts"> 117.61s</span> <span class="lv">[I]</span> Extracted (extract_allergies_scroll3): {&quot;allergies&quot;: [{&quot;substance&quot;: &quot;ロキソプロフェン&quot;, &quot;category&quot;: &quot;medication&quot;}]}</div>
+<div class="log-line info" data-t="117.61"><span class="ts"> 117.61s</span> <span class="lv">[I]</span> Total extracted (extract_allergies): {&quot;allergies&quot;: [{&quot;substance&quot;: &quot;ロキソプロフェン&quot;, &quot;category&quot;: &quot;medication&quot;}], &quot;note&quot;: null}</div>
+              </div>
+            </details>
+            <div class="details">
+              <div class="box">
+                <b>Meta</b>
+                <table class="stats">
+                  <tr><th>start</th><td>2026-04-17T14:20:13.453658</td></tr>
+                  <tr><th>end</th><td>2026-04-17T14:22:11.061543</td></tr>
+                  <tr><th>session</th><td><a href="07_extract-allergies/">07_extract-allergies</a></td></tr>
+                  <tr><th>log</th><td><a href="07_extract-allergies/orchestrator.log">orchestrator.log</a></td></tr>
+                  <tr><th>output</th><td><a href="07_extract-allergies/output.json">output.json</a></td></tr>
+                </table>
+              </div>
+              <div class="box">
+                <b>Output</b>
+                <pre>{
+  "allergies": [
+    {
+      "substance": "ロキソプロフェン",
+      "category": "medication"
+    }
+  ],
+  "note": null
+}</pre>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+<script>
+function markerPhase(phase) {
+  if (!phase) return 'default';
+  if (phase.includes('click') || phase.includes('login') || phase.includes('search')) return 'click';
+  if (phase.includes('type')) return 'type';
+  if (phase.includes('extract')) return 'extract';
+  if (phase.includes('scroll')) return 'scroll';
+  if (phase.includes('verify') || phase.includes('retry')) return 'verify';
+  return 'default';
+}
+
+// 各タスクのステップ情報から markers を生成
+document.querySelectorAll('[data-task-index]').forEach(taskEl => {
+  const idx = taskEl.dataset.taskIndex;
+  const video = document.getElementById('video-' + idx);
+  const tl = document.getElementById('tl-' + idx);
+  const stepsJson = taskEl.dataset.steps;
+  if (!video || !tl || !stepsJson) return;
+
+  const steps = JSON.parse(stepsJson);
+  const duration = parseFloat(taskEl.dataset.duration);
+
+  const progress = tl.querySelector('.tl-progress');
+  const tooltip = document.createElement('div');
+  tooltip.className = 'tl-tooltip';
+  document.body.appendChild(tooltip);
+
+  // ルーラー (0s, 10s, 20s, ...)
+  const ruler = tl.querySelector('.tl-ruler');
+  const tickInterval = duration > 600 ? 60 : (duration > 120 ? 30 : (duration > 30 ? 10 : 5));
+  for (let t = 0; t <= duration; t += tickInterval) {
+    const s = document.createElement('span');
+    s.textContent = t + 's';
+    s.style.left = (t / duration * 100) + '%';
+    ruler.appendChild(s);
+  }
+
+  // ステップのマーカー
+  steps.forEach(step => {
+    const m = document.createElement('div');
+    m.className = 'tl-marker ' + markerPhase(step.phase);
+    m.style.left = (step.elapsed_sec / duration * 100) + '%';
+    m.dataset.time = step.elapsed_sec;
+    m.dataset.label = `[${step.step_number}] ${step.phase}`;
+    m.addEventListener('click', (e) => {
+      e.stopPropagation();
+      video.currentTime = parseFloat(m.dataset.time);
+      video.play();
+    });
+    m.addEventListener('mouseenter', (e) => {
+      tooltip.textContent = m.dataset.label + ' @ ' + step.elapsed_sec.toFixed(1) + 's';
+      tooltip.style.display = 'block';
+    });
+    m.addEventListener('mousemove', (e) => {
+      tooltip.style.left = (e.pageX + 10) + 'px';
+      tooltip.style.top = (e.pageY + 10) + 'px';
+    });
+    m.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+    tl.appendChild(m);
+  });
+
+  // トラック全体クリックで任意時刻にシーク
+  tl.addEventListener('click', (e) => {
+    if (e.target.classList.contains('tl-marker')) return;
+    const rect = tl.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    const t = pct * duration;
+    video.currentTime = Math.max(0, Math.min(duration, t));
+  });
+
+  // ビデオ再生に合わせてプログレス更新
+  video.addEventListener('timeupdate', () => {
+    progress.style.width = (video.currentTime / duration * 100) + '%';
+  });
+});
+
+// ログと動画の同期
+document.querySelectorAll('[data-task-index]').forEach(taskEl => {
+  const idx = taskEl.dataset.taskIndex;
+  const video = document.getElementById('video-' + idx);
+  const logPanel = document.getElementById('log-' + idx);
+  if (!video || !logPanel) return;
+
+  const lines = Array.from(logPanel.querySelectorAll('.log-line'));
+  const times = lines.map(l => parseFloat(l.dataset.t));
+
+  let autoScroll = document.getElementById('autoscroll-' + idx);
+
+  function updateActive() {
+    const t = video.currentTime;
+    // 二分探索で現在時刻以前の最新行を探す
+    let lo = 0, hi = times.length - 1, active = 0;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (times[mid] <= t) { active = mid; lo = mid + 1; } else { hi = mid - 1; }
+    }
+    lines.forEach(l => l.classList.remove('active'));
+    const line = lines[active];
+    if (line) {
+      line.classList.add('active');
+      if (autoScroll && autoScroll.checked) {
+        line.scrollIntoView({ block: 'center', behavior: 'instant' });
+      }
+    }
+  }
+
+  video.addEventListener('timeupdate', updateActive);
+  video.addEventListener('seeked', updateActive);
+});
+</script>
+</body></html>

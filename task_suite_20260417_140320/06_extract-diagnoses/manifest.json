@@ -1,0 +1,126 @@
+{
+  "metadata": {
+    "session_name": "06_extract-diagnoses",
+    "start_time": "2026-04-17T14:15:46.693815",
+    "patient_id": "00000001",
+    "task": "extract-diagnoses",
+    "server_url": "http://localhost:8000",
+    "status": "success",
+    "end_time": "2026-04-17T14:20:05.873854",
+    "total_steps": 6,
+    "total_duration_sec": 259.18,
+    "summary_data": {
+      "diagnoses": [
+        {
+          "disease_name": "2型糖尿病",
+          "icd10_code": "E11",
+          "status": "Active (現病)"
+        },
+        {
+          "disease_name": "2型糖尿病",
+          "icd10_code": "E11",
+          "status": "現病"
+        },
+        {
+          "disease_name": "2型糖尿病",
+          "icd10_code": "E11",
+          "status": "Active（現病）"
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "timestamp": "2026-04-17T14:16:03.530244",
+      "elapsed_sec": 16.84,
+      "phase": "goto_diagnosis",
+      "prompt": "Click: 画面上部のタブバーにある「病名」というテキストのタブ",
+      "screenshot_path": "recordings/task_suite_20260417_140320/06_extract-diagnoses/screenshots/step_0001.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {
+        "type": "click",
+        "x": 326,
+        "y": 52
+      },
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 16.84
+    },
+    {
+      "step_number": 2,
+      "timestamp": "2026-04-17T14:16:43.757811",
+      "elapsed_sec": 57.06,
+      "phase": "goto_diagnosis",
+      "prompt": "Click: 画面上部のタブバーにある「病名」というテキストのタブ",
+      "screenshot_path": "recordings/task_suite_20260417_140320/06_extract-diagnoses/screenshots/step_0002.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {
+        "type": "click",
+        "x": 316,
+        "y": 55
+      },
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 57.06
+    },
+    {
+      "step_number": 3,
+      "timestamp": "2026-04-17T14:17:31.748542",
+      "elapsed_sec": 105.05,
+      "phase": "extract_diagnosis_scroll0",
+      "prompt": "Extract: 画面に表示されている病名一覧を全て読み取ってください。テーブルの各行を1つずつ読み、病名とICD-10コードを正確に転記してください。省略せず、全ての行を含めてください。JSON形式で返してください: {\"diagnoses\": [{\"disease_name\": \"病名\", \"icd10_code\": \"コード\", \"status\": \"転帰\"}]}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/06_extract-diagnoses/screenshots/step_0003.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 105.05
+    },
+    {
+      "step_number": 4,
+      "timestamp": "2026-04-17T14:18:24.942031",
+      "elapsed_sec": 158.25,
+      "phase": "extract_diagnosis_scroll1",
+      "prompt": "Extract: 画面に表示されている病名一覧を全て読み取ってください。テーブルの各行を1つずつ読み、病名とICD-10コードを正確に転記してください。省略せず、全ての行を含めてください。JSON形式で返してください: {\"diagnoses\": [{\"disease_name\": \"病名\", \"icd10_code\": \"コード\", \"status\": \"転帰\"}]}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/06_extract-diagnoses/screenshots/step_0004.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 158.25
+    },
+    {
+      "step_number": 5,
+      "timestamp": "2026-04-17T14:18:53.227553",
+      "elapsed_sec": 186.53,
+      "phase": "extract_diagnosis_scroll2",
+      "prompt": "Extract: 画面に表示されている病名一覧を全て読み取ってください。テーブルの各行を1つずつ読み、病名とICD-10コードを正確に転記してください。省略せず、全ての行を含めてください。JSON形式で返してください: {\"diagnoses\": [{\"disease_name\": \"病名\", \"icd10_code\": \"コード\", \"status\": \"転帰\"}]}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/06_extract-diagnoses/screenshots/step_0005.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 186.53
+    },
+    {
+      "step_number": 6,
+      "timestamp": "2026-04-17T14:19:22.353286",
+      "elapsed_sec": 215.66,
+      "phase": "extract_diagnosis_scroll3",
+      "prompt": "Extract: 画面に表示されている病名一覧を全て読み取ってください。テーブルの各行を1つずつ読み、病名とICD-10コードを正確に転記してください。省略せず、全ての行を含めてください。JSON形式で返してください: {\"diagnoses\": [{\"disease_name\": \"病名\", \"icd10_code\": \"コード\", \"status\": \"転帰\"}]}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/06_extract-diagnoses/screenshots/step_0006.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 215.66
+    }
+  ]
+}

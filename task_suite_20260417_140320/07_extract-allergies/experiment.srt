@@ -1,0 +1,16 @@
+1
+00:00:01,750 --> 00:00:40,530
+[Step 1] extract_allergies_scroll0
+
+2
+00:00:40,530 --> 00:01:04,250
+[Step 2] extract_allergies_scroll1
+
+3
+00:01:04,250 --> 00:01:39,269
+[Step 3] extract_allergies_scroll2
+
+4
+00:01:39,269 --> 00:01:44,269
+[Step 4] extract_allergies_scroll3
+

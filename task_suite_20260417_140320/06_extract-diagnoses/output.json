@@ -1,0 +1,19 @@
+{
+  "diagnoses": [
+    {
+      "disease_name": "2型糖尿病",
+      "icd10_code": "E11",
+      "status": "Active (現病)"
+    },
+    {
+      "disease_name": "2型糖尿病",
+      "icd10_code": "E11",
+      "status": "現病"
+    },
+    {
+      "disease_name": "2型糖尿病",
+      "icd10_code": "E11",
+      "status": "Active（現病）"
+    }
+  ]
+}

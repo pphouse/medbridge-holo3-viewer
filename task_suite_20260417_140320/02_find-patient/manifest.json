@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "session_name": "02_find-patient",
+    "start_time": "2026-04-17T14:03:53.360576",
+    "patient_id": "00000001",
+    "task": "find-patient",
+    "server_url": "http://localhost:8000",
+    "status": "success",
+    "end_time": "2026-04-17T14:04:52.069266",
+    "total_steps": 4,
+    "total_duration_sec": 58.71,
+    "summary_data": {
+      "ok": true,
+      "patient_id": "00000001"
+    }
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "timestamp": "2026-04-17T14:04:08.340584",
+      "elapsed_sec": 14.98,
+      "phase": "search",
+      "prompt": "Click: 画面上部の患者検索入力欄（テキストボックス）",
+      "screenshot_path": "recordings/task_suite_20260417_140320/02_find-patient/screenshots/step_0001.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {
+        "type": "click",
+        "x": 268,
+        "y": 108
+      },
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 14.98
+    },
+    {
+      "step_number": 2,
+      "timestamp": "2026-04-17T14:04:09.993088",
+      "elapsed_sec": 16.63,
+      "phase": "search",
+      "prompt": "Type: 00000001",
+      "screenshot_path": "recordings/task_suite_20260417_140320/02_find-patient/screenshots/step_0002.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {
+        "type": "type",
+        "text": "00000001"
+      },
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 16.63
+    },
+    {
+      "step_number": 3,
+      "timestamp": "2026-04-17T14:04:25.529368",
+      "elapsed_sec": 32.17,
+      "phase": "search",
+      "prompt": "Click: 「検索」ボタン",
+      "screenshot_path": "recordings/task_suite_20260417_140320/02_find-patient/screenshots/step_0003.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {
+        "type": "click",
+        "x": 441,
+        "y": 108
+      },
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 32.17
+    },
+    {
+      "step_number": 4,
+      "timestamp": "2026-04-17T14:04:48.062478",
+      "elapsed_sec": 54.7,
+      "phase": "search",
+      "prompt": "Click: 患者一覧テーブルの最初の患者の行",
+      "screenshot_path": "recordings/task_suite_20260417_140320/02_find-patient/screenshots/step_0004.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {
+        "type": "click",
+        "x": 72,
+        "y": 216
+      },
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 54.7
+    }
+  ]
+}

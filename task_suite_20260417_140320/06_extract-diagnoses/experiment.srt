@@ -1,0 +1,26 @@
+1
+00:00:16,839 --> 00:00:57,060
+[Step 1] goto_diagnosis
+Action: click (326,52)
+
+2
+00:00:57,060 --> 00:01:45,049
+[Step 2] goto_diagnosis
+Action: click (316,55)
+
+3
+00:01:45,049 --> 00:02:38,250
+[Step 3] extract_diagnosis_scroll0
+
+4
+00:02:38,250 --> 00:03:06,530
+[Step 4] extract_diagnosis_scroll1
+
+5
+00:03:06,530 --> 00:03:35,659
+[Step 5] extract_diagnosis_scroll2
+
+6
+00:03:35,659 --> 00:03:40,659
+[Step 6] extract_diagnosis_scroll3
+

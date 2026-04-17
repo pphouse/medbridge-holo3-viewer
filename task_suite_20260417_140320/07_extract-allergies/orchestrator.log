@@ -1,0 +1,13 @@
+2026-04-17 14:20:13,453 [INFO] === Task: extract-allergies (session=07_extract-allergies) ===
+2026-04-17 14:20:13,453 [INFO] === Extract Allergies ===
+2026-04-17 14:20:37,714 [INFO] Extracted (extract_allergies_scroll0): {"allergies": [], "note": "画面にアレルギ一情報の表示なし"}
+2026-04-17 14:20:51,171 [INFO]   Scrolling down for more data...
+2026-04-17 14:20:51,172 [INFO] Scrolling: -5
+2026-04-17 14:21:02,191 [INFO] Extracted (extract_allergies_scroll1): {"allergies": [], "note": "画面に allergy 情報の表示なし"}
+2026-04-17 14:21:14,830 [INFO]   Scrolling down for more data...
+2026-04-17 14:21:14,830 [INFO] Scrolling: -5
+2026-04-17 14:21:32,152 [INFO] Extracted (extract_allergies_scroll2): {"allergies": [{"substance": "ロキソプロフェン", "category": "medication"}], "note": null}
+2026-04-17 14:21:49,908 [INFO]   Scrolling down for more data...
+2026-04-17 14:21:49,908 [INFO] Scrolling: -5
+2026-04-17 14:22:11,061 [INFO] Extracted (extract_allergies_scroll3): {"allergies": [{"substance": "ロキソプロフェン", "category": "medication"}]}
+2026-04-17 14:22:11,061 [INFO] Total extracted (extract_allergies): {"allergies": [{"substance": "ロキソプロフェン", "category": "medication"}], "note": null}

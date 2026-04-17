@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "session_name": "07_extract-allergies",
+    "start_time": "2026-04-17T14:20:12.952761",
+    "patient_id": "00000001",
+    "task": "extract-allergies",
+    "server_url": "http://localhost:8000",
+    "status": "success",
+    "end_time": "2026-04-17T14:22:11.061553",
+    "total_steps": 4,
+    "total_duration_sec": 118.11,
+    "summary_data": {
+      "allergies": [
+        {
+          "substance": "ロキソプロフェン",
+          "category": "medication"
+        }
+      ],
+      "note": null
+    }
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "timestamp": "2026-04-17T14:20:14.704590",
+      "elapsed_sec": 1.75,
+      "phase": "extract_allergies_scroll0",
+      "prompt": "Extract: 画面のどこかにアレルギー情報が表示されているか確認してください。患者ヘッダー、サイドバー、アレルギー欄など、画面のあらゆる場所を探してください。アレルギーがある場合はJSON形式で返してください: {\"allergies\": [{\"substance\": \"物質名\", \"category\": \"medication/food/environment\"}]}\nアレルギー情報が画面に見当たらない場合は: {\"allergies\": [], \"note\": \"画面にアレルギー情報の表示なし\"}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/07_extract-allergies/screenshots/step_0001.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 1.75
+    },
+    {
+      "step_number": 2,
+      "timestamp": "2026-04-17T14:20:53.483332",
+      "elapsed_sec": 40.53,
+      "phase": "extract_allergies_scroll1",
+      "prompt": "Extract: 画面のどこかにアレルギー情報が表示されているか確認してください。患者ヘッダー、サイドバー、アレルギー欄など、画面のあらゆる場所を探してください。アレルギーがある場合はJSON形式で返してください: {\"allergies\": [{\"substance\": \"物質名\", \"category\": \"medication/food/environment\"}]}\nアレルギー情報が画面に見当たらない場合は: {\"allergies\": [], \"note\": \"画面にアレルギー情報の表示なし\"}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/07_extract-allergies/screenshots/step_0002.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 40.53
+    },
+    {
+      "step_number": 3,
+      "timestamp": "2026-04-17T14:21:17.199422",
+      "elapsed_sec": 64.25,
+      "phase": "extract_allergies_scroll2",
+      "prompt": "Extract: 画面のどこかにアレルギー情報が表示されているか確認してください。患者ヘッダー、サイドバー、アレルギー欄など、画面のあらゆる場所を探してください。アレルギーがある場合はJSON形式で返してください: {\"allergies\": [{\"substance\": \"物質名\", \"category\": \"medication/food/environment\"}]}\nアレルギー情報が画面に見当たらない場合は: {\"allergies\": [], \"note\": \"画面にアレルギー情報の表示なし\"}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/07_extract-allergies/screenshots/step_0003.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 64.25
+    },
+    {
+      "step_number": 4,
+      "timestamp": "2026-04-17T14:21:52.220360",
+      "elapsed_sec": 99.27,
+      "phase": "extract_allergies_scroll3",
+      "prompt": "Extract: 画面のどこかにアレルギー情報が表示されているか確認してください。患者ヘッダー、サイドバー、アレルギー欄など、画面のあらゆる場所を探してください。アレルギーがある場合はJSON形式で返してください: {\"allergies\": [{\"substance\": \"物質名\", \"category\": \"medication/food/environment\"}]}\nアレルギー情報が画面に見当たらない場合は: {\"allergies\": [], \"note\": \"画面にアレルギー情報の表示なし\"}",
+      "screenshot_path": "recordings/task_suite_20260417_140320/07_extract-allergies/screenshots/step_0004.png",
+      "reasoning": "",
+      "planner_thinking": "",
+      "action": {},
+      "extracted_data": {},
+      "error": "",
+      "think_start_sec": 99.27
+    }
+  ]
+}

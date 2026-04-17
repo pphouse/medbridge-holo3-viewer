@@ -1,0 +1,13 @@
+2026-04-17 14:04:54,651 [INFO] === Task: extract-karte (session=03_extract-karte) ===
+2026-04-17 14:04:54,651 [INFO] === Extract Karte ===
+2026-04-17 14:05:35,321 [INFO] Extracted (extract_karte_scroll0): {"chief_complaint": "リハビり後、装着感ある", "hospital_course": "2026-02-18: 退院。本日用。Rp）ランソプラゾールOD15mg 1日1回 朝空腹後 28日分\n2026-02-17: 入院16日。バイタル、装感ある。内服継続\n2026-02-16: 入院15日。バイタル、装感ある。内服継続\n2026-02-15: 入院14日。バイタル、装
+2026-04-17 14:05:53,914 [INFO]   Scrolling down for more data...
+2026-04-17 14:05:53,914 [INFO] Scrolling: -5
+2026-04-17 14:06:37,474 [INFO] Extracted (extract_karte_scroll1): {"chief_complaint": "主訴：特異なし", "hospital_course": "【入院15日目の回診】バイタルが安定、特変なし。【入院14日目の回診】症状徐々に改善傾向、SpO2やや改善。【入院13日目の回診】夜間特訴えなし、食事摂取良好。【入院12日目の回診】バイタルが安定、特変なし。訴えなし、SpO2安定。明日採血予定、朝空腹後の空腹時採血。排便1回あり、腹部膨満なし。"
+2026-04-17 14:06:51,968 [INFO]   Scrolling down for more data...
+2026-04-17 14:06:51,968 [INFO] Scrolling: -5
+2026-04-17 14:07:27,872 [INFO] Extracted (extract_karte_scroll2): {"chief_complaint": "主訴なし。SpO2安定。", "hospital_course": "2026-02-13: 訴えなし。SpO2安定。検温実施。バイタルが安定。2026-02-12: 訴えなし。SpO2安定。明日採血予定。朝食前の空腹時採血。排便1回あり。腹部膨満なし。2026-02-11: 訴えなし。SpO2安定。朝食全量摂取。夜間良眠。2026-02-10: 訴えなし
+2026-04-17 14:07:43,172 [INFO]   Scrolling down for more data...
+2026-04-17 14:07:43,172 [INFO] Scrolling: -5
+2026-04-17 14:08:22,406 [INFO] Extracted (extract_karte_scroll3): {"chief_complaint": "訴えなし。SpO2安定", "hospital_course": "2026-02-11: 訴えなし。SpO2安定。リハ毕後やや根部感あり。転倒注意。2026-02-10: 入院10日目回診。バイタル。2026-02-09: 入院9日回診。患者さんは穩やかな表情。SpO2やや改善。2026-02-08: 入院8日回診。症状は徐々に改善傾向。明日採血予定。朝
+2026-04-17 14:08:22,406 [INFO] Total extracted (extract_karte): {"chief_complaint": "リハビり後、装着感ある\n主訴：特異なし\n主訴なし。SpO2安定。\n訴えなし。SpO2安定", "hospital_course": "2026-02-18: 退院。本日用。Rp）ランソプラゾールOD15mg 1日1回 朝空腹後 28日分\n2026-02-17: 入院16日。バイタル、装感ある。内服継続\n2026-02-16: 入院15日。バイタル
