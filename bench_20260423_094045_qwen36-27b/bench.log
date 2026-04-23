@@ -1,0 +1,89 @@
+2026-04-23 09:40:45,347 [INFO] === Replaying login (Qwen) ===
+2026-04-23 09:40:45,352 [INFO]   image: 1920x1080
+2026-04-23 09:40:48,638 [INFO]   Grounding: 'ログイン' -> pixel(1000, 616)
+2026-04-23 09:40:48,639 [INFO]     'ログイン' hit=True dist=1.4px
+2026-04-23 09:40:51,896 [INFO]   Grounding: 'キャンセル' -> pixel(1089, 615)
+2026-04-23 09:40:51,896 [INFO]     'キャンセル' hit=True dist=2.2px
+2026-04-23 09:40:51,966 [INFO] === Replaying patient_list (Qwen) ===
+2026-04-23 09:40:51,966 [INFO]   image: 1920x1080
+2026-04-23 09:40:55,236 [INFO]   Grounding: '検索条件を入力...' -> pixel(273, 112)
+2026-04-23 09:40:55,236 [INFO]     '検索条件を入力...' hit=True dist=3.2px
+2026-04-23 09:40:58,524 [INFO]   Grounding: '検索(S)' -> pixel(451, 112)
+2026-04-23 09:40:58,524 [INFO]     '検索(S)' hit=True dist=1.0px
+2026-04-23 09:41:01,757 [INFO]   Grounding: '📋
+受付一覧' -> pixel(42, 62)
+2026-04-23 09:41:01,757 [INFO]     '📋
+受付一覧' hit=True dist=5.7px
+2026-04-23 09:41:04,981 [INFO]   Grounding: '🏥
+受付管理' -> pixel(117, 62)
+2026-04-23 09:41:04,981 [INFO]     '🏥
+受付管理' hit=True dist=4.1px
+2026-04-23 09:41:08,248 [INFO]   Grounding: '🛏
+入院管理' -> pixel(198, 62)
+2026-04-23 09:41:08,248 [INFO]     '🛏
+入院管理' hit=True dist=4.1px
+2026-04-23 09:41:11,502 [INFO]   Grounding: '📅
+予約管理' -> pixel(276, 62)
+2026-04-23 09:41:11,502 [INFO]     '📅
+予約管理' hit=True dist=4.1px
+2026-04-23 09:41:11,598 [INFO] === Replaying karte (Qwen) ===
+2026-04-23 09:41:11,598 [INFO]   image: 1920x1080
+2026-04-23 09:41:14,849 [INFO]   Grounding: 'カルテ記載' -> pixel(154, 57)
+2026-04-23 09:41:14,849 [INFO]     'カルテ記載' hit=True dist=30.1px
+2026-04-23 09:41:18,123 [INFO]   Grounding: '処方' -> pixel(244, 57)
+2026-04-23 09:41:18,123 [INFO]     '処方' hit=True dist=5.4px
+2026-04-23 09:41:21,400 [INFO]   Grounding: '検査' -> pixel(278, 57)
+2026-04-23 09:41:21,400 [INFO]     '検査' hit=True dist=2.2px
+2026-04-23 09:41:24,713 [INFO]   Grounding: '病名' -> pixel(609, 121)
+2026-04-23 09:41:24,713 [INFO]     '病名' hit=False dist=297.4px
+2026-04-23 09:41:28,012 [INFO]   Grounding: '検査結果窓' -> pixel(1841, 391)
+2026-04-23 09:41:28,012 [INFO]     '検査結果窓' hit=False dist=1426.1px
+2026-04-23 09:41:31,319 [INFO]   Grounding: '処方一覧窓' -> pixel(513, 57)
+2026-04-23 09:41:31,320 [INFO]     '処方一覧窓' hit=True dist=12.2px
+2026-04-23 09:41:31,424 [INFO] === Replaying labs (Qwen) ===
+2026-04-23 09:41:31,424 [INFO]   image: 1920x1080
+2026-04-23 09:41:34,668 [INFO]   Grounding: 'カルテ記載' -> pixel(123, 57)
+2026-04-23 09:41:34,668 [INFO]     'カルテ記載' hit=True dist=2.2px
+2026-04-23 09:41:37,935 [INFO]   Grounding: '処方' -> pixel(240, 57)
+2026-04-23 09:41:37,935 [INFO]     '処方' hit=True dist=2.2px
+2026-04-23 09:41:41,208 [INFO]   Grounding: '検査' -> pixel(280, 57)
+2026-04-23 09:41:41,208 [INFO]     '検査' hit=True dist=2.2px
+2026-04-23 09:41:44,471 [INFO]   Grounding: '病名' -> pixel(317, 57)
+2026-04-23 09:41:44,471 [INFO]     '病名' hit=True dist=2.8px
+2026-04-23 09:41:47,778 [INFO]   Grounding: '検査結果窓' -> pixel(451, 51)
+2026-04-23 09:41:47,778 [INFO]     '検査結果窓' hit=True dist=5.7px
+2026-04-23 09:41:51,387 [WARNING]   retry 1 for '処方一覧窓': '```json\n{"x": [269, 52], "y": [52, 62]}\n```'
+2026-04-23 09:41:52,280 [WARNING]     '処方一覧窓' grounding FAILED
+2026-04-23 09:41:58,310 [INFO]     OCR[lab_results] matched=6/6 recall=1.0
+2026-04-23 09:41:58,409 [INFO] === Replaying meds (Qwen) ===
+2026-04-23 09:41:58,410 [INFO]   image: 1920x1080
+2026-04-23 09:42:01,900 [WARNING]   retry 1 for 'カルテ記載': '{"x": [65, 52], "y": [34, 58]}'
+2026-04-23 09:42:02,629 [WARNING]     'カルテ記載' grounding FAILED
+2026-04-23 09:42:05,908 [INFO]   Grounding: '処方' -> pixel(238, 57)
+2026-04-23 09:42:05,908 [INFO]     '処方' hit=True dist=2.2px
+2026-04-23 09:42:09,531 [WARNING]   retry 1 for '検査': '```json\n{"x": [143, 52], "y": [52, 52]}\n```'
+2026-04-23 09:42:10,414 [WARNING]     '検査' grounding FAILED
+2026-04-23 09:42:13,994 [WARNING]   retry 1 for '病名': '{"x": [316, 111], "y": [111, 111]}'
+2026-04-23 09:42:14,830 [WARNING]     '病名' grounding FAILED
+2026-04-23 09:42:18,942 [WARNING]   retry 1 for '検査結果窓': '{"x": [150, 280, 937, 412], "y": [280, 412, 937, 280]}'
+2026-04-23 09:42:20,293 [WARNING]     '検査結果窓' grounding FAILED
+2026-04-23 09:42:23,867 [WARNING]   retry 1 for '処方一覧窓': '```json\n{"x": [969, 381], "y": [381]}\n```'
+2026-04-23 09:42:24,697 [WARNING]     '処方一覧窓' grounding FAILED
+2026-04-23 09:42:31,927 [INFO]     OCR[medications] matched=1/1 recall=1.0
+2026-04-23 09:42:32,028 [INFO] === Replaying diagnoses (Qwen) ===
+2026-04-23 09:42:32,028 [INFO]   image: 1920x1080
+2026-04-23 09:42:35,494 [WARNING]   retry 1 for 'カルテ記載': '{"x": [63, 52], "y": [52, 63]}'
+2026-04-23 09:42:36,217 [WARNING]     'カルテ記載' grounding FAILED
+2026-04-23 09:42:39,520 [INFO]   Grounding: '処方' -> pixel(238, 57)
+2026-04-23 09:42:39,520 [INFO]     '処方' hit=True dist=2.2px
+2026-04-23 09:42:43,020 [WARNING]   retry 1 for '検査': '{"x": [145, 52], "y": [52, 52]}'
+2026-04-23 09:42:43,772 [WARNING]     '検査' grounding FAILED
+2026-04-23 09:42:47,080 [INFO]   Grounding: '病名' -> pixel(916, 480)
+2026-04-23 09:42:47,081 [INFO]     '病名' hit=False dist=732.8px
+2026-04-23 09:42:50,356 [INFO]   Grounding: '検査結果窓' -> pixel(451, 56)
+2026-04-23 09:42:50,356 [INFO]     '検査結果窓' hit=True dist=4.1px
+2026-04-23 09:42:53,947 [WARNING]   retry 1 for '処方一覧窓': '```json\n{"x": [969, 383], "y": [383]}\n```'
+2026-04-23 09:42:54,779 [WARNING]     '処方一覧窓' grounding FAILED
+2026-04-23 09:42:58,582 [INFO]     OCR[diagnoses] matched=2/2 recall=1.0
+2026-04-23 09:42:58,691 [INFO] DONE. bench_results/20260423_094045_qwen36-27b_replay
+2026-04-23 09:42:58,691 [INFO]   Grounding: 0.625, OCR: 1.000, Mean dist: 111.1px
