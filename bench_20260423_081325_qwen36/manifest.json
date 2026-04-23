@@ -1,0 +1,814 @@
+{
+  "metadata": {
+    "session_name": "20260423_081325_qwen36-v2_replay",
+    "replay_from": "bench_results/20260417_125301_all",
+    "patient_id": "00000001",
+    "server_url": "http://127.0.0.1:8001",
+    "model": "Qwen3.6-35B-A3B-GGUF:Q8_0",
+    "start_time": "2026-04-23T08:13:25.314389",
+    "end_time": "2026-04-23T08:14:32.234504"
+  },
+  "summary": {
+    "grounding_hits": 3,
+    "grounding_total": 32,
+    "grounding_hit_rate": 0.094,
+    "grounding_mean_dist": 388.5,
+    "ocr_mean_recall": 1.0
+  },
+  "screens": [
+    {
+      "screen_name": "login",
+      "screenshot_path": "screenshots/login.png",
+      "annotated_path": "annotated/login.png",
+      "grounding": [
+        {
+          "target": "ログイン",
+          "gt_bbox": [
+            961,
+            606,
+            1041,
+            629
+          ],
+          "gt_center": [
+            1001,
+            617
+          ],
+          "pred_point": [
+            1000,
+            615
+          ],
+          "hit": true,
+          "pixel_distance": 2.2
+        },
+        {
+          "target": "キャンセル",
+          "gt_bbox": [
+            1049,
+            606,
+            1132,
+            629
+          ],
+          "gt_center": [
+            1090,
+            617
+          ],
+          "pred_point": [
+            1094,
+            616
+          ],
+          "hit": true,
+          "pixel_distance": 4.1
+        }
+      ],
+      "ocr": [],
+      "dom_elements_count": 2
+    },
+    {
+      "screen_name": "patient_list",
+      "screenshot_path": "screenshots/patient_list.png",
+      "annotated_path": "annotated/patient_list.png",
+      "grounding": [
+        {
+          "target": "検索条件を入力...",
+          "gt_bbox": [
+            130,
+            100,
+            410,
+            123
+          ],
+          "gt_center": [
+            270,
+            111
+          ],
+          "pred_point": [
+            253,
+            148
+          ],
+          "hit": false,
+          "pixel_distance": 40.7
+        },
+        {
+          "target": "検索(S)",
+          "gt_bbox": [
+            418,
+            100,
+            485,
+            123
+          ],
+          "gt_center": [
+            451,
+            111
+          ],
+          "pred_point": [
+            451,
+            148
+          ],
+          "hit": false,
+          "pixel_distance": 37.0
+        },
+        {
+          "target": "📋\n受付一覧",
+          "gt_bbox": [
+            4,
+            45,
+            73,
+            72
+          ],
+          "gt_center": [
+            38,
+            58
+          ],
+          "pred_point": [
+            54,
+            72
+          ],
+          "hit": true,
+          "pixel_distance": 21.3
+        },
+        {
+          "target": "🏥\n受付管理",
+          "gt_bbox": [
+            83,
+            45,
+            153,
+            72
+          ],
+          "gt_center": [
+            118,
+            58
+          ],
+          "pred_point": [
+            54,
+            70
+          ],
+          "hit": false,
+          "pixel_distance": 65.1
+        },
+        {
+          "target": "🛏\n入院管理",
+          "gt_bbox": [
+            163,
+            45,
+            232,
+            72
+          ],
+          "gt_center": [
+            197,
+            58
+          ],
+          "pred_point": [
+            192,
+            81
+          ],
+          "hit": false,
+          "pixel_distance": 23.5
+        },
+        {
+          "target": "📅\n予約管理",
+          "gt_bbox": [
+            242,
+            45,
+            312,
+            72
+          ],
+          "gt_center": [
+            277,
+            58
+          ],
+          "pred_point": [
+            192,
+            78
+          ],
+          "hit": false,
+          "pixel_distance": 87.3
+        }
+      ],
+      "ocr": [],
+      "dom_elements_count": 11
+    },
+    {
+      "screen_name": "karte",
+      "screenshot_path": "screenshots/karte.png",
+      "annotated_path": "annotated/karte.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            192,
+            45
+          ],
+          "hit": false,
+          "pixel_distance": 68.7
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            518,
+            121
+          ],
+          "hit": false,
+          "pixel_distance": 286.7
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            733,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 457.1
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            860,
+            117
+          ],
+          "hit": false,
+          "pixel_distance": 544.5
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            1824,
+            410
+          ],
+          "hit": false,
+          "pixel_distance": 1414.3
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            557,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 61.9
+        }
+      ],
+      "ocr": [],
+      "dom_elements_count": 23
+    },
+    {
+      "screen_name": "labs",
+      "screenshot_path": "screenshots/labs.png",
+      "annotated_path": "annotated/labs.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            284,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 168.5
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            576,
+            203
+          ],
+          "hit": false,
+          "pixel_distance": 368.1
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            791,
+            189
+          ],
+          "hit": false,
+          "pixel_distance": 529.2
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            768,
+            216
+          ],
+          "hit": false,
+          "pixel_distance": 477.0
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            1824,
+            637
+          ],
+          "hit": false,
+          "pixel_distance": 1487.6
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            1440,
+            162
+          ],
+          "hit": false,
+          "pixel_distance": 921.2
+        }
+      ],
+      "ocr": [
+        {
+          "category": "lab_results",
+          "gt": [
+            {
+              "name": "AST(GOT)",
+              "value": "16.8"
+            },
+            {
+              "name": "ALT(GPT)",
+              "value": "19.3"
+            },
+            {
+              "name": "クレアチニン(Cr)",
+              "value": "0.8"
+            },
+            {
+              "name": "白血球数(WBC)",
+              "value": "5270.2"
+            },
+            {
+              "name": "CRP定量",
+              "value": "0.1"
+            },
+            {
+              "name": "Na(ナトリウム)",
+              "value": "139.6"
+            }
+          ],
+          "predicted": [
+            {
+              "name": "AST(GOT)",
+              "value": "16.8",
+              "unit": "U/L"
+            },
+            {
+              "name": "ALT(GPT)",
+              "value": "19.3",
+              "unit": "U/L"
+            },
+            {
+              "name": "クレアチニン(Cr)",
+              "value": "0.8",
+              "unit": "mg/dL"
+            },
+            {
+              "name": "白血球数(WBC)",
+              "value": "5270.2",
+              "unit": "/μL"
+            },
+            {
+              "name": "CRP定量",
+              "value": "0.1",
+              "unit": "mg/dL"
+            },
+            {
+              "name": "Na(ナトリウム)",
+              "value": "139.6",
+              "unit": "mEq/L"
+            }
+          ],
+          "matched": 6,
+          "recall": 1.0
+        }
+      ],
+      "dom_elements_count": 26
+    },
+    {
+      "screen_name": "meds",
+      "screenshot_path": "screenshots/meds.png",
+      "annotated_path": "annotated/meds.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            255,
+            92
+          ],
+          "hit": false,
+          "pixel_distance": 136.1
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            553,
+            360
+          ],
+          "hit": false,
+          "pixel_distance": 437.7
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            384,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 117.6
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            960,
+            583
+          ],
+          "hit": false,
+          "pixel_distance": 830.5
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            941,
+            540
+          ],
+          "hit": false,
+          "pixel_distance": 686.6
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            941,
+            540
+          ],
+          "hit": false,
+          "pixel_distance": 639.0
+        }
+      ],
+      "ocr": [
+        {
+          "category": "medications",
+          "gt": [
+            {
+              "name": "ランソプラゾールOD錠15mg",
+              "dosage": "1錠 1日1回 朝食前"
+            }
+          ],
+          "predicted": [
+            {
+              "name": "メトホルミン塩酸塩錠250mg",
+              "dosage": "500mg/日"
+            },
+            {
+              "name": "アムロジピンベシル酸塩錠5mg",
+              "dosage": "5mg/日"
+            },
+            {
+              "name": "カンデサルタンシレキセチル錠8mg",
+              "dosage": "8mg/日"
+            },
+            {
+              "name": "ロスバスタチンカルシウム錠2.5mg",
+              "dosage": "2.5mg/日"
+            },
+            {
+              "name": "ランソプラゾールOD錠15mg",
+              "dosage": "15mg/日"
+            },
+            {
+              "name": "アスピリン腸溶錠100mg",
+              "dosage": "100mg/日"
+            },
+            {
+              "name": "ワルファリンカリウム錠1mg",
+              "dosage": "1-5mg/日"
+            }
+          ],
+          "matched": 1,
+          "recall": 1.0
+        }
+      ],
+      "dom_elements_count": 30
+    },
+    {
+      "screen_name": "diagnoses",
+      "screenshot_path": "screenshots/diagnoses.png",
+      "annotated_path": "annotated/diagnoses.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            250,
+            124
+          ],
+          "hit": false,
+          "pixel_distance": 143.7
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            528,
+            175
+          ],
+          "hit": false,
+          "pixel_distance": 312.9
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            403,
+            135
+          ],
+          "hit": false,
+          "pixel_distance": 147.6
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            733,
+            413
+          ],
+          "hit": false,
+          "pixel_distance": 547.3
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            947,
+            559
+          ],
+          "hit": false,
+          "pixel_distance": 704.3
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            954,
+            559
+          ],
+          "hit": false,
+          "pixel_distance": 661.9
+        }
+      ],
+      "ocr": [
+        {
+          "category": "diagnoses",
+          "gt": [
+            {
+              "name": "うつ病エピソード",
+              "icd10": "F32"
+            },
+            {
+              "name": "背部痛",
+              "icd10": "M54"
+            }
+          ],
+          "predicted": [
+            {
+              "name": "うつ病エピソード",
+              "icd10": "F32"
+            },
+            {
+              "name": "背部痛",
+              "icd10": "M54.5"
+            }
+          ],
+          "matched": 2,
+          "recall": 1.0
+        }
+      ],
+      "dom_elements_count": 32
+    }
+  ]
+}

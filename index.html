@@ -46,13 +46,24 @@
 </div>
 
 <div class="card">
-  <a href="bench_20260423_073917_qwen36/viewer.html">Qwen3.6-35B-A3B (Q8_0 GGUF) — 20260423_073917</a>
+  <a href="bench_20260423_073917_qwen36/viewer.html">Qwen3.6-35B-A3B (Q8_0 GGUF) — 20260423_073917 <span style="font-weight:400; color:#888">[v1: 座標未補正]</span></a>
   <div class="meta">
     <span class="chip bad">Grounding 0.09 (3/32)</span>
     <span class="chip good">OCR 1.00</span>
     <span class="chip info">Mean 248px</span>
     <span class="chip info">6 screens</span>
-    汎用VLM (llama.cpp Q8_0 on A100)
+    汎用VLM, 0-1000正規化を絶対ピクセルと誤解釈
+  </div>
+</div>
+
+<div class="card">
+  <a href="bench_20260423_081325_qwen36/viewer.html">Qwen3.6-35B-A3B (Q8_0 GGUF) — 20260423_081325 <span style="font-weight:400; color:#888">[v2: 0-1000 → px 自動変換]</span></a>
+  <div class="meta">
+    <span class="chip bad">Grounding 0.09 (3/32)</span>
+    <span class="chip good">OCR 1.00</span>
+    <span class="chip info">Mean 388px</span>
+    <span class="chip info">6 screens</span>
+    login画面 2/2 (dist &lt;5px), 他画面は認識自体が弱い
   </div>
 </div>
 
@@ -69,6 +80,20 @@
 <b>所感:</b> Holo3 は GUI grounding に特化した Qwen3.5-VL ベースで、座標特定は圧倒的。<br>
 一方 Qwen3.6 は汎用VLMだが日本語カルテ画面の表構造を正確に読み取り、構造化抽出では Holo3 を上回る (検査値 6/6, 処方 1/1, 病名 2/2 全勝)。<br>
 → <b>エージェントパイプラインでは両者併用が合理的</b> — クリック対象の特定は Holo3、画面内容の読み取りは Qwen/LLM に分業。
+</p>
+
+<h3 style="margin-top:24px; font-size:14px; color:#9ca3af">Qwen3.6 座標系の検出</h3>
+<p style="color:#aaa; font-size:13px">
+Qwen3.6 は指示に関わらず <b>0-1000 正規化座標</b> を返す (Qwen-VL系と同じ慣習)。<br>
+v1 は絶対ピクセルと誤解釈して一貫して半分程度ずれた。v2 は <code>pred × image_size / 1000</code> で自動変換:<br>
+</p>
+<table style="border-collapse:collapse; font-size:12px; margin:8px 0">
+<tr style="background:#1e232a"><th style="padding:4px 10px; border:1px solid #333">ターゲット</th><th style="padding:4px 10px; border:1px solid #333">GT center</th><th style="padding:4px 10px; border:1px solid #333">Qwen raw</th><th style="padding:4px 10px; border:1px solid #333">v1 解釈</th><th style="padding:4px 10px; border:1px solid #333">v2 解釈</th></tr>
+<tr><td style="padding:4px 10px; border:1px solid #333">ログインボタン</td><td style="padding:4px 10px; border:1px solid #333">(1001, 617)</td><td style="padding:4px 10px; border:1px solid #333">(521, 569)</td><td style="padding:4px 10px; border:1px solid #333; color:#ef4444">(521, 569) ❌ 482px miss</td><td style="padding:4px 10px; border:1px solid #333; color:#22c55e">(1000, 615) ✅ 2px</td></tr>
+<tr><td style="padding:4px 10px; border:1px solid #333">キャンセル</td><td style="padding:4px 10px; border:1px solid #333">(1090, 617)</td><td style="padding:4px 10px; border:1px solid #333">(568, 570)</td><td style="padding:4px 10px; border:1px solid #333; color:#ef4444">(568, 570) ❌ 524px miss</td><td style="padding:4px 10px; border:1px solid #333; color:#22c55e">(1094, 616) ✅ 4px</td></tr>
+</table>
+<p style="color:#aaa; font-size:13px">
+v2 では login 画面 2/2 ヒット (dist 2-4px)。他画面で低精度が残るのは座標系の問題ではなく、Qwen3.6 が GUI 特化訓練されていないことによる認識精度の本質的な差 (同じ scaling を適用しても Holo3 の 27/32 には届かない)。
 </p>
 
 </body></html>
