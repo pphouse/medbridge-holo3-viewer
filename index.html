@@ -37,7 +37,56 @@
   </div>
 </div>
 
-<h2>Benchmarks — VLM 単体能力測定 (最終版)</h2>
+<h2>Detection Benchmark — Zero-shot UI affordance 検出</h2>
+
+<p style="color:#aaa; font-size:13px">
+Computer use agent が「クリック対象の単語を事前に知らず」画面上のクリック可能・入力可能要素を
+visual affordance だけで列挙できるかを評価。<br>
+Prompt: 「画面内で<b>クリックできる・入力できる UI 要素</b>を全列挙」。文字列ヒントなし。<br>
+GT: 各画面の DOM から <code>button, input, textarea, select, a[href], [role=button/tab/link/menuitem/checkbox/combobox], [contenteditable]</code>
+を実際にナビゲートしながら収集 (可視要素のみ)。<br>
+Matching: 予測点が GT bbox 内に落ちたら TP、余剰予測 = FP、未検出 GT = FN。
+</p>
+
+<div class="card">
+  <a href="detect_qwen36-27b-bf16/viewer.html">Qwen3.6-27B BF16 + JSON schema (maxItems=50) — detection</a>
+  <div class="meta">
+    <span class="chip mid">P 0.40</span>
+    <span class="chip good">R 0.81</span>
+    <span class="chip mid">F1 0.53</span>
+    <span class="chip info">TP 95 / FP 143 / FN 23</span>
+    <span class="chip speed">⏱ 69s/screen, total 412s</span>
+    6画面 (login/patient_list/karte/labs/meds/diagnoses) — 実ナビゲーション
+  </div>
+</div>
+
+<h3>画面別 detection</h3>
+<table>
+<tr><th>画面</th><th>GT</th><th>Pred</th><th>TP</th><th>FP</th><th>FN</th><th>P</th><th>R</th><th>F1</th><th>Lat</th></tr>
+<tr><td>login</td><td>4</td><td>5</td><td>4</td><td>1</td><td>0</td><td>0.80</td><td style="color:#22c55e">1.00</td><td style="color:#22c55e"><b>0.89</b></td><td>11s</td></tr>
+<tr><td>patient_list</td><td>11</td><td>33</td><td>11</td><td>22</td><td>0</td><td>0.33</td><td style="color:#22c55e">1.00</td><td>0.50</td><td>58s</td></tr>
+<tr><td>karte</td><td>24</td><td>50</td><td>11</td><td>39</td><td>13</td><td style="color:#ef4444">0.22</td><td style="color:#ef4444">0.46</td><td style="color:#ef4444">0.30</td><td>85s</td></tr>
+<tr><td>labs</td><td>25</td><td>50</td><td>22</td><td>28</td><td>3</td><td>0.44</td><td style="color:#22c55e">0.88</td><td>0.59</td><td>86s</td></tr>
+<tr><td>meds</td><td>29</td><td>50</td><td>23</td><td>27</td><td>6</td><td>0.46</td><td>0.79</td><td>0.58</td><td>86s</td></tr>
+<tr><td>diagnoses</td><td>25</td><td>50</td><td>24</td><td>26</td><td>1</td><td>0.48</td><td style="color:#22c55e">0.96</td><td style="color:#22c55e">0.64</td><td>86s</td></tr>
+</table>
+
+<h3>observations</h3>
+<p style="color:#aaa; font-size:13px">
+✅ <b>Recall は総じて高い (0.46-1.00)</b>: シンプルな画面 (login/patient_list/diagnoses) ではほぼ全ての GT 要素を発見。<br>
+⚠ <b>Precision は低い (0.22-0.80)</b>: GT 数の 2 倍近い予測を返す傾向。内訳は
+「DOM フィルタから外れた装飾要素 (見出し、表の行番号等)」+「同じ要素の重複検出」。<br>
+🔴 <b>karte で F1=0.30 と苦戦</b>: カルテ本文の「バイタル / 処方 / 検査 / 病名」タブ + 日付リストで 100 超のエレメントが画面上にあり、50 個キャップで一部取りこぼし + 順序が予測と合わない。<br>
+⏱ <b>Latency は画面あたり 60-90 秒</b>: 出力トークンが長くなる (50要素 × ~40token = 2000token) のが支配的。<br>
+<br>
+<b>Computer use agent 実装への示唆:</b> Qwen3.6-27B BF16 は「画面を眺めて操作候補の座標リストを吐く」task を
+F1=0.53 でこなせる。R が高いので「候補漏れ」は少なく、FP は後段の LLM Planner が絞り込めばよい。
+文字列ヒント grounding (hit 0.84) と併用すれば実用レベル。
+</p>
+
+<hr style="border:none;border-top:1px solid #222;margin:32px 0">
+
+<h2>Grounding Benchmark — VLM 単体能力測定 (label-based)</h2>
 
 <p style="color:#aaa; font-size:13px">同一の6画面スクショ (login/patient_list/karte/labs/meds/diagnoses) で Grounding (DOM bbox と予測点の一致率) と OCR (画面から構造化抽出 → SQLite GT との recall) を測定。<b>下記は JSON Schema 制約付き最終版</b>。llama.cpp の <code>response_format: json_schema</code> で出力形式を強制し、<code>{"x":[69,33],"y":[27]}</code> のような壊れた配列出力を防止。</p>
 

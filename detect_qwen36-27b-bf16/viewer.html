@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>Detection Benchmark Viewer</title>
+<style>
+  body { font-family: sans-serif; margin: 0; background: #0b0d10; color: #eee; }
+  header { padding: 16px 24px; background: #111; border-bottom: 1px solid #222; }
+  header h1 { margin: 0 0 4px; font-size: 18px; }
+  header .meta { color: #aaa; font-size: 13px; }
+  .score { display: inline-block; padding: 4px 10px; border-radius: 4px; margin-right: 8px; font-weight: 600; }
+  .good { background: #16a34a; } .bad { background: #dc2626; } .mid { background: #ca8a04; } .info { background: #374151; }
+  .screen { margin: 24px; border: 1px solid #222; border-radius: 8px; overflow: hidden; background: #15181d; }
+  .screen h2 { margin: 0; padding: 12px 16px; background: #1a1e24; font-size: 15px; }
+  .body { display: flex; gap: 12px; padding: 12px; }
+  .body img { max-width: 55%; height: auto; border: 1px solid #333; }
+  .results { flex: 1; overflow-x: auto; font-size: 12px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: 4px 8px; border-bottom: 1px solid #2a2e35; text-align: left; vertical-align: top; }
+  th { background: #1e232a; position: sticky; top: 0; }
+  .tp { color: #22c55e; } .fp { color: #f97316; } .fn { color: #ef4444; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; padding: 4px 0; color: #60a5fa; }
+  pre { background: #0d1117; padding: 8px; overflow-x: auto; border-radius: 4px; font-size: 11px; max-height: 300px; }
+</style></head>
+<body>
+<header>
+  <h1>Detection Benchmark — 20260423_202744_qwen36-27b-bf16-v2_detect</h1>
+  <div class="meta">screens=6 • GT=118 • Pred=238 • model=Qwen3.6-27B BF16 + schema v2 (maxItems=50)</div>
+  <div style="margin-top:8px"><span class="score bad">Precision: 0.40</span><span class="score good">Recall: 0.81</span><span class="score mid">F1: 0.53</span><span class="score info">TP 95 / FP 143 / FN 23</span><span class="score info">⏱ 68.65s/screen, total 411.9s</span></div>
+  <div class="meta" style="margin-top:6px">
+    <span style="color:#22c55e">■</span> GT (matched) /
+    <span style="color:#ef4444">■</span> GT (unmatched = FN) /
+    <span style="color:#3b82f6">●</span> pred (matched = TP) /
+    <span style="color:#f97316">●</span> pred (unmatched = FP)
+  </div>
+</header>
+<div id="content">
+        <div class="screen">
+          <h2>login — TP=4 FP=1 FN=0 • P=0.80 R=1.00 F1=0.89 • ⏱ 11.2s</h2>
+          <div class="body">
+            <img src="annotated/login.png" alt="login">
+            <div class="results">
+              <details open>
+                <summary>Ground truth (4)</summary>
+                <table><tr><th>#</th><th>role</th><th>text</th><th>bbox</th><th>status</th></tr>
+                <tr><td>0</td><td>input</td><td></td><td>[897, 519, 1128, 542]</td><td class="tp">TP</td></tr><tr><td>1</td><td>input</td><td></td><td>[897, 550, 1128, 573]</td><td class="tp">TP</td></tr><tr><td>2</td><td>button</td><td>ログイン</td><td>[961, 606, 1041, 629]</td><td class="tp">TP</td></tr><tr><td>3</td><td>button</td><td>キャンセル</td><td>[1049, 606, 1132, 629]</td><td class="tp">TP</td></tr>
+                </table>
+              </details>
+              <details open>
+                <summary>Prediction (5)</summary>
+                <table><tr><th>#</th><th>role</th><th>label</th><th>xy</th><th>status</th></tr>
+                <tr><td>0</td><td>button</td><td>×</td><td>(1131,420)</td><td class="fp">FP</td></tr><tr><td>1</td><td>input</td><td>ユーザーID(&amp;U) 入力欄</td><td>(1010,528)</td><td class="tp">TP</td></tr><tr><td>2</td><td>input</td><td>パスワード(&amp;P) 入力欄</td><td>(1010,559)</td><td class="tp">TP</td></tr><tr><td>3</td><td>button</td><td>ログイン</td><td>(998,615)</td><td class="tp">TP</td></tr><tr><td>4</td><td>button</td><td>キャンセル</td><td>(1089,615)</td><td class="tp">TP</td></tr>
+                </table>
+              </details>
+              <details>
+                <summary>Prompt &amp; raw response</summary>
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。
+具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。
+テキストだけの装飾・見出し・表示のみのテキストは対象外。
+
+**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は
+&lt;b&gt;代表1〜2個&lt;/b&gt;だけ返して全部を列挙しないこと。総数は多くても 50 個まで。
+
+各要素について以下を返してください:
+- role: &quot;button&quot; / &quot;input&quot; / &quot;tab&quot; / &quot;link&quot; / &quot;menuitem&quot; / &quot;checkbox&quot; / &quot;other&quot; のいずれか
+- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)
+- label: 見えているテキスト (無ければアイコン記述、40文字以内)
+
+画像サイズは 1920 × 1080 ピクセルです。
+JSON配列のみで返してください。</pre></div>
+                  <div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 589,
+    &quot;y&quot;: 389,
+    &quot;label&quot;: &quot;×&quot;
+  },
+  {
+    &quot;role&quot;: &quot;input&quot;,
+    &quot;x&quot;: 526,
+    &quot;y&quot;: 489,
+    &quot;label&quot;: &quot;ユーザーID(&amp;U) 入力欄&quot;
+  },
+  {
+    &quot;role&quot;: &quot;input&quot;,
+    &quot;x&quot;: 526,
+    &quot;y&quot;: 518,
+    &quot;label&quot;: &quot;パスワード(&amp;P) 入力欄&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 520,
+    &quot;y&quot;: 569,
+    &quot;label&quot;: &quot;ログイン&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 567,
+    &quot;y&quot;: 569,
+    &quot;label&quot;: &quot;キャンセル&quot;
+  }
+]
+</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>patient_list — TP=11 FP=22 FN=0 • P=0.33 R=1.00 F1=0.50 • ⏱ 58.2s</h2>
+          <div class="body">
+            <img src="annotated/patient_list.png" alt="patient_list">
+            <div class="results">
+              <details open>
+                <summary>Ground truth (11)</summary>
+                <table><tr><th>#</th><th>role</th><th>text</th><th>bbox</th><th>status</th></tr>
+                <tr><td>0</td><td>button</td><td>📋
+受付一覧</td><td>[4, 45, 73, 72]</td><td class="tp">TP</td></tr><tr><td>1</td><td>button</td><td>🏥
+受付管理</td><td>[83, 45, 153, 72]</td><td class="tp">TP</td></tr><tr><td>2</td><td>button</td><td>🛏
+入院管理</td><td>[163, 45, 232, 72]</td><td class="tp">TP</td></tr><tr><td>3</td><td>button</td><td>📅
+予約管理</td><td>[242, 45, 312, 72]</td><td class="tp">TP</td></tr><tr><td>4</td><td>button</td><td>📊
+統計</td><td>[322, 45, 371, 72]</td><td class="tp">TP</td></tr><tr><td>5</td><td>input</td><td>検索条件を入力...</td><td>[130, 100, 410, 123]</td><td class="tp">TP</td></tr><tr><td>6</td><td>button</td><td>検索(S)</td><td>[418, 100, 485, 123]</td><td class="tp">TP</td></tr><tr><td>7</td><td>button</td><td>新規患者登録(N)</td><td>[1793, 100, 1903, 123]</td><td class="tp">TP</td></tr><tr><td>8</td><td>input</td><td>患者ID / 氏名 / カナ で絞り込み...</td><td>[10, 142, 290, 176]</td><td class="tp">TP</td></tr><tr><td>9</td><td>input</td><td>10件
+20件
+50件</td><td>[1844, 146, 1910, 172]</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>次へ</td><td>[1848, 614, 1902, 644]</td><td class="tp">TP</td></tr>
+                </table>
+              </details>
+              <details open>
+                <summary>Prediction (33)</summary>
+                <table><tr><th>#</th><th>role</th><th>label</th><th>xy</th><th>status</th></tr>
+                <tr><td>0</td><td>menuitem</td><td>ファイル(F)</td><td>(35,35)</td><td class="fp">FP</td></tr><tr><td>1</td><td>menuitem</td><td>患者(P)</td><td>(104,35)</td><td class="fp">FP</td></tr><tr><td>2</td><td>menuitem</td><td>カルテ(K)</td><td>(165,35)</td><td class="fp">FP</td></tr><tr><td>3</td><td>menuitem</td><td>オーダ(O)</td><td>(228,35)</td><td class="fp">FP</td></tr><tr><td>4</td><td>menuitem</td><td>ヘルプ(H)</td><td>(292,35)</td><td class="fp">FP</td></tr><tr><td>5</td><td>button</td><td>医師：山田 太郎</td><td>(1889,14)</td><td class="fp">FP</td></tr><tr><td>6</td><td>button</td><td>医療法人 富士見総合病院</td><td>(1774,14)</td><td class="fp">FP</td></tr><tr><td>7</td><td>button</td><td>ログアウト</td><td>(1884,14)</td><td class="fp">FP</td></tr><tr><td>8</td><td>tab</td><td>受付一覧</td><td>(42,62)</td><td class="tp">TP</td></tr><tr><td>9</td><td>tab</td><td>受付管理</td><td>(117,62)</td><td class="tp">TP</td></tr><tr><td>10</td><td>tab</td><td>入院管理</td><td>(196,62)</td><td class="tp">TP</td></tr><tr><td>11</td><td>tab</td><td>予約管理</td><td>(275,62)</td><td class="tp">TP</td></tr><tr><td>12</td><td>tab</td><td>統計</td><td>(342,62)</td><td class="tp">TP</td></tr><tr><td>13</td><td>input</td><td>検索条件を入力...</td><td>(269,112)</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>検索(S)</td><td>(451,112)</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>新規患者登録(N)</td><td>(1847,112)</td><td class="tp">TP</td></tr><tr><td>16</td><td>input</td><td>患者ID / 氏名 / カナ で絞り込み...</td><td>(148,160)</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>20件</td><td>(1876,160)</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>患者ID</td><td>(38,194)</td><td class="fp">FP</td></tr><tr><td>19</td><td>button</td><td>氏名</td><td>(351,194)</td><td class="fp">FP</td></tr><tr><td>20</td><td>button</td><td>カナ</td><td>(780,194)</td><td class="fp">FP</td></tr><tr><td>21</td><td>button</td><td>性別</td><td>(1279,194)</td><td class="fp">FP</td></tr><tr><td>22</td><td>button</td><td>生年月日</td><td>(1446,194)</td><td class="fp">FP</td></tr><tr><td>23</td><td>button</td><td>年齢</td><td>(1780,194)</td><td class="fp">FP</td></tr><tr><td>24</td><td>button</td><td>00000001</td><td>(38,214)</td><td class="fp">FP</td></tr><tr><td>25</td><td>button</td><td>00000002</td><td>(38,233)</td><td class="fp">FP</td></tr><tr><td>26</td><td>button</td><td>前へ</td><td>(1749,622)</td><td class="fp">FP</td></tr><tr><td>27</td><td>button</td><td>次へ</td><td>(1874,622)</td><td class="tp">TP</td></tr><tr><td>28</td><td>button</td><td>F1 ヘルプ</td><td>(36,1065)</td><td class="fp">FP</td></tr><tr><td>29</td><td>button</td><td>F2 患者検索</td><td>(117,1065)</td><td class="fp">FP</td></tr><tr><td>30</td><td>button</td><td>F3 印刷</td><td>(190,1065)</td><td class="fp">FP</td></tr><tr><td>31</td><td>button</td><td>F5 更新</td><td>(252,1065)</td><td class="fp">FP</td></tr><tr><td>32</td><td>button</td><td>F12 ログアウト</td><td>(328,1065)</td><td class="fp">FP</td></tr>
+                </table>
+              </details>
+              <details>
+                <summary>Prompt &amp; raw response</summary>
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。
+具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。
+テキストだけの装飾・見出し・表示のみのテキストは対象外。
+
+**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は
+&lt;b&gt;代表1〜2個&lt;/b&gt;だけ返して全部を列挙しないこと。総数は多くても 50 個まで。
+
+各要素について以下を返してください:
+- role: &quot;button&quot; / &quot;input&quot; / &quot;tab&quot; / &quot;link&quot; / &quot;menuitem&quot; / &quot;checkbox&quot; / &quot;other&quot; のいずれか
+- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)
+- label: 見えているテキスト (無ければアイコン記述、40文字以内)
+
+画像サイズは 1920 × 1080 ピクセルです。
+JSON配列のみで返してください。</pre></div>
+                  <div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 18,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;ファイル(F)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 54,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;患者(P)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 86,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;カルテ(K)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 119,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;オーダ(O)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 152,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;ヘルプ(H)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 984,
+    &quot;y&quot;: 13,
+    &quot;label&quot;: &quot;医師：山田 太郎&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 924,
+    &quot;y&quot;: 13,
+    &quot;label&quot;: &quot;医療法人 富士見総合病院&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 981,
+    &quot;y&quot;: 13,
+    &quot;label&quot;: &quot;ログアウト&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 22,
+    &quot;y&quot;: 57,
+    &quot;label&quot;: &quot;受付一覧&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 61,
+    &quot;y&quot;: 57,
+    &quot;label&quot;: &quot;受付管理&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 102,
+    &quot;y&quot;: 57,
+    &quot;label&quot;: &quot;入院管理&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 143,
+    &quot;y&quot;: 57,
+    &quot;label&quot;: &quot;予約管理&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 178,
+    &quot;y&quot;: 57,
+    &quot;label&quot;: &quot;統計&quot;
+  },
+  {
+    &quot;role&quot;: &quot;input&quot;,
+    &quot;x&quot;: 140,
+    &quot;y&quot;: 104,
+    &quot;label&quot;: &quot;検索条件を入力...&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 235,
+    &quot;y&quot;: 104,
+    &quot;label&quot;: &quot;検索(S)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 962,
+    &quot;y&quot;: 104,
+    &quot;label&quot;: &quot;新規患者登録(N)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;input&quot;,
+    &quot;x&quot;: 77,
+    &quot;y&quot;: 148,
+    &quot;label&quot;: &quot;患者ID / 氏名 / カナ で絞り込み...&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 977,
+    &quot;y&quot;: 148,
+    &quot;label&quot;: &quot;20件&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 20,
+    &quot;y&quot;: 180,
+    &quot;label&quot;: &quot;患者ID&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 183,
+    &quot;y&quot;: 180,
+    &quot;label&quot;: &quot;氏名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 406,
+    &quot;y&quot;: 180,
+    &quot;label&quot;: &quot;カナ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 666,
+    &quot;y&quot;: 180,
+    &quot;label&quot;: &quot;性別&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 753,
+    &quot;y&quot;: 180,
+    &quot;label&quot;: &quot;生年月日&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 927,
+    &quot;y&quot;: 180,
+    &quot;label&quot;: &quot;年齢&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 20,
+    &quot;y&quot;: 198,
+    &quot;label&quot;: &quot;00000001&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 20,
+    &quot;y&quot;: 216,
+    &quot;label&quot;: &quot;00000002&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 911,
+    &quot;y&quot;: 576,
+    &quot;label&quot;: &quot;前へ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 976,
+    &quot;y&quot;: 576,
+    &quot;label&quot;: &quot;次へ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 19,
+    &quot;y&quot;: 986,
+    &quot;label&quot;: &quot;F1 ヘルプ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 61,
+    &quot;y&quot;: 986,
+    &quot;label&quot;: &quot;F2 患者検索&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 99,
+    &quot;y&quot;: 986,
+    &quot;label&quot;: &quot;F3 印刷&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 131,
+    &quot;y&quot;: 986,
+    &quot;label&quot;: &quot;F5 更新&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 171,
+    &quot;y&quot;: 986,
+    &quot;label&quot;: &quot;F12 ログアウト&quot;
+  }
+]
+</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>karte — TP=11 FP=39 FN=13 • P=0.22 R=0.46 F1=0.30 • ⏱ 84.5s</h2>
+          <div class="body">
+            <img src="annotated/karte.png" alt="karte">
+            <div class="results">
+              <details open>
+                <summary>Ground truth (24)</summary>
+                <table><tr><th>#</th><th>role</th><th>text</th><th>bbox</th><th>status</th></tr>
+                <tr><td>0</td><td>button</td><td>← 患者一覧</td><td>[4, 45, 77, 66]</td><td class="tp">TP</td></tr><tr><td>1</td><td>button</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td class="tp">TP</td></tr><tr><td>2</td><td>button</td><td>バイタル</td><td>[160, 45, 218, 66]</td><td class="tp">TP</td></tr><tr><td>3</td><td>button</td><td>処方</td><td>[220, 45, 258, 66]</td><td class="tp">TP</td></tr><tr><td>4</td><td>button</td><td>検査</td><td>[260, 45, 298, 66]</td><td class="tp">TP</td></tr><tr><td>5</td><td>button</td><td>病名</td><td>[300, 45, 338, 66]</td><td class="tp">TP</td></tr><tr><td>6</td><td>button</td><td>アレルギー</td><td>[340, 45, 408, 66]</td><td class="tp">TP</td></tr><tr><td>7</td><td>button</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td class="tp">TP</td></tr><tr><td>8</td><td>button</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td class="tp">TP</td></tr><tr><td>9</td><td>button</td><td>バイタル窓</td><td>[561, 45, 629, 66]</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>退院サマリ</td><td>[642, 45, 710, 66]</td><td class="tp">TP</td></tr><tr><td>11</td><td>input</td><td>入院中。心不全のフォロー中。
+塩分制限6g/日指導済み。
+家族: 妻(連絡先 090-xxxx-xxxx)</td><td>[4, 222, 274, 282]</td><td class="fn">FN</td></tr><tr><td>12</td><td>button</td><td>外来処方</td><td>[1799, 122, 1901, 145]</td><td class="fn">FN</td></tr><tr><td>13</td><td>button</td><td>外来注射</td><td>[1799, 147, 1901, 171]</td><td class="fn">FN</td></tr><tr><td>14</td><td>button</td><td>院内処方</td><td>[1799, 173, 1901, 196]</td><td class="fn">FN</td></tr><tr><td>15</td><td>button</td><td>検体検査</td><td>[1799, 198, 1901, 222]</td><td class="fn">FN</td></tr><tr><td>16</td><td>button</td><td>画像診断</td><td>[1799, 224, 1901, 247]</td><td class="fn">FN</td></tr><tr><td>17</td><td>button</td><td>生理検査</td><td>[1799, 249, 1901, 273]</td><td class="fn">FN</td></tr><tr><td>18</td><td>button</td><td>病名登録</td><td>[1799, 275, 1901, 298]</td><td class="fn">FN</td></tr><tr><td>19</td><td>button</td><td>紹介状</td><td>[1799, 300, 1901, 324]</td><td class="fn">FN</td></tr><tr><td>20</td><td>button</td><td>入院指示</td><td>[1799, 326, 1901, 349]</td><td class="fn">FN</td></tr><tr><td>21</td><td>button</td><td>検査結果窓</td><td>[1799, 378, 1901, 399]</td><td class="fn">FN</td></tr><tr><td>22</td><td>button</td><td>処方一覧窓</td><td>[1799, 401, 1901, 423]</td><td class="fn">FN</td></tr><tr><td>23</td><td>button</td><td>バイタル窓</td><td>[1799, 425, 1901, 446]</td><td class="fn">FN</td></tr>
+                </table>
+              </details>
+              <details open>
+                <summary>Prediction (50)</summary>
+                <table><tr><th>#</th><th>role</th><th>label</th><th>xy</th><th>status</th></tr>
+                <tr><td>0</td><td>menuitem</td><td>ファイル(F)</td><td>(35,35)</td><td class="fp">FP</td></tr><tr><td>1</td><td>menuitem</td><td>患者(P)</td><td>(106,35)</td><td class="fp">FP</td></tr><tr><td>2</td><td>menuitem</td><td>カルテ(K)</td><td>(163,35)</td><td class="fp">FP</td></tr><tr><td>3</td><td>menuitem</td><td>オーダー(O)</td><td>(227,35)</td><td class="fp">FP</td></tr><tr><td>4</td><td>menuitem</td><td>テキスト挿入(T)</td><td>(300,35)</td><td class="fp">FP</td></tr><tr><td>5</td><td>menuitem</td><td>スタンプ(S)</td><td>(380,35)</td><td class="fp">FP</td></tr><tr><td>6</td><td>menuitem</td><td>ヘルプ(H)</td><td>(445,35)</td><td class="fp">FP</td></tr><tr><td>7</td><td>button</td><td>←</td><td>(19,57)</td><td class="tp">TP</td></tr><tr><td>8</td><td>button</td><td>患者一覧</td><td>(56,57)</td><td class="fp">FP</td></tr><tr><td>9</td><td>button</td><td>カルテ記載</td><td>(123,57)</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>バイタル</td><td>(192,57)</td><td class="tp">TP</td></tr><tr><td>11</td><td>button</td><td>処方</td><td>(242,57)</td><td class="tp">TP</td></tr><tr><td>12</td><td>button</td><td>検査</td><td>(282,57)</td><td class="tp">TP</td></tr><tr><td>13</td><td>button</td><td>病名</td><td>(321,57)</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>アレルギー</td><td>(367,57)</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>検査結果</td><td>(436,57)</td><td class="tp">TP</td></tr><tr><td>16</td><td>button</td><td>処方一覧窓</td><td>(503,57)</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>バイタル窓</td><td>(582,57)</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>退院サマリ</td><td>(659,57)</td><td class="tp">TP</td></tr><tr><td>19</td><td>button</td><td>入院</td><td>(25,83)</td><td class="fp">FP</td></tr><tr><td>20</td><td>button</td><td>アレルギー</td><td>(1763,83)</td><td class="fp">FP</td></tr><tr><td>21</td><td>button</td><td>ロキソプロフェン</td><td>(1847,83)</td><td class="fp">FP</td></tr><tr><td>22</td><td>button</td><td>2025/12月</td><td>(38,107)</td><td class="fp">FP</td></tr><tr><td>23</td><td>button</td><td>2026/01月</td><td>(131,107)</td><td class="fp">FP</td></tr><tr><td>24</td><td>button</td><td>2026/02月</td><td>(225,107)</td><td class="fp">FP</td></tr><tr><td>25</td><td>button</td><td>1</td><td>(19,133)</td><td class="fp">FP</td></tr><tr><td>26</td><td>button</td><td>2</td><td>(36,133)</td><td class="fp">FP</td></tr><tr><td>27</td><td>button</td><td>8</td><td>(19,144)</td><td class="fp">FP</td></tr><tr><td>28</td><td>button</td><td>9</td><td>(36,144)</td><td class="fp">FP</td></tr><tr><td>29</td><td>button</td><td>15</td><td>(19,154)</td><td class="fp">FP</td></tr><tr><td>30</td><td>button</td><td>16</td><td>(36,154)</td><td class="fp">FP</td></tr><tr><td>31</td><td>button</td><td>22</td><td>(19,165)</td><td class="fp">FP</td></tr><tr><td>32</td><td>button</td><td>23</td><td>(36,165)</td><td class="fp">FP</td></tr><tr><td>33</td><td>button</td><td>29</td><td>(19,176)</td><td class="fp">FP</td></tr><tr><td>34</td><td>button</td><td>30</td><td>(36,176)</td><td class="fp">FP</td></tr><tr><td>35</td><td>button</td><td>4</td><td>(131,133)</td><td class="fp">FP</td></tr><tr><td>36</td><td>button</td><td>5</td><td>(148,133)</td><td class="fp">FP</td></tr><tr><td>37</td><td>button</td><td>11</td><td>(131,144)</td><td class="fp">FP</td></tr><tr><td>38</td><td>button</td><td>12</td><td>(148,144)</td><td class="fp">FP</td></tr><tr><td>39</td><td>button</td><td>18</td><td>(131,154)</td><td class="fp">FP</td></tr><tr><td>40</td><td>button</td><td>19</td><td>(148,154)</td><td class="fp">FP</td></tr><tr><td>41</td><td>button</td><td>25</td><td>(131,165)</td><td class="fp">FP</td></tr><tr><td>42</td><td>button</td><td>26</td><td>(148,165)</td><td class="fp">FP</td></tr><tr><td>43</td><td>button</td><td>1</td><td>(225,133)</td><td class="fp">FP</td></tr><tr><td>44</td><td>button</td><td>2</td><td>(242,133)</td><td class="fp">FP</td></tr><tr><td>45</td><td>button</td><td>8</td><td>(225,144)</td><td class="fp">FP</td></tr><tr><td>46</td><td>button</td><td>9</td><td>(242,144)</td><td class="fp">FP</td></tr><tr><td>47</td><td>button</td><td>15</td><td>(225,154)</td><td class="fp">FP</td></tr><tr><td>48</td><td>button</td><td>16</td><td>(242,154)</td><td class="fp">FP</td></tr><tr><td>49</td><td>button</td><td>22</td><td>(225,165)</td><td class="fp">FP</td></tr>
+                </table>
+              </details>
+              <details>
+                <summary>Prompt &amp; raw response</summary>
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。
+具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。
+テキストだけの装飾・見出し・表示のみのテキストは対象外。
+
+**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は
+&lt;b&gt;代表1〜2個&lt;/b&gt;だけ返して全部を列挙しないこと。総数は多くても 50 個まで。
+
+各要素について以下を返してください:
+- role: &quot;button&quot; / &quot;input&quot; / &quot;tab&quot; / &quot;link&quot; / &quot;menuitem&quot; / &quot;checkbox&quot; / &quot;other&quot; のいずれか
+- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)
+- label: 見えているテキスト (無ければアイコン記述、40文字以内)
+
+画像サイズは 1920 × 1080 ピクセルです。
+JSON配列のみで返してください。</pre></div>
+                  <div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 18,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;ファイル(F)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 55,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;患者(P)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 85,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;カルテ(K)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 118,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;オーダー(O)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 156,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;テキスト挿入(T)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 198,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;スタンプ(S)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 232,
+    &quot;y&quot;: 32,
+    &quot;label&quot;: &quot;ヘルプ(H)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 10,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;←&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 29,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;患者一覧&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 64,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;カルテ記載&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 100,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;バイタル&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 126,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 147,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 167,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;病名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 191,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 227,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;検査結果&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 262,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;処方一覧窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 303,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;バイタル窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 343,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;退院サマリ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 13,
+    &quot;y&quot;: 77,
+    &quot;label&quot;: &quot;入院&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 918,
+    &quot;y&quot;: 77,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 962,
+    &quot;y&quot;: 77,
+    &quot;label&quot;: &quot;ロキソプロフェン&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 20,
+    &quot;y&quot;: 99,
+    &quot;label&quot;: &quot;2025/12月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 68,
+    &quot;y&quot;: 99,
+    &quot;label&quot;: &quot;2026/01月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 117,
+    &quot;y&quot;: 99,
+    &quot;label&quot;: &quot;2026/02月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 10,
+    &quot;y&quot;: 123,
+    &quot;label&quot;: &quot;1&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 19,
+    &quot;y&quot;: 123,
+    &quot;label&quot;: &quot;2&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 10,
+    &quot;y&quot;: 133,
+    &quot;label&quot;: &quot;8&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 19,
+    &quot;y&quot;: 133,
+    &quot;label&quot;: &quot;9&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 10,
+    &quot;y&quot;: 143,
+    &quot;label&quot;: &quot;15&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 19,
+    &quot;y&quot;: 143,
+    &quot;label&quot;: &quot;16&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 10,
+    &quot;y&quot;: 153,
+    &quot;label&quot;: &quot;22&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 19,
+    &quot;y&quot;: 153,
+    &quot;label&quot;: &quot;23&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 10,
+    &quot;y&quot;: 163,
+    &quot;label&quot;: &quot;29&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 19,
+    &quot;y&quot;: 163,
+    &quot;label&quot;: &quot;30&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 68,
+    &quot;y&quot;: 123,
+    &quot;label&quot;: &quot;4&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 77,
+    &quot;y&quot;: 123,
+    &quot;label&quot;: &quot;5&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 68,
+    &quot;y&quot;: 133,
+    &quot;label&quot;: &quot;11&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 77,
+    &quot;y&quot;: 133,
+    &quot;label&quot;: &quot;12&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 68,
+    &quot;y&quot;: 143,
+    &quot;label&quot;: &quot;18&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 77,
+    &quot;y&quot;: 143,
+    &quot;label&quot;: &quot;19&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 68,
+    &quot;y&quot;: 153,
+    &quot;label&quot;: &quot;25&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 77,
+    &quot;y&quot;: 153,
+    &quot;label&quot;: &quot;26&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 117,
+    &quot;y&quot;: 123,
+    &quot;label&quot;: &quot;1&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 126,
+    &quot;y&quot;: 123,
+    &quot;label&quot;: &quot;2&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 117,
+    &quot;y&quot;: 133,
+    &quot;label&quot;: &quot;8&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 126,
+    &quot;y&quot;: 133,
+    &quot;label&quot;: &quot;9&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 117,
+    &quot;y&quot;: 143,
+    &quot;label&quot;: &quot;15&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 126,
+    &quot;y&quot;: 143,
+    &quot;label&quot;: &quot;16&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 117,
+    &quot;y&quot;: 153,
+    &quot;label&quot;: &quot;22&quot;
+  }
+]
+</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>labs — TP=22 FP=28 FN=3 • P=0.44 R=0.88 F1=0.59 • ⏱ 86.0s</h2>
+          <div class="body">
+            <img src="annotated/labs.png" alt="labs">
+            <div class="results">
+              <details open>
+                <summary>Ground truth (25)</summary>
+                <table><tr><th>#</th><th>role</th><th>text</th><th>bbox</th><th>status</th></tr>
+                <tr><td>0</td><td>button</td><td>← 患者一覧</td><td>[4, 45, 77, 66]</td><td class="tp">TP</td></tr><tr><td>1</td><td>button</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td class="tp">TP</td></tr><tr><td>2</td><td>button</td><td>バイタル</td><td>[160, 45, 218, 66]</td><td class="tp">TP</td></tr><tr><td>3</td><td>button</td><td>処方</td><td>[220, 45, 258, 66]</td><td class="tp">TP</td></tr><tr><td>4</td><td>button</td><td>検査</td><td>[260, 45, 298, 66]</td><td class="tp">TP</td></tr><tr><td>5</td><td>button</td><td>病名</td><td>[300, 45, 338, 66]</td><td class="tp">TP</td></tr><tr><td>6</td><td>button</td><td>アレルギー</td><td>[340, 45, 408, 66]</td><td class="tp">TP</td></tr><tr><td>7</td><td>button</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td class="tp">TP</td></tr><tr><td>8</td><td>button</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td class="tp">TP</td></tr><tr><td>9</td><td>button</td><td>バイタル窓</td><td>[561, 45, 629, 66]</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>退院サマリ</td><td>[642, 45, 710, 66]</td><td class="tp">TP</td></tr><tr><td>11</td><td>input</td><td>入院中。心不全のフォロー中。
+塩分制限6g/日指導済み。
+家族: 妻(連絡先 090-xxxx-xxxx)</td><td>[4, 222, 274, 282]</td><td class="tp">TP</td></tr><tr><td>12</td><td>button</td><td>外来処方</td><td>[1815, 122, 1917, 145]</td><td class="tp">TP</td></tr><tr><td>13</td><td>button</td><td>外来注射</td><td>[1815, 147, 1917, 171]</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>院内処方</td><td>[1815, 173, 1917, 196]</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>検体検査</td><td>[1815, 198, 1917, 222]</td><td class="tp">TP</td></tr><tr><td>16</td><td>button</td><td>画像診断</td><td>[1815, 224, 1917, 247]</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>生理検査</td><td>[1815, 249, 1917, 273]</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>病名登録</td><td>[1815, 275, 1917, 298]</td><td class="tp">TP</td></tr><tr><td>19</td><td>button</td><td>紹介状</td><td>[1815, 300, 1917, 324]</td><td class="tp">TP</td></tr><tr><td>20</td><td>button</td><td>入院指示</td><td>[1815, 326, 1917, 349]</td><td class="tp">TP</td></tr><tr><td>21</td><td>button</td><td>検査結果窓</td><td>[1815, 378, 1917, 399]</td><td class="tp">TP</td></tr><tr><td>22</td><td>button</td><td>処方一覧窓</td><td>[1815, 401, 1917, 423]</td><td class="fn">FN</td></tr><tr><td>23</td><td>button</td><td>バイタル窓</td><td>[1815, 425, 1917, 446]</td><td class="fn">FN</td></tr><tr><td>24</td><td>button</td><td>退院サマリ</td><td>[1815, 1000, 1917, 1027]</td><td class="fn">FN</td></tr>
+                </table>
+              </details>
+              <details open>
+                <summary>Prediction (50)</summary>
+                <table><tr><th>#</th><th>role</th><th>label</th><th>xy</th><th>status</th></tr>
+                <tr><td>0</td><td>menuitem</td><td>ファイル(F)</td><td>(35,33)</td><td class="fp">FP</td></tr><tr><td>1</td><td>menuitem</td><td>患者(P)</td><td>(106,33)</td><td class="fp">FP</td></tr><tr><td>2</td><td>menuitem</td><td>カルテ(K)</td><td>(165,33)</td><td class="fp">FP</td></tr><tr><td>3</td><td>menuitem</td><td>オーダー(O)</td><td>(230,33)</td><td class="fp">FP</td></tr><tr><td>4</td><td>menuitem</td><td>テキスト挿入(T)</td><td>(307,33)</td><td class="fp">FP</td></tr><tr><td>5</td><td>menuitem</td><td>スタンプ(S)</td><td>(390,33)</td><td class="fp">FP</td></tr><tr><td>6</td><td>menuitem</td><td>ヘルプ(H)</td><td>(461,33)</td><td class="fp">FP</td></tr><tr><td>7</td><td>button</td><td>患者一覧</td><td>(42,57)</td><td class="tp">TP</td></tr><tr><td>8</td><td>button</td><td>カルテ記載</td><td>(125,57)</td><td class="tp">TP</td></tr><tr><td>9</td><td>button</td><td>バイタル</td><td>(194,57)</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>処方</td><td>(240,57)</td><td class="tp">TP</td></tr><tr><td>11</td><td>button</td><td>検査</td><td>(282,57)</td><td class="tp">TP</td></tr><tr><td>12</td><td>button</td><td>病名</td><td>(323,57)</td><td class="tp">TP</td></tr><tr><td>13</td><td>button</td><td>アレルギー</td><td>(371,57)</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>検査結果窓</td><td>(438,57)</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>処方一覧窓</td><td>(511,57)</td><td class="tp">TP</td></tr><tr><td>16</td><td>button</td><td>バイタル窓</td><td>(586,57)</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>退院サマリ</td><td>(662,57)</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>アレルギー</td><td>(1784,83)</td><td class="fp">FP</td></tr><tr><td>19</td><td>button</td><td>ロキソプロフェン</td><td>(1864,83)</td><td class="fp">FP</td></tr><tr><td>20</td><td>button</td><td>2025/12月</td><td>(31,107)</td><td class="fp">FP</td></tr><tr><td>21</td><td>button</td><td>2026/01月</td><td>(131,107)</td><td class="fp">FP</td></tr><tr><td>22</td><td>button</td><td>2026/02月</td><td>(230,107)</td><td class="fp">FP</td></tr><tr><td>23</td><td>button</td><td>1</td><td>(31,157)</td><td class="fp">FP</td></tr><tr><td>24</td><td>button</td><td>8</td><td>(42,167)</td><td class="fp">FP</td></tr><tr><td>25</td><td>tab</td><td>カルテ</td><td>(313,120)</td><td class="fp">FP</td></tr><tr><td>26</td><td>tab</td><td>検体検査</td><td>(374,120)</td><td class="fp">FP</td></tr><tr><td>27</td><td>tab</td><td>検査推移</td><td>(438,120)</td><td class="fp">FP</td></tr><tr><td>28</td><td>tab</td><td>処方</td><td>(495,120)</td><td class="fp">FP</td></tr><tr><td>29</td><td>tab</td><td>オーダー</td><td>(545,120)</td><td class="fp">FP</td></tr><tr><td>30</td><td>tab</td><td>病名</td><td>(599,120)</td><td class="fp">FP</td></tr><tr><td>31</td><td>tab</td><td>文書</td><td>(645,120)</td><td class="fp">FP</td></tr><tr><td>32</td><td>button</td><td>メモ</td><td>(31,208)</td><td class="fp">FP</td></tr><tr><td>33</td><td>button</td><td>来院歴</td><td>(69,208)</td><td class="fp">FP</td></tr><tr><td>34</td><td>button</td><td>アレルギー</td><td>(109,208)</td><td class="fp">FP</td></tr><tr><td>35</td><td>button</td><td>身体情報</td><td>(159,208)</td><td class="fp">FP</td></tr><tr><td>36</td><td>input</td><td>入院中、心不全のフォロー中...</td><td>(136,252)</td><td class="tp">TP</td></tr><tr><td>37</td><td>button</td><td>外来処方</td><td>(1862,135)</td><td class="tp">TP</td></tr><tr><td>38</td><td>button</td><td>外来注射</td><td>(1862,157)</td><td class="tp">TP</td></tr><tr><td>39</td><td>button</td><td>院内処方</td><td>(1862,178)</td><td class="tp">TP</td></tr><tr><td>40</td><td>button</td><td>検体検査</td><td>(1862,200)</td><td class="tp">TP</td></tr><tr><td>41</td><td>button</td><td>画像診断</td><td>(1862,221)</td><td class="fp">FP</td></tr><tr><td>42</td><td>button</td><td>生理検査</td><td>(1862,243)</td><td class="tp">TP</td></tr><tr><td>43</td><td>button</td><td>病名登録</td><td>(1862,265)</td><td class="tp">TP</td></tr><tr><td>44</td><td>button</td><td>紹介状</td><td>(1862,286)</td><td class="tp">TP</td></tr><tr><td>45</td><td>button</td><td>入院指示</td><td>(1862,308)</td><td class="tp">TP</td></tr><tr><td>46</td><td>button</td><td>表示</td><td>(1862,329)</td><td class="tp">TP</td></tr><tr><td>47</td><td>button</td><td>検査結果窓</td><td>(1862,351)</td><td class="fp">FP</td></tr><tr><td>48</td><td>button</td><td>処方一覧窓</td><td>(1862,373)</td><td class="fp">FP</td></tr><tr><td>49</td><td>button</td><td>バイタル窓</td><td>(1862,394)</td><td class="tp">TP</td></tr>
+                </table>
+              </details>
+              <details>
+                <summary>Prompt &amp; raw response</summary>
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。
+具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。
+テキストだけの装飾・見出し・表示のみのテキストは対象外。
+
+**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は
+&lt;b&gt;代表1〜2個&lt;/b&gt;だけ返して全部を列挙しないこと。総数は多くても 50 個まで。
+
+各要素について以下を返してください:
+- role: &quot;button&quot; / &quot;input&quot; / &quot;tab&quot; / &quot;link&quot; / &quot;menuitem&quot; / &quot;checkbox&quot; / &quot;other&quot; のいずれか
+- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)
+- label: 見えているテキスト (無ければアイコン記述、40文字以内)
+
+画像サイズは 1920 × 1080 ピクセルです。
+JSON配列のみで返してください。</pre></div>
+                  <div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 18,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;ファイル(F)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 55,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;患者(P)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 86,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;カルテ(K)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 120,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;オーダー(O)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 160,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;テキスト挿入(T)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 203,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;スタンプ(S)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 240,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;ヘルプ(H)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 22,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;患者一覧&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 65,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;カルテ記載&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 101,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;バイタル&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 125,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 147,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 168,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;病名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 193,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 228,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;検査結果窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 266,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;処方一覧窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 305,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;バイタル窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 345,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;退院サマリ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 929,
+    &quot;y&quot;: 77,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 971,
+    &quot;y&quot;: 77,
+    &quot;label&quot;: &quot;ロキソプロフェン&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 16,
+    &quot;y&quot;: 99,
+    &quot;label&quot;: &quot;2025/12月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 68,
+    &quot;y&quot;: 99,
+    &quot;label&quot;: &quot;2026/01月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 120,
+    &quot;y&quot;: 99,
+    &quot;label&quot;: &quot;2026/02月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 16,
+    &quot;y&quot;: 145,
+    &quot;label&quot;: &quot;1&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 22,
+    &quot;y&quot;: 155,
+    &quot;label&quot;: &quot;8&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 163,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;カルテ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 195,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;検体検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 228,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;検査推移&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 258,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 284,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;オーダー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 312,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;病名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 336,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;文書&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 16,
+    &quot;y&quot;: 193,
+    &quot;label&quot;: &quot;メモ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 36,
+    &quot;y&quot;: 193,
+    &quot;label&quot;: &quot;来院歴&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 57,
+    &quot;y&quot;: 193,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 83,
+    &quot;y&quot;: 193,
+    &quot;label&quot;: &quot;身体情報&quot;
+  },
+  {
+    &quot;role&quot;: &quot;input&quot;,
+    &quot;x&quot;: 71,
+    &quot;y&quot;: 233,
+    &quot;label&quot;: &quot;入院中、心不全のフォロー中...&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 125,
+    &quot;label&quot;: &quot;外来処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 145,
+    &quot;label&quot;: &quot;外来注射&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 165,
+    &quot;label&quot;: &quot;院内処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 185,
+    &quot;label&quot;: &quot;検体検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 205,
+    &quot;label&quot;: &quot;画像診断&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 225,
+    &quot;label&quot;: &quot;生理検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 245,
+    &quot;label&quot;: &quot;病名登録&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 265,
+    &quot;label&quot;: &quot;紹介状&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 285,
+    &quot;label&quot;: &quot;入院指示&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 305,
+    &quot;label&quot;: &quot;表示&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 325,
+    &quot;label&quot;: &quot;検査結果窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 345,
+    &quot;label&quot;: &quot;処方一覧窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 365,
+    &quot;label&quot;: &quot;バイタル窓&quot;
+  }
+]
+</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>meds — TP=23 FP=27 FN=6 • P=0.46 R=0.79 F1=0.58 • ⏱ 85.6s</h2>
+          <div class="body">
+            <img src="annotated/meds.png" alt="meds">
+            <div class="results">
+              <details open>
+                <summary>Ground truth (29)</summary>
+                <table><tr><th>#</th><th>role</th><th>text</th><th>bbox</th><th>status</th></tr>
+                <tr><td>0</td><td>button</td><td>← 患者一覧</td><td>[4, 45, 77, 66]</td><td class="tp">TP</td></tr><tr><td>1</td><td>button</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td class="tp">TP</td></tr><tr><td>2</td><td>button</td><td>バイタル</td><td>[160, 45, 218, 66]</td><td class="tp">TP</td></tr><tr><td>3</td><td>button</td><td>処方</td><td>[220, 45, 258, 66]</td><td class="tp">TP</td></tr><tr><td>4</td><td>button</td><td>検査</td><td>[260, 45, 298, 66]</td><td class="tp">TP</td></tr><tr><td>5</td><td>button</td><td>病名</td><td>[300, 45, 338, 66]</td><td class="tp">TP</td></tr><tr><td>6</td><td>button</td><td>アレルギー</td><td>[340, 45, 408, 66]</td><td class="tp">TP</td></tr><tr><td>7</td><td>button</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td class="tp">TP</td></tr><tr><td>8</td><td>button</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td class="tp">TP</td></tr><tr><td>9</td><td>button</td><td>バイタル窓</td><td>[561, 45, 629, 66]</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>退院サマリ</td><td>[642, 45, 710, 66]</td><td class="tp">TP</td></tr><tr><td>11</td><td>input</td><td>入院中。心不全のフォロー中。
+塩分制限6g/日指導済み。
+家族: 妻(連絡先 090-xxxx-xxxx)</td><td>[4, 222, 274, 282]</td><td class="fn">FN</td></tr><tr><td>12</td><td>button</td><td>外来処方</td><td>[1815, 122, 1917, 145]</td><td class="tp">TP</td></tr><tr><td>13</td><td>button</td><td>外来注射</td><td>[1815, 147, 1917, 171]</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>院内処方</td><td>[1815, 173, 1917, 196]</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>検体検査</td><td>[1815, 198, 1917, 222]</td><td class="tp">TP</td></tr><tr><td>16</td><td>button</td><td>画像診断</td><td>[1815, 224, 1917, 247]</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>生理検査</td><td>[1815, 249, 1917, 273]</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>病名登録</td><td>[1815, 275, 1917, 298]</td><td class="tp">TP</td></tr><tr><td>19</td><td>button</td><td>紹介状</td><td>[1815, 300, 1917, 324]</td><td class="tp">TP</td></tr><tr><td>20</td><td>button</td><td>入院指示</td><td>[1815, 326, 1917, 349]</td><td class="tp">TP</td></tr><tr><td>21</td><td>button</td><td>検査結果窓</td><td>[1815, 378, 1917, 399]</td><td class="tp">TP</td></tr><tr><td>22</td><td>button</td><td>処方一覧窓</td><td>[1815, 401, 1917, 423]</td><td class="fn">FN</td></tr><tr><td>23</td><td>button</td><td>バイタル窓</td><td>[1815, 425, 1917, 446]</td><td class="fn">FN</td></tr><tr><td>24</td><td>button</td><td>退院サマリ</td><td>[1815, 1000, 1917, 1027]</td><td class="fn">FN</td></tr><tr><td>25</td><td>button</td><td>×</td><td>[1384, 337, 1402, 355]</td><td class="tp">TP</td></tr><tr><td>26</td><td>input</td><td>薬品名またはカテゴリで検索...</td><td>[524, 438, 1396, 472]</td><td class="tp">TP</td></tr><tr><td>27</td><td>button</td><td>キャンセル</td><td>[1113, 697, 1217, 735]</td><td class="fn">FN</td></tr><tr><td>28</td><td>button</td><td>次へ: 用法設定 →</td><td>[1229, 697, 1396, 735]</td><td class="fn">FN</td></tr>
+                </table>
+              </details>
+              <details open>
+                <summary>Prediction (50)</summary>
+                <table><tr><th>#</th><th>role</th><th>label</th><th>xy</th><th>status</th></tr>
+                <tr><td>0</td><td>menuitem</td><td>ファイル(F)</td><td>(33,33)</td><td class="fp">FP</td></tr><tr><td>1</td><td>menuitem</td><td>患者(P)</td><td>(102,33)</td><td class="fp">FP</td></tr><tr><td>2</td><td>menuitem</td><td>カルテ(K)</td><td>(159,33)</td><td class="fp">FP</td></tr><tr><td>3</td><td>menuitem</td><td>バイタル</td><td>(217,33)</td><td class="fp">FP</td></tr><tr><td>4</td><td>menuitem</td><td>処方</td><td>(275,33)</td><td class="fp">FP</td></tr><tr><td>5</td><td>menuitem</td><td>テキスト挿入(T)</td><td>(332,33)</td><td class="fp">FP</td></tr><tr><td>6</td><td>menuitem</td><td>スタンプ(S)</td><td>(390,33)</td><td class="fp">FP</td></tr><tr><td>7</td><td>menuitem</td><td>ヘルプ(H)</td><td>(447,33)</td><td class="fp">FP</td></tr><tr><td>8</td><td>button</td><td>←</td><td>(19,57)</td><td class="tp">TP</td></tr><tr><td>9</td><td>button</td><td>患者一覧</td><td>(63,57)</td><td class="fp">FP</td></tr><tr><td>10</td><td>button</td><td>カルテ記載</td><td>(131,57)</td><td class="tp">TP</td></tr><tr><td>11</td><td>button</td><td>バイタル</td><td>(198,57)</td><td class="tp">TP</td></tr><tr><td>12</td><td>button</td><td>処方</td><td>(246,57)</td><td class="tp">TP</td></tr><tr><td>13</td><td>button</td><td>検査</td><td>(284,57)</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>病名</td><td>(323,57)</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>アレルギー</td><td>(371,57)</td><td class="tp">TP</td></tr><tr><td>16</td><td>button</td><td>検査結果</td><td>(447,57)</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>処方一覧窓</td><td>(524,57)</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>バイタル窓</td><td>(591,57)</td><td class="tp">TP</td></tr><tr><td>19</td><td>button</td><td>退院サマリ</td><td>(668,57)</td><td class="tp">TP</td></tr><tr><td>20</td><td>button</td><td>アレルギー</td><td>(1791,82)</td><td class="fp">FP</td></tr><tr><td>21</td><td>button</td><td>ロキソプロフェン</td><td>(1868,82)</td><td class="fp">FP</td></tr><tr><td>22</td><td>tab</td><td>カルテ</td><td>(313,120)</td><td class="fp">FP</td></tr><tr><td>23</td><td>tab</td><td>検体検査</td><td>(371,120)</td><td class="fp">FP</td></tr><tr><td>24</td><td>tab</td><td>検査推移</td><td>(438,120)</td><td class="fp">FP</td></tr><tr><td>25</td><td>tab</td><td>処方</td><td>(495,120)</td><td class="fp">FP</td></tr><tr><td>26</td><td>tab</td><td>オーダー</td><td>(543,120)</td><td class="fp">FP</td></tr><tr><td>27</td><td>tab</td><td>病名</td><td>(601,120)</td><td class="fp">FP</td></tr><tr><td>28</td><td>tab</td><td>文書</td><td>(649,120)</td><td class="fp">FP</td></tr><tr><td>29</td><td>button</td><td>来院歴</td><td>(54,208)</td><td class="fp">FP</td></tr><tr><td>30</td><td>button</td><td>アレルギー</td><td>(102,208)</td><td class="fp">FP</td></tr><tr><td>31</td><td>button</td><td>身体情報</td><td>(159,208)</td><td class="fp">FP</td></tr><tr><td>32</td><td>button</td><td>外来処方</td><td>(1849,136)</td><td class="tp">TP</td></tr><tr><td>33</td><td>button</td><td>外来注射</td><td>(1849,158)</td><td class="tp">TP</td></tr><tr><td>34</td><td>button</td><td>院内処方</td><td>(1849,179)</td><td class="tp">TP</td></tr><tr><td>35</td><td>button</td><td>検体検査</td><td>(1849,201)</td><td class="tp">TP</td></tr><tr><td>36</td><td>button</td><td>画像診断</td><td>(1849,222)</td><td class="fp">FP</td></tr><tr><td>37</td><td>button</td><td>生理検査</td><td>(1849,244)</td><td class="tp">TP</td></tr><tr><td>38</td><td>button</td><td>病名登録</td><td>(1849,266)</td><td class="tp">TP</td></tr><tr><td>39</td><td>button</td><td>紹介状</td><td>(1849,287)</td><td class="tp">TP</td></tr><tr><td>40</td><td>button</td><td>入院指示</td><td>(1849,309)</td><td class="tp">TP</td></tr><tr><td>41</td><td>button</td><td>表示</td><td>(1849,330)</td><td class="tp">TP</td></tr><tr><td>42</td><td>button</td><td>検査結果窓</td><td>(1849,352)</td><td class="fp">FP</td></tr><tr><td>43</td><td>button</td><td>処方一覧窓</td><td>(1849,374)</td><td class="fp">FP</td></tr><tr><td>44</td><td>button</td><td>バイタル窓</td><td>(1849,395)</td><td class="tp">TP</td></tr><tr><td>45</td><td>button</td><td>×</td><td>(1388,347)</td><td class="tp">TP</td></tr><tr><td>46</td><td>tab</td><td>1 薬剤選択</td><td>(851,384)</td><td class="fp">FP</td></tr><tr><td>47</td><td>tab</td><td>2 用法設定</td><td>(985,384)</td><td class="fp">FP</td></tr><tr><td>48</td><td>tab</td><td>3 確認</td><td>(1100,384)</td><td class="fp">FP</td></tr><tr><td>49</td><td>input</td><td>薬品名またはカテゴリで検索...</td><td>(947,455)</td><td class="tp">TP</td></tr>
+                </table>
+              </details>
+              <details>
+                <summary>Prompt &amp; raw response</summary>
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。
+具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。
+テキストだけの装飾・見出し・表示のみのテキストは対象外。
+
+**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は
+&lt;b&gt;代表1〜2個&lt;/b&gt;だけ返して全部を列挙しないこと。総数は多くても 50 個まで。
+
+各要素について以下を返してください:
+- role: &quot;button&quot; / &quot;input&quot; / &quot;tab&quot; / &quot;link&quot; / &quot;menuitem&quot; / &quot;checkbox&quot; / &quot;other&quot; のいずれか
+- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)
+- label: 見えているテキスト (無ければアイコン記述、40文字以内)
+
+画像サイズは 1920 × 1080 ピクセルです。
+JSON配列のみで返してください。</pre></div>
+                  <div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 17,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;ファイル(F)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 53,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;患者(P)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 83,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;カルテ(K)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 113,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;バイタル&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 143,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 173,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;テキスト挿入(T)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 203,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;スタンプ(S)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 233,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;ヘルプ(H)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 10,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;←&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 33,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;患者一覧&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 68,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;カルテ記載&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 103,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;バイタル&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 128,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 148,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 168,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;病名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 193,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 233,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;検査結果&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 273,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;処方一覧窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 308,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;バイタル窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 348,
+    &quot;y&quot;: 53,
+    &quot;label&quot;: &quot;退院サマリ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 933,
+    &quot;y&quot;: 76,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 973,
+    &quot;y&quot;: 76,
+    &quot;label&quot;: &quot;ロキソプロフェン&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 163,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;カルテ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 193,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;検体検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 228,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;検査推移&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 258,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 283,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;オーダー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 313,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;病名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 338,
+    &quot;y&quot;: 111,
+    &quot;label&quot;: &quot;文書&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 28,
+    &quot;y&quot;: 193,
+    &quot;label&quot;: &quot;来院歴&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 53,
+    &quot;y&quot;: 193,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 83,
+    &quot;y&quot;: 193,
+    &quot;label&quot;: &quot;身体情報&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 126,
+    &quot;label&quot;: &quot;外来処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 146,
+    &quot;label&quot;: &quot;外来注射&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 166,
+    &quot;label&quot;: &quot;院内処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 186,
+    &quot;label&quot;: &quot;検体検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 206,
+    &quot;label&quot;: &quot;画像診断&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 226,
+    &quot;label&quot;: &quot;生理検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 246,
+    &quot;label&quot;: &quot;病名登録&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 266,
+    &quot;label&quot;: &quot;紹介状&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 286,
+    &quot;label&quot;: &quot;入院指示&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 306,
+    &quot;label&quot;: &quot;表示&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 326,
+    &quot;label&quot;: &quot;検査結果窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 346,
+    &quot;label&quot;: &quot;処方一覧窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 963,
+    &quot;y&quot;: 366,
+    &quot;label&quot;: &quot;バイタル窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 723,
+    &quot;y&quot;: 321,
+    &quot;label&quot;: &quot;×&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 443,
+    &quot;y&quot;: 356,
+    &quot;label&quot;: &quot;1 薬剤選択&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 513,
+    &quot;y&quot;: 356,
+    &quot;label&quot;: &quot;2 用法設定&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 573,
+    &quot;y&quot;: 356,
+    &quot;label&quot;: &quot;3 確認&quot;
+  },
+  {
+    &quot;role&quot;: &quot;input&quot;,
+    &quot;x&quot;: 493,
+    &quot;y&quot;: 421,
+    &quot;label&quot;: &quot;薬品名またはカテゴリで検索...&quot;
+  }
+]
+</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>diagnoses — TP=24 FP=26 FN=1 • P=0.48 R=0.96 F1=0.64 • ⏱ 86.3s</h2>
+          <div class="body">
+            <img src="annotated/diagnoses.png" alt="diagnoses">
+            <div class="results">
+              <details open>
+                <summary>Ground truth (25)</summary>
+                <table><tr><th>#</th><th>role</th><th>text</th><th>bbox</th><th>status</th></tr>
+                <tr><td>0</td><td>button</td><td>← 患者一覧</td><td>[4, 45, 77, 66]</td><td class="tp">TP</td></tr><tr><td>1</td><td>button</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td class="tp">TP</td></tr><tr><td>2</td><td>button</td><td>バイタル</td><td>[160, 45, 218, 66]</td><td class="tp">TP</td></tr><tr><td>3</td><td>button</td><td>処方</td><td>[220, 45, 258, 66]</td><td class="tp">TP</td></tr><tr><td>4</td><td>button</td><td>検査</td><td>[260, 45, 298, 66]</td><td class="tp">TP</td></tr><tr><td>5</td><td>button</td><td>病名</td><td>[300, 45, 338, 66]</td><td class="tp">TP</td></tr><tr><td>6</td><td>button</td><td>アレルギー</td><td>[340, 45, 408, 66]</td><td class="tp">TP</td></tr><tr><td>7</td><td>button</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td class="tp">TP</td></tr><tr><td>8</td><td>button</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td class="tp">TP</td></tr><tr><td>9</td><td>button</td><td>バイタル窓</td><td>[561, 45, 629, 66]</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>退院サマリ</td><td>[642, 45, 710, 66]</td><td class="tp">TP</td></tr><tr><td>11</td><td>input</td><td>入院中。心不全のフォロー中。
+塩分制限6g/日指導済み。
+家族: 妻(連絡先 090-xxxx-xxxx)</td><td>[4, 222, 274, 282]</td><td class="tp">TP</td></tr><tr><td>12</td><td>button</td><td>外来処方</td><td>[1815, 122, 1917, 145]</td><td class="tp">TP</td></tr><tr><td>13</td><td>button</td><td>外来注射</td><td>[1815, 147, 1917, 171]</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>院内処方</td><td>[1815, 173, 1917, 196]</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>検体検査</td><td>[1815, 198, 1917, 222]</td><td class="tp">TP</td></tr><tr><td>16</td><td>button</td><td>画像診断</td><td>[1815, 224, 1917, 247]</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>生理検査</td><td>[1815, 249, 1917, 273]</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>病名登録</td><td>[1815, 275, 1917, 298]</td><td class="tp">TP</td></tr><tr><td>19</td><td>button</td><td>紹介状</td><td>[1815, 300, 1917, 324]</td><td class="tp">TP</td></tr><tr><td>20</td><td>button</td><td>入院指示</td><td>[1815, 326, 1917, 349]</td><td class="fn">FN</td></tr><tr><td>21</td><td>button</td><td>検査結果窓</td><td>[1815, 378, 1917, 399]</td><td class="tp">TP</td></tr><tr><td>22</td><td>button</td><td>処方一覧窓</td><td>[1815, 401, 1917, 423]</td><td class="tp">TP</td></tr><tr><td>23</td><td>button</td><td>バイタル窓</td><td>[1815, 425, 1917, 446]</td><td class="tp">TP</td></tr><tr><td>24</td><td>button</td><td>退院サマリ</td><td>[1815, 1000, 1917, 1027]</td><td class="tp">TP</td></tr>
+                </table>
+              </details>
+              <details open>
+                <summary>Prediction (50)</summary>
+                <table><tr><th>#</th><th>role</th><th>label</th><th>xy</th><th>status</th></tr>
+                <tr><td>0</td><td>menuitem</td><td>ファイル(F)</td><td>(35,33)</td><td class="fp">FP</td></tr><tr><td>1</td><td>menuitem</td><td>患者(P)</td><td>(106,33)</td><td class="fp">FP</td></tr><tr><td>2</td><td>menuitem</td><td>カルテ(K)</td><td>(165,33)</td><td class="fp">FP</td></tr><tr><td>3</td><td>menuitem</td><td>オーダ(O)</td><td>(227,33)</td><td class="fp">FP</td></tr><tr><td>4</td><td>menuitem</td><td>テキスト挿入(T)</td><td>(309,33)</td><td class="fp">FP</td></tr><tr><td>5</td><td>menuitem</td><td>スタンプ(S)</td><td>(396,33)</td><td class="fp">FP</td></tr><tr><td>6</td><td>menuitem</td><td>ヘルプ(H)</td><td>(467,33)</td><td class="fp">FP</td></tr><tr><td>7</td><td>button</td><td>患者一覧</td><td>(52,58)</td><td class="tp">TP</td></tr><tr><td>8</td><td>button</td><td>カルテ記載</td><td>(123,58)</td><td class="tp">TP</td></tr><tr><td>9</td><td>button</td><td>バイタル</td><td>(188,58)</td><td class="tp">TP</td></tr><tr><td>10</td><td>button</td><td>処方</td><td>(236,58)</td><td class="tp">TP</td></tr><tr><td>11</td><td>button</td><td>検査</td><td>(278,58)</td><td class="tp">TP</td></tr><tr><td>12</td><td>button</td><td>病名</td><td>(319,58)</td><td class="tp">TP</td></tr><tr><td>13</td><td>button</td><td>アレルギー</td><td>(369,58)</td><td class="tp">TP</td></tr><tr><td>14</td><td>button</td><td>検査結果窓</td><td>(442,58)</td><td class="tp">TP</td></tr><tr><td>15</td><td>button</td><td>処方一覧窓</td><td>(515,58)</td><td class="tp">TP</td></tr><tr><td>16</td><td>button</td><td>バイタル窓</td><td>(588,58)</td><td class="tp">TP</td></tr><tr><td>17</td><td>button</td><td>退院サマリ</td><td>(664,58)</td><td class="tp">TP</td></tr><tr><td>18</td><td>button</td><td>アレルギー</td><td>(1784,84)</td><td class="fp">FP</td></tr><tr><td>19</td><td>button</td><td>ロキソプロフェン</td><td>(1866,84)</td><td class="fp">FP</td></tr><tr><td>20</td><td>button</td><td>2025/12月</td><td>(40,108)</td><td class="fp">FP</td></tr><tr><td>21</td><td>button</td><td>2026/01月</td><td>(134,108)</td><td class="fp">FP</td></tr><tr><td>22</td><td>button</td><td>2026/02月</td><td>(228,108)</td><td class="fp">FP</td></tr><tr><td>23</td><td>button</td><td>1</td><td>(31,149)</td><td class="fp">FP</td></tr><tr><td>24</td><td>button</td><td>8</td><td>(40,162)</td><td class="fp">FP</td></tr><tr><td>25</td><td>tab</td><td>カルテ</td><td>(311,121)</td><td class="fp">FP</td></tr><tr><td>26</td><td>tab</td><td>検体検査</td><td>(372,121)</td><td class="fp">FP</td></tr><tr><td>27</td><td>tab</td><td>検査推移</td><td>(436,121)</td><td class="fp">FP</td></tr><tr><td>28</td><td>tab</td><td>処方</td><td>(497,121)</td><td class="fp">FP</td></tr><tr><td>29</td><td>tab</td><td>オーダー</td><td>(551,121)</td><td class="fp">FP</td></tr><tr><td>30</td><td>tab</td><td>病名</td><td>(605,121)</td><td class="fp">FP</td></tr><tr><td>31</td><td>tab</td><td>文書</td><td>(651,121)</td><td class="fp">FP</td></tr><tr><td>32</td><td>button</td><td>来院歴</td><td>(52,210)</td><td class="fp">FP</td></tr><tr><td>33</td><td>button</td><td>アレルギー</td><td>(106,210)</td><td class="fp">FP</td></tr><tr><td>34</td><td>button</td><td>身体情報</td><td>(159,210)</td><td class="fp">FP</td></tr><tr><td>35</td><td>input</td><td>入院中。心不全のフォロー中。...</td><td>(136,255)</td><td class="tp">TP</td></tr><tr><td>36</td><td>button</td><td>外来処方</td><td>(1862,135)</td><td class="tp">TP</td></tr><tr><td>37</td><td>button</td><td>外来注射</td><td>(1862,158)</td><td class="tp">TP</td></tr><tr><td>38</td><td>button</td><td>院内処方</td><td>(1862,180)</td><td class="tp">TP</td></tr><tr><td>39</td><td>button</td><td>検体検査</td><td>(1862,203)</td><td class="tp">TP</td></tr><tr><td>40</td><td>button</td><td>画像診断</td><td>(1862,226)</td><td class="tp">TP</td></tr><tr><td>41</td><td>button</td><td>生理検査</td><td>(1862,248)</td><td class="fp">FP</td></tr><tr><td>42</td><td>button</td><td>病名登録</td><td>(1862,271)</td><td class="tp">TP</td></tr><tr><td>43</td><td>button</td><td>紹介状</td><td>(1862,294)</td><td class="tp">TP</td></tr><tr><td>44</td><td>button</td><td>入院指示</td><td>(1862,316)</td><td class="tp">TP</td></tr><tr><td>45</td><td>button</td><td>検査結果窓</td><td>(1862,384)</td><td class="tp">TP</td></tr><tr><td>46</td><td>button</td><td>処方一覧窓</td><td>(1862,407)</td><td class="tp">TP</td></tr><tr><td>47</td><td>button</td><td>バイタル窓</td><td>(1862,430)</td><td class="tp">TP</td></tr><tr><td>48</td><td>button</td><td>退院サマリ</td><td>(1862,1008)</td><td class="tp">TP</td></tr><tr><td>49</td><td>button</td><td>F1 ヘルプ</td><td>(35,1063)</td><td class="fp">FP</td></tr>
+                </table>
+              </details>
+              <details>
+                <summary>Prompt &amp; raw response</summary>
+                <div style="display:flex;gap:12px">
+                  <div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。
+具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。
+テキストだけの装飾・見出し・表示のみのテキストは対象外。
+
+**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は
+&lt;b&gt;代表1〜2個&lt;/b&gt;だけ返して全部を列挙しないこと。総数は多くても 50 個まで。
+
+各要素について以下を返してください:
+- role: &quot;button&quot; / &quot;input&quot; / &quot;tab&quot; / &quot;link&quot; / &quot;menuitem&quot; / &quot;checkbox&quot; / &quot;other&quot; のいずれか
+- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)
+- label: 見えているテキスト (無ければアイコン記述、40文字以内)
+
+画像サイズは 1920 × 1080 ピクセルです。
+JSON配列のみで返してください。</pre></div>
+                  <div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 18,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;ファイル(F)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 55,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;患者(P)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 86,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;カルテ(K)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 118,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;オーダ(O)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 161,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;テキスト挿入(T)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 206,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;スタンプ(S)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;menuitem&quot;,
+    &quot;x&quot;: 243,
+    &quot;y&quot;: 31,
+    &quot;label&quot;: &quot;ヘルプ(H)&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 27,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;患者一覧&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 64,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;カルテ記載&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 98,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;バイタル&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 123,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 145,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 166,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;病名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 192,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 230,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;検査結果窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 268,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;処方一覧窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 306,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;バイタル窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 346,
+    &quot;y&quot;: 54,
+    &quot;label&quot;: &quot;退院サマリ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 929,
+    &quot;y&quot;: 78,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 972,
+    &quot;y&quot;: 78,
+    &quot;label&quot;: &quot;ロキソプロフェン&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 21,
+    &quot;y&quot;: 100,
+    &quot;label&quot;: &quot;2025/12月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 70,
+    &quot;y&quot;: 100,
+    &quot;label&quot;: &quot;2026/01月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 119,
+    &quot;y&quot;: 100,
+    &quot;label&quot;: &quot;2026/02月&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 16,
+    &quot;y&quot;: 138,
+    &quot;label&quot;: &quot;1&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 21,
+    &quot;y&quot;: 150,
+    &quot;label&quot;: &quot;8&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 162,
+    &quot;y&quot;: 112,
+    &quot;label&quot;: &quot;カルテ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 194,
+    &quot;y&quot;: 112,
+    &quot;label&quot;: &quot;検体検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 227,
+    &quot;y&quot;: 112,
+    &quot;label&quot;: &quot;検査推移&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 259,
+    &quot;y&quot;: 112,
+    &quot;label&quot;: &quot;処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 287,
+    &quot;y&quot;: 112,
+    &quot;label&quot;: &quot;オーダー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 315,
+    &quot;y&quot;: 112,
+    &quot;label&quot;: &quot;病名&quot;
+  },
+  {
+    &quot;role&quot;: &quot;tab&quot;,
+    &quot;x&quot;: 339,
+    &quot;y&quot;: 112,
+    &quot;label&quot;: &quot;文書&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 27,
+    &quot;y&quot;: 194,
+    &quot;label&quot;: &quot;来院歴&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 55,
+    &quot;y&quot;: 194,
+    &quot;label&quot;: &quot;アレルギー&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 83,
+    &quot;y&quot;: 194,
+    &quot;label&quot;: &quot;身体情報&quot;
+  },
+  {
+    &quot;role&quot;: &quot;input&quot;,
+    &quot;x&quot;: 71,
+    &quot;y&quot;: 236,
+    &quot;label&quot;: &quot;入院中。心不全のフォロー中。...&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 125,
+    &quot;label&quot;: &quot;外来処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 146,
+    &quot;label&quot;: &quot;外来注射&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 167,
+    &quot;label&quot;: &quot;院内処方&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 188,
+    &quot;label&quot;: &quot;検体検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 209,
+    &quot;label&quot;: &quot;画像診断&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 230,
+    &quot;label&quot;: &quot;生理検査&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 251,
+    &quot;label&quot;: &quot;病名登録&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 272,
+    &quot;label&quot;: &quot;紹介状&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 293,
+    &quot;label&quot;: &quot;入院指示&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 356,
+    &quot;label&quot;: &quot;検査結果窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 377,
+    &quot;label&quot;: &quot;処方一覧窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 398,
+    &quot;label&quot;: &quot;バイタル窓&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 970,
+    &quot;y&quot;: 933,
+    &quot;label&quot;: &quot;退院サマリ&quot;
+  },
+  {
+    &quot;role&quot;: &quot;button&quot;,
+    &quot;x&quot;: 18,
+    &quot;y&quot;: 984,
+    &quot;label&quot;: &quot;F1 ヘルプ&quot;
+  }
+]
+</pre></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div></div>
+</body></html>

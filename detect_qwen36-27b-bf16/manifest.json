@@ -1,0 +1,3214 @@
+{
+  "metadata": {
+    "session_name": "20260423_202744_qwen36-27b-bf16-v2_detect",
+    "patient_id": "00000001",
+    "server_url": "http://127.0.0.1:8001",
+    "model": "Qwen3.6-27B BF16 + schema v2 (maxItems=50)",
+    "start_time": "2026-04-23T20:27:45.003525",
+    "end_time": "2026-04-23T20:37:48.069616"
+  },
+  "summary": {
+    "tp": 95,
+    "fp": 143,
+    "fn": 23,
+    "precision": 0.399,
+    "recall": 0.805,
+    "f1": 0.534,
+    "total_gt": 118,
+    "total_pred": 238,
+    "mean_latency_sec": 68.65,
+    "total_latency_sec": 411.9
+  },
+  "screens": [
+    {
+      "screen_name": "login",
+      "screenshot_path": "screenshots/login.png",
+      "annotated_path": "annotated/login.png",
+      "gt": [
+        {
+          "tag": "input",
+          "role": "input",
+          "text": "",
+          "bbox": [
+            897,
+            519,
+            1128,
+            542
+          ],
+          "matched_pred_idx": 1
+        },
+        {
+          "tag": "input",
+          "role": "input",
+          "text": "",
+          "bbox": [
+            897,
+            550,
+            1128,
+            573
+          ],
+          "matched_pred_idx": 2
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "ログイン",
+          "bbox": [
+            961,
+            606,
+            1041,
+            629
+          ],
+          "matched_pred_idx": 3
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "キャンセル",
+          "bbox": [
+            1049,
+            606,
+            1132,
+            629
+          ],
+          "matched_pred_idx": 4
+        }
+      ],
+      "pred": [
+        {
+          "role": "button",
+          "x": 1131,
+          "y": 420,
+          "label": "×",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "input",
+          "x": 1010,
+          "y": 528,
+          "label": "ユーザーID(&U) 入力欄",
+          "matched_gt_idx": 0
+        },
+        {
+          "role": "input",
+          "x": 1010,
+          "y": 559,
+          "label": "パスワード(&P) 入力欄",
+          "matched_gt_idx": 1
+        },
+        {
+          "role": "button",
+          "x": 998,
+          "y": 615,
+          "label": "ログイン",
+          "matched_gt_idx": 2
+        },
+        {
+          "role": "button",
+          "x": 1089,
+          "y": 615,
+          "label": "キャンセル",
+          "matched_gt_idx": 3
+        }
+      ],
+      "latency_sec": 11.209,
+      "prompt_text": "画面のスクリーンショットを見てください。\n画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。\n具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。\nテキストだけの装飾・見出し・表示のみのテキストは対象外。\n\n**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は\n<b>代表1〜2個</b>だけ返して全部を列挙しないこと。総数は多くても 50 個まで。\n\n各要素について以下を返してください:\n- role: \"button\" / \"input\" / \"tab\" / \"link\" / \"menuitem\" / \"checkbox\" / \"other\" のいずれか\n- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)\n- label: 見えているテキスト (無ければアイコン記述、40文字以内)\n\n画像サイズは 1920 × 1080 ピクセルです。\nJSON配列のみで返してください。",
+      "raw_response": "[\n  {\n    \"role\": \"button\",\n    \"x\": 589,\n    \"y\": 389,\n    \"label\": \"×\"\n  },\n  {\n    \"role\": \"input\",\n    \"x\": 526,\n    \"y\": 489,\n    \"label\": \"ユーザーID(&U) 入力欄\"\n  },\n  {\n    \"role\": \"input\",\n    \"x\": 526,\n    \"y\": 518,\n    \"label\": \"パスワード(&P) 入力欄\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 520,\n    \"y\": 569,\n    \"label\": \"ログイン\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 567,\n    \"y\": 569,\n    \"label\": \"キャンセル\"\n  }\n]\n",
+      "tp": 4,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1": 0.889
+    },
+    {
+      "screen_name": "patient_list",
+      "screenshot_path": "screenshots/patient_list.png",
+      "annotated_path": "annotated/patient_list.png",
+      "gt": [
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "📋\n受付一覧",
+          "bbox": [
+            4,
+            45,
+            73,
+            72
+          ],
+          "matched_pred_idx": 8
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "🏥\n受付管理",
+          "bbox": [
+            83,
+            45,
+            153,
+            72
+          ],
+          "matched_pred_idx": 9
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "🛏\n入院管理",
+          "bbox": [
+            163,
+            45,
+            232,
+            72
+          ],
+          "matched_pred_idx": 10
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "📅\n予約管理",
+          "bbox": [
+            242,
+            45,
+            312,
+            72
+          ],
+          "matched_pred_idx": 11
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "📊\n統計",
+          "bbox": [
+            322,
+            45,
+            371,
+            72
+          ],
+          "matched_pred_idx": 12
+        },
+        {
+          "tag": "input",
+          "role": "input",
+          "text": "検索条件を入力...",
+          "bbox": [
+            130,
+            100,
+            410,
+            123
+          ],
+          "matched_pred_idx": 13
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検索(S)",
+          "bbox": [
+            418,
+            100,
+            485,
+            123
+          ],
+          "matched_pred_idx": 14
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "新規患者登録(N)",
+          "bbox": [
+            1793,
+            100,
+            1903,
+            123
+          ],
+          "matched_pred_idx": 15
+        },
+        {
+          "tag": "input",
+          "role": "input",
+          "text": "患者ID / 氏名 / カナ で絞り込み...",
+          "bbox": [
+            10,
+            142,
+            290,
+            176
+          ],
+          "matched_pred_idx": 16
+        },
+        {
+          "tag": "select",
+          "role": "input",
+          "text": "10件\n20件\n50件",
+          "bbox": [
+            1844,
+            146,
+            1910,
+            172
+          ],
+          "matched_pred_idx": 17
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "次へ",
+          "bbox": [
+            1848,
+            614,
+            1902,
+            644
+          ],
+          "matched_pred_idx": 27
+        }
+      ],
+      "pred": [
+        {
+          "role": "menuitem",
+          "x": 35,
+          "y": 35,
+          "label": "ファイル(F)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 104,
+          "y": 35,
+          "label": "患者(P)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 165,
+          "y": 35,
+          "label": "カルテ(K)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 228,
+          "y": 35,
+          "label": "オーダ(O)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 292,
+          "y": 35,
+          "label": "ヘルプ(H)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1889,
+          "y": 14,
+          "label": "医師：山田 太郎",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1774,
+          "y": 14,
+          "label": "医療法人 富士見総合病院",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1884,
+          "y": 14,
+          "label": "ログアウト",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 42,
+          "y": 62,
+          "label": "受付一覧",
+          "matched_gt_idx": 0
+        },
+        {
+          "role": "tab",
+          "x": 117,
+          "y": 62,
+          "label": "受付管理",
+          "matched_gt_idx": 1
+        },
+        {
+          "role": "tab",
+          "x": 196,
+          "y": 62,
+          "label": "入院管理",
+          "matched_gt_idx": 2
+        },
+        {
+          "role": "tab",
+          "x": 275,
+          "y": 62,
+          "label": "予約管理",
+          "matched_gt_idx": 3
+        },
+        {
+          "role": "tab",
+          "x": 342,
+          "y": 62,
+          "label": "統計",
+          "matched_gt_idx": 4
+        },
+        {
+          "role": "input",
+          "x": 269,
+          "y": 112,
+          "label": "検索条件を入力...",
+          "matched_gt_idx": 5
+        },
+        {
+          "role": "button",
+          "x": 451,
+          "y": 112,
+          "label": "検索(S)",
+          "matched_gt_idx": 6
+        },
+        {
+          "role": "button",
+          "x": 1847,
+          "y": 112,
+          "label": "新規患者登録(N)",
+          "matched_gt_idx": 7
+        },
+        {
+          "role": "input",
+          "x": 148,
+          "y": 160,
+          "label": "患者ID / 氏名 / カナ で絞り込み...",
+          "matched_gt_idx": 8
+        },
+        {
+          "role": "button",
+          "x": 1876,
+          "y": 160,
+          "label": "20件",
+          "matched_gt_idx": 9
+        },
+        {
+          "role": "button",
+          "x": 38,
+          "y": 194,
+          "label": "患者ID",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 351,
+          "y": 194,
+          "label": "氏名",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 780,
+          "y": 194,
+          "label": "カナ",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1279,
+          "y": 194,
+          "label": "性別",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1446,
+          "y": 194,
+          "label": "生年月日",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1780,
+          "y": 194,
+          "label": "年齢",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 38,
+          "y": 214,
+          "label": "00000001",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 38,
+          "y": 233,
+          "label": "00000002",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1749,
+          "y": 622,
+          "label": "前へ",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1874,
+          "y": 622,
+          "label": "次へ",
+          "matched_gt_idx": 10
+        },
+        {
+          "role": "button",
+          "x": 36,
+          "y": 1065,
+          "label": "F1 ヘルプ",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 117,
+          "y": 1065,
+          "label": "F2 患者検索",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 190,
+          "y": 1065,
+          "label": "F3 印刷",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 252,
+          "y": 1065,
+          "label": "F5 更新",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 328,
+          "y": 1065,
+          "label": "F12 ログアウト",
+          "matched_gt_idx": -1
+        }
+      ],
+      "latency_sec": 58.211,
+      "prompt_text": "画面のスクリーンショットを見てください。\n画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。\n具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。\nテキストだけの装飾・見出し・表示のみのテキストは対象外。\n\n**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は\n<b>代表1〜2個</b>だけ返して全部を列挙しないこと。総数は多くても 50 個まで。\n\n各要素について以下を返してください:\n- role: \"button\" / \"input\" / \"tab\" / \"link\" / \"menuitem\" / \"checkbox\" / \"other\" のいずれか\n- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)\n- label: 見えているテキスト (無ければアイコン記述、40文字以内)\n\n画像サイズは 1920 × 1080 ピクセルです。\nJSON配列のみで返してください。",
+      "raw_response": "[\n  {\n    \"role\": \"menuitem\",\n    \"x\": 18,\n    \"y\": 32,\n    \"label\": \"ファイル(F)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 54,\n    \"y\": 32,\n    \"label\": \"患者(P)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 86,\n    \"y\": 32,\n    \"label\": \"カルテ(K)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 119,\n    \"y\": 32,\n    \"label\": \"オーダ(O)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 152,\n    \"y\": 32,\n    \"label\": \"ヘルプ(H)\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 984,\n    \"y\": 13,\n    \"label\": \"医師：山田 太郎\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 924,\n    \"y\": 13,\n    \"label\": \"医療法人 富士見総合病院\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 981,\n    \"y\": 13,\n    \"label\": \"ログアウト\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 22,\n    \"y\": 57,\n    \"label\": \"受付一覧\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 61,\n    \"y\": 57,\n    \"label\": \"受付管理\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 102,\n    \"y\": 57,\n    \"label\": \"入院管理\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 143,\n    \"y\": 57,\n    \"label\": \"予約管理\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 178,\n    \"y\": 57,\n    \"label\": \"統計\"\n  },\n  {\n    \"role\": \"input\",\n    \"x\": 140,\n    \"y\": 104,\n    \"label\": \"検索条件を入力...\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 235,\n    \"y\": 104,\n    \"label\": \"検索(S)\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 962,\n    \"y\": 104,\n    \"label\": \"新規患者登録(N)\"\n  },\n  {\n    \"role\": \"input\",\n    \"x\": 77,\n    \"y\": 148,\n    \"label\": \"患者ID / 氏名 / カナ で絞り込み...\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 977,\n    \"y\": 148,\n    \"label\": \"20件\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 20,\n    \"y\": 180,\n    \"label\": \"患者ID\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 183,\n    \"y\": 180,\n    \"label\": \"氏名\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 406,\n    \"y\": 180,\n    \"label\": \"カナ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 666,\n    \"y\": 180,\n    \"label\": \"性別\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 753,\n    \"y\": 180,\n    \"label\": \"生年月日\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 927,\n    \"y\": 180,\n    \"label\": \"年齢\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 20,\n    \"y\": 198,\n    \"label\": \"00000001\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 20,\n    \"y\": 216,\n    \"label\": \"00000002\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 911,\n    \"y\": 576,\n    \"label\": \"前へ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 976,\n    \"y\": 576,\n    \"label\": \"次へ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 19,\n    \"y\": 986,\n    \"label\": \"F1 ヘルプ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 61,\n    \"y\": 986,\n    \"label\": \"F2 患者検索\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 99,\n    \"y\": 986,\n    \"label\": \"F3 印刷\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 131,\n    \"y\": 986,\n    \"label\": \"F5 更新\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 171,\n    \"y\": 986,\n    \"label\": \"F12 ログアウト\"\n  }\n]\n",
+      "tp": 11,
+      "fp": 22,
+      "fn": 0,
+      "precision": 0.333,
+      "recall": 1.0,
+      "f1": 0.5
+    },
+    {
+      "screen_name": "karte",
+      "screenshot_path": "screenshots/karte.png",
+      "annotated_path": "annotated/karte.png",
+      "gt": [
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "← 患者一覧",
+          "bbox": [
+            4,
+            45,
+            77,
+            66
+          ],
+          "matched_pred_idx": 7
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "カルテ記載",
+          "bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "matched_pred_idx": 9
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル",
+          "bbox": [
+            160,
+            45,
+            218,
+            66
+          ],
+          "matched_pred_idx": 10
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方",
+          "bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "matched_pred_idx": 11
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査",
+          "bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "matched_pred_idx": 12
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名",
+          "bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "matched_pred_idx": 13
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "アレルギー",
+          "bbox": [
+            340,
+            45,
+            408,
+            66
+          ],
+          "matched_pred_idx": 14
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "matched_pred_idx": 15
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "matched_pred_idx": 16
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            561,
+            45,
+            629,
+            66
+          ],
+          "matched_pred_idx": 17
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "退院サマリ",
+          "bbox": [
+            642,
+            45,
+            710,
+            66
+          ],
+          "matched_pred_idx": 18
+        },
+        {
+          "tag": "textarea",
+          "role": "input",
+          "text": "入院中。心不全のフォロー中。\n塩分制限6g/日指導済み。\n家族: 妻(連絡先 090-xxxx-xxxx)",
+          "bbox": [
+            4,
+            222,
+            274,
+            282
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来処方",
+          "bbox": [
+            1799,
+            122,
+            1901,
+            145
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来注射",
+          "bbox": [
+            1799,
+            147,
+            1901,
+            171
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "院内処方",
+          "bbox": [
+            1799,
+            173,
+            1901,
+            196
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検体検査",
+          "bbox": [
+            1799,
+            198,
+            1901,
+            222
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "画像診断",
+          "bbox": [
+            1799,
+            224,
+            1901,
+            247
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "生理検査",
+          "bbox": [
+            1799,
+            249,
+            1901,
+            273
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名登録",
+          "bbox": [
+            1799,
+            275,
+            1901,
+            298
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "紹介状",
+          "bbox": [
+            1799,
+            300,
+            1901,
+            324
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "入院指示",
+          "bbox": [
+            1799,
+            326,
+            1901,
+            349
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            1799,
+            378,
+            1901,
+            399
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            1799,
+            401,
+            1901,
+            423
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            1799,
+            425,
+            1901,
+            446
+          ],
+          "matched_pred_idx": -1
+        }
+      ],
+      "pred": [
+        {
+          "role": "menuitem",
+          "x": 35,
+          "y": 35,
+          "label": "ファイル(F)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 106,
+          "y": 35,
+          "label": "患者(P)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 163,
+          "y": 35,
+          "label": "カルテ(K)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 227,
+          "y": 35,
+          "label": "オーダー(O)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 300,
+          "y": 35,
+          "label": "テキスト挿入(T)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 380,
+          "y": 35,
+          "label": "スタンプ(S)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 445,
+          "y": 35,
+          "label": "ヘルプ(H)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 19,
+          "y": 57,
+          "label": "←",
+          "matched_gt_idx": 0
+        },
+        {
+          "role": "button",
+          "x": 56,
+          "y": 57,
+          "label": "患者一覧",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 123,
+          "y": 57,
+          "label": "カルテ記載",
+          "matched_gt_idx": 1
+        },
+        {
+          "role": "button",
+          "x": 192,
+          "y": 57,
+          "label": "バイタル",
+          "matched_gt_idx": 2
+        },
+        {
+          "role": "button",
+          "x": 242,
+          "y": 57,
+          "label": "処方",
+          "matched_gt_idx": 3
+        },
+        {
+          "role": "button",
+          "x": 282,
+          "y": 57,
+          "label": "検査",
+          "matched_gt_idx": 4
+        },
+        {
+          "role": "button",
+          "x": 321,
+          "y": 57,
+          "label": "病名",
+          "matched_gt_idx": 5
+        },
+        {
+          "role": "button",
+          "x": 367,
+          "y": 57,
+          "label": "アレルギー",
+          "matched_gt_idx": 6
+        },
+        {
+          "role": "button",
+          "x": 436,
+          "y": 57,
+          "label": "検査結果",
+          "matched_gt_idx": 7
+        },
+        {
+          "role": "button",
+          "x": 503,
+          "y": 57,
+          "label": "処方一覧窓",
+          "matched_gt_idx": 8
+        },
+        {
+          "role": "button",
+          "x": 582,
+          "y": 57,
+          "label": "バイタル窓",
+          "matched_gt_idx": 9
+        },
+        {
+          "role": "button",
+          "x": 659,
+          "y": 57,
+          "label": "退院サマリ",
+          "matched_gt_idx": 10
+        },
+        {
+          "role": "button",
+          "x": 25,
+          "y": 83,
+          "label": "入院",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1763,
+          "y": 83,
+          "label": "アレルギー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1847,
+          "y": 83,
+          "label": "ロキソプロフェン",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 38,
+          "y": 107,
+          "label": "2025/12月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 131,
+          "y": 107,
+          "label": "2026/01月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 225,
+          "y": 107,
+          "label": "2026/02月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 19,
+          "y": 133,
+          "label": "1",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 36,
+          "y": 133,
+          "label": "2",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 19,
+          "y": 144,
+          "label": "8",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 36,
+          "y": 144,
+          "label": "9",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 19,
+          "y": 154,
+          "label": "15",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 36,
+          "y": 154,
+          "label": "16",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 19,
+          "y": 165,
+          "label": "22",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 36,
+          "y": 165,
+          "label": "23",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 19,
+          "y": 176,
+          "label": "29",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 36,
+          "y": 176,
+          "label": "30",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 131,
+          "y": 133,
+          "label": "4",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 148,
+          "y": 133,
+          "label": "5",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 131,
+          "y": 144,
+          "label": "11",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 148,
+          "y": 144,
+          "label": "12",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 131,
+          "y": 154,
+          "label": "18",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 148,
+          "y": 154,
+          "label": "19",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 131,
+          "y": 165,
+          "label": "25",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 148,
+          "y": 165,
+          "label": "26",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 225,
+          "y": 133,
+          "label": "1",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 242,
+          "y": 133,
+          "label": "2",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 225,
+          "y": 144,
+          "label": "8",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 242,
+          "y": 144,
+          "label": "9",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 225,
+          "y": 154,
+          "label": "15",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 242,
+          "y": 154,
+          "label": "16",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 225,
+          "y": 165,
+          "label": "22",
+          "matched_gt_idx": -1
+        }
+      ],
+      "latency_sec": 84.538,
+      "prompt_text": "画面のスクリーンショットを見てください。\n画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。\n具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。\nテキストだけの装飾・見出し・表示のみのテキストは対象外。\n\n**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は\n<b>代表1〜2個</b>だけ返して全部を列挙しないこと。総数は多くても 50 個まで。\n\n各要素について以下を返してください:\n- role: \"button\" / \"input\" / \"tab\" / \"link\" / \"menuitem\" / \"checkbox\" / \"other\" のいずれか\n- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)\n- label: 見えているテキスト (無ければアイコン記述、40文字以内)\n\n画像サイズは 1920 × 1080 ピクセルです。\nJSON配列のみで返してください。",
+      "raw_response": "[\n  {\n    \"role\": \"menuitem\",\n    \"x\": 18,\n    \"y\": 32,\n    \"label\": \"ファイル(F)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 55,\n    \"y\": 32,\n    \"label\": \"患者(P)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 85,\n    \"y\": 32,\n    \"label\": \"カルテ(K)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 118,\n    \"y\": 32,\n    \"label\": \"オーダー(O)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 156,\n    \"y\": 32,\n    \"label\": \"テキスト挿入(T)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 198,\n    \"y\": 32,\n    \"label\": \"スタンプ(S)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 232,\n    \"y\": 32,\n    \"label\": \"ヘルプ(H)\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 10,\n    \"y\": 53,\n    \"label\": \"←\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 29,\n    \"y\": 53,\n    \"label\": \"患者一覧\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 64,\n    \"y\": 53,\n    \"label\": \"カルテ記載\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 100,\n    \"y\": 53,\n    \"label\": \"バイタル\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 126,\n    \"y\": 53,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 147,\n    \"y\": 53,\n    \"label\": \"検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 167,\n    \"y\": 53,\n    \"label\": \"病名\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 191,\n    \"y\": 53,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 227,\n    \"y\": 53,\n    \"label\": \"検査結果\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 262,\n    \"y\": 53,\n    \"label\": \"処方一覧窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 303,\n    \"y\": 53,\n    \"label\": \"バイタル窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 343,\n    \"y\": 53,\n    \"label\": \"退院サマリ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 13,\n    \"y\": 77,\n    \"label\": \"入院\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 918,\n    \"y\": 77,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 962,\n    \"y\": 77,\n    \"label\": \"ロキソプロフェン\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 20,\n    \"y\": 99,\n    \"label\": \"2025/12月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 68,\n    \"y\": 99,\n    \"label\": \"2026/01月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 117,\n    \"y\": 99,\n    \"label\": \"2026/02月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 10,\n    \"y\": 123,\n    \"label\": \"1\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 19,\n    \"y\": 123,\n    \"label\": \"2\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 10,\n    \"y\": 133,\n    \"label\": \"8\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 19,\n    \"y\": 133,\n    \"label\": \"9\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 10,\n    \"y\": 143,\n    \"label\": \"15\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 19,\n    \"y\": 143,\n    \"label\": \"16\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 10,\n    \"y\": 153,\n    \"label\": \"22\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 19,\n    \"y\": 153,\n    \"label\": \"23\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 10,\n    \"y\": 163,\n    \"label\": \"29\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 19,\n    \"y\": 163,\n    \"label\": \"30\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 68,\n    \"y\": 123,\n    \"label\": \"4\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 77,\n    \"y\": 123,\n    \"label\": \"5\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 68,\n    \"y\": 133,\n    \"label\": \"11\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 77,\n    \"y\": 133,\n    \"label\": \"12\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 68,\n    \"y\": 143,\n    \"label\": \"18\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 77,\n    \"y\": 143,\n    \"label\": \"19\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 68,\n    \"y\": 153,\n    \"label\": \"25\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 77,\n    \"y\": 153,\n    \"label\": \"26\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 117,\n    \"y\": 123,\n    \"label\": \"1\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 126,\n    \"y\": 123,\n    \"label\": \"2\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 117,\n    \"y\": 133,\n    \"label\": \"8\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 126,\n    \"y\": 133,\n    \"label\": \"9\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 117,\n    \"y\": 143,\n    \"label\": \"15\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 126,\n    \"y\": 143,\n    \"label\": \"16\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 117,\n    \"y\": 153,\n    \"label\": \"22\"\n  }\n]\n",
+      "tp": 11,
+      "fp": 39,
+      "fn": 13,
+      "precision": 0.22,
+      "recall": 0.458,
+      "f1": 0.297
+    },
+    {
+      "screen_name": "labs",
+      "screenshot_path": "screenshots/labs.png",
+      "annotated_path": "annotated/labs.png",
+      "gt": [
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "← 患者一覧",
+          "bbox": [
+            4,
+            45,
+            77,
+            66
+          ],
+          "matched_pred_idx": 7
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "カルテ記載",
+          "bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "matched_pred_idx": 8
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル",
+          "bbox": [
+            160,
+            45,
+            218,
+            66
+          ],
+          "matched_pred_idx": 9
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方",
+          "bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "matched_pred_idx": 10
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査",
+          "bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "matched_pred_idx": 11
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名",
+          "bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "matched_pred_idx": 12
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "アレルギー",
+          "bbox": [
+            340,
+            45,
+            408,
+            66
+          ],
+          "matched_pred_idx": 13
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "matched_pred_idx": 14
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "matched_pred_idx": 15
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            561,
+            45,
+            629,
+            66
+          ],
+          "matched_pred_idx": 16
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "退院サマリ",
+          "bbox": [
+            642,
+            45,
+            710,
+            66
+          ],
+          "matched_pred_idx": 17
+        },
+        {
+          "tag": "textarea",
+          "role": "input",
+          "text": "入院中。心不全のフォロー中。\n塩分制限6g/日指導済み。\n家族: 妻(連絡先 090-xxxx-xxxx)",
+          "bbox": [
+            4,
+            222,
+            274,
+            282
+          ],
+          "matched_pred_idx": 36
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来処方",
+          "bbox": [
+            1815,
+            122,
+            1917,
+            145
+          ],
+          "matched_pred_idx": 37
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来注射",
+          "bbox": [
+            1815,
+            147,
+            1917,
+            171
+          ],
+          "matched_pred_idx": 38
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "院内処方",
+          "bbox": [
+            1815,
+            173,
+            1917,
+            196
+          ],
+          "matched_pred_idx": 39
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検体検査",
+          "bbox": [
+            1815,
+            198,
+            1917,
+            222
+          ],
+          "matched_pred_idx": 40
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "画像診断",
+          "bbox": [
+            1815,
+            224,
+            1917,
+            247
+          ],
+          "matched_pred_idx": 42
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "生理検査",
+          "bbox": [
+            1815,
+            249,
+            1917,
+            273
+          ],
+          "matched_pred_idx": 43
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名登録",
+          "bbox": [
+            1815,
+            275,
+            1917,
+            298
+          ],
+          "matched_pred_idx": 44
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "紹介状",
+          "bbox": [
+            1815,
+            300,
+            1917,
+            324
+          ],
+          "matched_pred_idx": 45
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "入院指示",
+          "bbox": [
+            1815,
+            326,
+            1917,
+            349
+          ],
+          "matched_pred_idx": 46
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            1815,
+            378,
+            1917,
+            399
+          ],
+          "matched_pred_idx": 49
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            1815,
+            401,
+            1917,
+            423
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            1815,
+            425,
+            1917,
+            446
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "退院サマリ",
+          "bbox": [
+            1815,
+            1000,
+            1917,
+            1027
+          ],
+          "matched_pred_idx": -1
+        }
+      ],
+      "pred": [
+        {
+          "role": "menuitem",
+          "x": 35,
+          "y": 33,
+          "label": "ファイル(F)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 106,
+          "y": 33,
+          "label": "患者(P)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 165,
+          "y": 33,
+          "label": "カルテ(K)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 230,
+          "y": 33,
+          "label": "オーダー(O)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 307,
+          "y": 33,
+          "label": "テキスト挿入(T)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 390,
+          "y": 33,
+          "label": "スタンプ(S)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 461,
+          "y": 33,
+          "label": "ヘルプ(H)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 42,
+          "y": 57,
+          "label": "患者一覧",
+          "matched_gt_idx": 0
+        },
+        {
+          "role": "button",
+          "x": 125,
+          "y": 57,
+          "label": "カルテ記載",
+          "matched_gt_idx": 1
+        },
+        {
+          "role": "button",
+          "x": 194,
+          "y": 57,
+          "label": "バイタル",
+          "matched_gt_idx": 2
+        },
+        {
+          "role": "button",
+          "x": 240,
+          "y": 57,
+          "label": "処方",
+          "matched_gt_idx": 3
+        },
+        {
+          "role": "button",
+          "x": 282,
+          "y": 57,
+          "label": "検査",
+          "matched_gt_idx": 4
+        },
+        {
+          "role": "button",
+          "x": 323,
+          "y": 57,
+          "label": "病名",
+          "matched_gt_idx": 5
+        },
+        {
+          "role": "button",
+          "x": 371,
+          "y": 57,
+          "label": "アレルギー",
+          "matched_gt_idx": 6
+        },
+        {
+          "role": "button",
+          "x": 438,
+          "y": 57,
+          "label": "検査結果窓",
+          "matched_gt_idx": 7
+        },
+        {
+          "role": "button",
+          "x": 511,
+          "y": 57,
+          "label": "処方一覧窓",
+          "matched_gt_idx": 8
+        },
+        {
+          "role": "button",
+          "x": 586,
+          "y": 57,
+          "label": "バイタル窓",
+          "matched_gt_idx": 9
+        },
+        {
+          "role": "button",
+          "x": 662,
+          "y": 57,
+          "label": "退院サマリ",
+          "matched_gt_idx": 10
+        },
+        {
+          "role": "button",
+          "x": 1784,
+          "y": 83,
+          "label": "アレルギー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1864,
+          "y": 83,
+          "label": "ロキソプロフェン",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 31,
+          "y": 107,
+          "label": "2025/12月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 131,
+          "y": 107,
+          "label": "2026/01月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 230,
+          "y": 107,
+          "label": "2026/02月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 31,
+          "y": 157,
+          "label": "1",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 42,
+          "y": 167,
+          "label": "8",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 313,
+          "y": 120,
+          "label": "カルテ",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 374,
+          "y": 120,
+          "label": "検体検査",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 438,
+          "y": 120,
+          "label": "検査推移",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 495,
+          "y": 120,
+          "label": "処方",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 545,
+          "y": 120,
+          "label": "オーダー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 599,
+          "y": 120,
+          "label": "病名",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 645,
+          "y": 120,
+          "label": "文書",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 31,
+          "y": 208,
+          "label": "メモ",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 69,
+          "y": 208,
+          "label": "来院歴",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 109,
+          "y": 208,
+          "label": "アレルギー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 159,
+          "y": 208,
+          "label": "身体情報",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "input",
+          "x": 136,
+          "y": 252,
+          "label": "入院中、心不全のフォロー中...",
+          "matched_gt_idx": 11
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 135,
+          "label": "外来処方",
+          "matched_gt_idx": 12
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 157,
+          "label": "外来注射",
+          "matched_gt_idx": 13
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 178,
+          "label": "院内処方",
+          "matched_gt_idx": 14
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 200,
+          "label": "検体検査",
+          "matched_gt_idx": 15
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 221,
+          "label": "画像診断",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 243,
+          "label": "生理検査",
+          "matched_gt_idx": 16
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 265,
+          "label": "病名登録",
+          "matched_gt_idx": 17
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 286,
+          "label": "紹介状",
+          "matched_gt_idx": 18
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 308,
+          "label": "入院指示",
+          "matched_gt_idx": 19
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 329,
+          "label": "表示",
+          "matched_gt_idx": 20
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 351,
+          "label": "検査結果窓",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 373,
+          "label": "処方一覧窓",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 394,
+          "label": "バイタル窓",
+          "matched_gt_idx": 21
+        }
+      ],
+      "latency_sec": 86.029,
+      "prompt_text": "画面のスクリーンショットを見てください。\n画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。\n具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。\nテキストだけの装飾・見出し・表示のみのテキストは対象外。\n\n**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は\n<b>代表1〜2個</b>だけ返して全部を列挙しないこと。総数は多くても 50 個まで。\n\n各要素について以下を返してください:\n- role: \"button\" / \"input\" / \"tab\" / \"link\" / \"menuitem\" / \"checkbox\" / \"other\" のいずれか\n- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)\n- label: 見えているテキスト (無ければアイコン記述、40文字以内)\n\n画像サイズは 1920 × 1080 ピクセルです。\nJSON配列のみで返してください。",
+      "raw_response": "[\n  {\n    \"role\": \"menuitem\",\n    \"x\": 18,\n    \"y\": 31,\n    \"label\": \"ファイル(F)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 55,\n    \"y\": 31,\n    \"label\": \"患者(P)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 86,\n    \"y\": 31,\n    \"label\": \"カルテ(K)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 120,\n    \"y\": 31,\n    \"label\": \"オーダー(O)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 160,\n    \"y\": 31,\n    \"label\": \"テキスト挿入(T)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 203,\n    \"y\": 31,\n    \"label\": \"スタンプ(S)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 240,\n    \"y\": 31,\n    \"label\": \"ヘルプ(H)\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 22,\n    \"y\": 53,\n    \"label\": \"患者一覧\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 65,\n    \"y\": 53,\n    \"label\": \"カルテ記載\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 101,\n    \"y\": 53,\n    \"label\": \"バイタル\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 125,\n    \"y\": 53,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 147,\n    \"y\": 53,\n    \"label\": \"検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 168,\n    \"y\": 53,\n    \"label\": \"病名\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 193,\n    \"y\": 53,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 228,\n    \"y\": 53,\n    \"label\": \"検査結果窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 266,\n    \"y\": 53,\n    \"label\": \"処方一覧窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 305,\n    \"y\": 53,\n    \"label\": \"バイタル窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 345,\n    \"y\": 53,\n    \"label\": \"退院サマリ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 929,\n    \"y\": 77,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 971,\n    \"y\": 77,\n    \"label\": \"ロキソプロフェン\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 16,\n    \"y\": 99,\n    \"label\": \"2025/12月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 68,\n    \"y\": 99,\n    \"label\": \"2026/01月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 120,\n    \"y\": 99,\n    \"label\": \"2026/02月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 16,\n    \"y\": 145,\n    \"label\": \"1\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 22,\n    \"y\": 155,\n    \"label\": \"8\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 163,\n    \"y\": 111,\n    \"label\": \"カルテ\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 195,\n    \"y\": 111,\n    \"label\": \"検体検査\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 228,\n    \"y\": 111,\n    \"label\": \"検査推移\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 258,\n    \"y\": 111,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 284,\n    \"y\": 111,\n    \"label\": \"オーダー\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 312,\n    \"y\": 111,\n    \"label\": \"病名\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 336,\n    \"y\": 111,\n    \"label\": \"文書\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 16,\n    \"y\": 193,\n    \"label\": \"メモ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 36,\n    \"y\": 193,\n    \"label\": \"来院歴\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 57,\n    \"y\": 193,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 83,\n    \"y\": 193,\n    \"label\": \"身体情報\"\n  },\n  {\n    \"role\": \"input\",\n    \"x\": 71,\n    \"y\": 233,\n    \"label\": \"入院中、心不全のフォロー中...\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 125,\n    \"label\": \"外来処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 145,\n    \"label\": \"外来注射\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 165,\n    \"label\": \"院内処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 185,\n    \"label\": \"検体検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 205,\n    \"label\": \"画像診断\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 225,\n    \"label\": \"生理検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 245,\n    \"label\": \"病名登録\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 265,\n    \"label\": \"紹介状\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 285,\n    \"label\": \"入院指示\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 305,\n    \"label\": \"表示\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 325,\n    \"label\": \"検査結果窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 345,\n    \"label\": \"処方一覧窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 365,\n    \"label\": \"バイタル窓\"\n  }\n]\n",
+      "tp": 22,
+      "fp": 28,
+      "fn": 3,
+      "precision": 0.44,
+      "recall": 0.88,
+      "f1": 0.587
+    },
+    {
+      "screen_name": "meds",
+      "screenshot_path": "screenshots/meds.png",
+      "annotated_path": "annotated/meds.png",
+      "gt": [
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "← 患者一覧",
+          "bbox": [
+            4,
+            45,
+            77,
+            66
+          ],
+          "matched_pred_idx": 8
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "カルテ記載",
+          "bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "matched_pred_idx": 10
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル",
+          "bbox": [
+            160,
+            45,
+            218,
+            66
+          ],
+          "matched_pred_idx": 11
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方",
+          "bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "matched_pred_idx": 12
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査",
+          "bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "matched_pred_idx": 13
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名",
+          "bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "matched_pred_idx": 14
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "アレルギー",
+          "bbox": [
+            340,
+            45,
+            408,
+            66
+          ],
+          "matched_pred_idx": 15
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "matched_pred_idx": 16
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "matched_pred_idx": 17
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            561,
+            45,
+            629,
+            66
+          ],
+          "matched_pred_idx": 18
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "退院サマリ",
+          "bbox": [
+            642,
+            45,
+            710,
+            66
+          ],
+          "matched_pred_idx": 19
+        },
+        {
+          "tag": "textarea",
+          "role": "input",
+          "text": "入院中。心不全のフォロー中。\n塩分制限6g/日指導済み。\n家族: 妻(連絡先 090-xxxx-xxxx)",
+          "bbox": [
+            4,
+            222,
+            274,
+            282
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来処方",
+          "bbox": [
+            1815,
+            122,
+            1917,
+            145
+          ],
+          "matched_pred_idx": 32
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来注射",
+          "bbox": [
+            1815,
+            147,
+            1917,
+            171
+          ],
+          "matched_pred_idx": 33
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "院内処方",
+          "bbox": [
+            1815,
+            173,
+            1917,
+            196
+          ],
+          "matched_pred_idx": 34
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検体検査",
+          "bbox": [
+            1815,
+            198,
+            1917,
+            222
+          ],
+          "matched_pred_idx": 35
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "画像診断",
+          "bbox": [
+            1815,
+            224,
+            1917,
+            247
+          ],
+          "matched_pred_idx": 37
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "生理検査",
+          "bbox": [
+            1815,
+            249,
+            1917,
+            273
+          ],
+          "matched_pred_idx": 38
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名登録",
+          "bbox": [
+            1815,
+            275,
+            1917,
+            298
+          ],
+          "matched_pred_idx": 39
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "紹介状",
+          "bbox": [
+            1815,
+            300,
+            1917,
+            324
+          ],
+          "matched_pred_idx": 40
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "入院指示",
+          "bbox": [
+            1815,
+            326,
+            1917,
+            349
+          ],
+          "matched_pred_idx": 41
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            1815,
+            378,
+            1917,
+            399
+          ],
+          "matched_pred_idx": 44
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            1815,
+            401,
+            1917,
+            423
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            1815,
+            425,
+            1917,
+            446
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "退院サマリ",
+          "bbox": [
+            1815,
+            1000,
+            1917,
+            1027
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "×",
+          "bbox": [
+            1384,
+            337,
+            1402,
+            355
+          ],
+          "matched_pred_idx": 45
+        },
+        {
+          "tag": "input",
+          "role": "input",
+          "text": "薬品名またはカテゴリで検索...",
+          "bbox": [
+            524,
+            438,
+            1396,
+            472
+          ],
+          "matched_pred_idx": 49
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "キャンセル",
+          "bbox": [
+            1113,
+            697,
+            1217,
+            735
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "次へ: 用法設定 →",
+          "bbox": [
+            1229,
+            697,
+            1396,
+            735
+          ],
+          "matched_pred_idx": -1
+        }
+      ],
+      "pred": [
+        {
+          "role": "menuitem",
+          "x": 33,
+          "y": 33,
+          "label": "ファイル(F)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 102,
+          "y": 33,
+          "label": "患者(P)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 159,
+          "y": 33,
+          "label": "カルテ(K)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 217,
+          "y": 33,
+          "label": "バイタル",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 275,
+          "y": 33,
+          "label": "処方",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 332,
+          "y": 33,
+          "label": "テキスト挿入(T)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 390,
+          "y": 33,
+          "label": "スタンプ(S)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 447,
+          "y": 33,
+          "label": "ヘルプ(H)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 19,
+          "y": 57,
+          "label": "←",
+          "matched_gt_idx": 0
+        },
+        {
+          "role": "button",
+          "x": 63,
+          "y": 57,
+          "label": "患者一覧",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 131,
+          "y": 57,
+          "label": "カルテ記載",
+          "matched_gt_idx": 1
+        },
+        {
+          "role": "button",
+          "x": 198,
+          "y": 57,
+          "label": "バイタル",
+          "matched_gt_idx": 2
+        },
+        {
+          "role": "button",
+          "x": 246,
+          "y": 57,
+          "label": "処方",
+          "matched_gt_idx": 3
+        },
+        {
+          "role": "button",
+          "x": 284,
+          "y": 57,
+          "label": "検査",
+          "matched_gt_idx": 4
+        },
+        {
+          "role": "button",
+          "x": 323,
+          "y": 57,
+          "label": "病名",
+          "matched_gt_idx": 5
+        },
+        {
+          "role": "button",
+          "x": 371,
+          "y": 57,
+          "label": "アレルギー",
+          "matched_gt_idx": 6
+        },
+        {
+          "role": "button",
+          "x": 447,
+          "y": 57,
+          "label": "検査結果",
+          "matched_gt_idx": 7
+        },
+        {
+          "role": "button",
+          "x": 524,
+          "y": 57,
+          "label": "処方一覧窓",
+          "matched_gt_idx": 8
+        },
+        {
+          "role": "button",
+          "x": 591,
+          "y": 57,
+          "label": "バイタル窓",
+          "matched_gt_idx": 9
+        },
+        {
+          "role": "button",
+          "x": 668,
+          "y": 57,
+          "label": "退院サマリ",
+          "matched_gt_idx": 10
+        },
+        {
+          "role": "button",
+          "x": 1791,
+          "y": 82,
+          "label": "アレルギー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1868,
+          "y": 82,
+          "label": "ロキソプロフェン",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 313,
+          "y": 120,
+          "label": "カルテ",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 371,
+          "y": 120,
+          "label": "検体検査",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 438,
+          "y": 120,
+          "label": "検査推移",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 495,
+          "y": 120,
+          "label": "処方",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 543,
+          "y": 120,
+          "label": "オーダー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 601,
+          "y": 120,
+          "label": "病名",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 649,
+          "y": 120,
+          "label": "文書",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 54,
+          "y": 208,
+          "label": "来院歴",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 102,
+          "y": 208,
+          "label": "アレルギー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 159,
+          "y": 208,
+          "label": "身体情報",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 136,
+          "label": "外来処方",
+          "matched_gt_idx": 12
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 158,
+          "label": "外来注射",
+          "matched_gt_idx": 13
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 179,
+          "label": "院内処方",
+          "matched_gt_idx": 14
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 201,
+          "label": "検体検査",
+          "matched_gt_idx": 15
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 222,
+          "label": "画像診断",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 244,
+          "label": "生理検査",
+          "matched_gt_idx": 16
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 266,
+          "label": "病名登録",
+          "matched_gt_idx": 17
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 287,
+          "label": "紹介状",
+          "matched_gt_idx": 18
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 309,
+          "label": "入院指示",
+          "matched_gt_idx": 19
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 330,
+          "label": "表示",
+          "matched_gt_idx": 20
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 352,
+          "label": "検査結果窓",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 374,
+          "label": "処方一覧窓",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1849,
+          "y": 395,
+          "label": "バイタル窓",
+          "matched_gt_idx": 21
+        },
+        {
+          "role": "button",
+          "x": 1388,
+          "y": 347,
+          "label": "×",
+          "matched_gt_idx": 25
+        },
+        {
+          "role": "tab",
+          "x": 851,
+          "y": 384,
+          "label": "1 薬剤選択",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 985,
+          "y": 384,
+          "label": "2 用法設定",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 1100,
+          "y": 384,
+          "label": "3 確認",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "input",
+          "x": 947,
+          "y": 455,
+          "label": "薬品名またはカテゴリで検索...",
+          "matched_gt_idx": 26
+        }
+      ],
+      "latency_sec": 85.6,
+      "prompt_text": "画面のスクリーンショットを見てください。\n画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。\n具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。\nテキストだけの装飾・見出し・表示のみのテキストは対象外。\n\n**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は\n<b>代表1〜2個</b>だけ返して全部を列挙しないこと。総数は多くても 50 個まで。\n\n各要素について以下を返してください:\n- role: \"button\" / \"input\" / \"tab\" / \"link\" / \"menuitem\" / \"checkbox\" / \"other\" のいずれか\n- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)\n- label: 見えているテキスト (無ければアイコン記述、40文字以内)\n\n画像サイズは 1920 × 1080 ピクセルです。\nJSON配列のみで返してください。",
+      "raw_response": "[\n  {\n    \"role\": \"menuitem\",\n    \"x\": 17,\n    \"y\": 31,\n    \"label\": \"ファイル(F)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 53,\n    \"y\": 31,\n    \"label\": \"患者(P)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 83,\n    \"y\": 31,\n    \"label\": \"カルテ(K)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 113,\n    \"y\": 31,\n    \"label\": \"バイタル\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 143,\n    \"y\": 31,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 173,\n    \"y\": 31,\n    \"label\": \"テキスト挿入(T)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 203,\n    \"y\": 31,\n    \"label\": \"スタンプ(S)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 233,\n    \"y\": 31,\n    \"label\": \"ヘルプ(H)\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 10,\n    \"y\": 53,\n    \"label\": \"←\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 33,\n    \"y\": 53,\n    \"label\": \"患者一覧\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 68,\n    \"y\": 53,\n    \"label\": \"カルテ記載\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 103,\n    \"y\": 53,\n    \"label\": \"バイタル\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 128,\n    \"y\": 53,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 148,\n    \"y\": 53,\n    \"label\": \"検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 168,\n    \"y\": 53,\n    \"label\": \"病名\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 193,\n    \"y\": 53,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 233,\n    \"y\": 53,\n    \"label\": \"検査結果\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 273,\n    \"y\": 53,\n    \"label\": \"処方一覧窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 308,\n    \"y\": 53,\n    \"label\": \"バイタル窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 348,\n    \"y\": 53,\n    \"label\": \"退院サマリ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 933,\n    \"y\": 76,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 973,\n    \"y\": 76,\n    \"label\": \"ロキソプロフェン\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 163,\n    \"y\": 111,\n    \"label\": \"カルテ\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 193,\n    \"y\": 111,\n    \"label\": \"検体検査\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 228,\n    \"y\": 111,\n    \"label\": \"検査推移\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 258,\n    \"y\": 111,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 283,\n    \"y\": 111,\n    \"label\": \"オーダー\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 313,\n    \"y\": 111,\n    \"label\": \"病名\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 338,\n    \"y\": 111,\n    \"label\": \"文書\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 28,\n    \"y\": 193,\n    \"label\": \"来院歴\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 53,\n    \"y\": 193,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 83,\n    \"y\": 193,\n    \"label\": \"身体情報\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 126,\n    \"label\": \"外来処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 146,\n    \"label\": \"外来注射\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 166,\n    \"label\": \"院内処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 186,\n    \"label\": \"検体検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 206,\n    \"label\": \"画像診断\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 226,\n    \"label\": \"生理検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 246,\n    \"label\": \"病名登録\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 266,\n    \"label\": \"紹介状\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 286,\n    \"label\": \"入院指示\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 306,\n    \"label\": \"表示\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 326,\n    \"label\": \"検査結果窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 346,\n    \"label\": \"処方一覧窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 963,\n    \"y\": 366,\n    \"label\": \"バイタル窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 723,\n    \"y\": 321,\n    \"label\": \"×\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 443,\n    \"y\": 356,\n    \"label\": \"1 薬剤選択\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 513,\n    \"y\": 356,\n    \"label\": \"2 用法設定\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 573,\n    \"y\": 356,\n    \"label\": \"3 確認\"\n  },\n  {\n    \"role\": \"input\",\n    \"x\": 493,\n    \"y\": 421,\n    \"label\": \"薬品名またはカテゴリで検索...\"\n  }\n]\n",
+      "tp": 23,
+      "fp": 27,
+      "fn": 6,
+      "precision": 0.46,
+      "recall": 0.793,
+      "f1": 0.582
+    },
+    {
+      "screen_name": "diagnoses",
+      "screenshot_path": "screenshots/diagnoses.png",
+      "annotated_path": "annotated/diagnoses.png",
+      "gt": [
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "← 患者一覧",
+          "bbox": [
+            4,
+            45,
+            77,
+            66
+          ],
+          "matched_pred_idx": 7
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "カルテ記載",
+          "bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "matched_pred_idx": 8
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル",
+          "bbox": [
+            160,
+            45,
+            218,
+            66
+          ],
+          "matched_pred_idx": 9
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方",
+          "bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "matched_pred_idx": 10
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査",
+          "bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "matched_pred_idx": 11
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名",
+          "bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "matched_pred_idx": 12
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "アレルギー",
+          "bbox": [
+            340,
+            45,
+            408,
+            66
+          ],
+          "matched_pred_idx": 13
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "matched_pred_idx": 14
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "matched_pred_idx": 15
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            561,
+            45,
+            629,
+            66
+          ],
+          "matched_pred_idx": 16
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "退院サマリ",
+          "bbox": [
+            642,
+            45,
+            710,
+            66
+          ],
+          "matched_pred_idx": 17
+        },
+        {
+          "tag": "textarea",
+          "role": "input",
+          "text": "入院中。心不全のフォロー中。\n塩分制限6g/日指導済み。\n家族: 妻(連絡先 090-xxxx-xxxx)",
+          "bbox": [
+            4,
+            222,
+            274,
+            282
+          ],
+          "matched_pred_idx": 35
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来処方",
+          "bbox": [
+            1815,
+            122,
+            1917,
+            145
+          ],
+          "matched_pred_idx": 36
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "外来注射",
+          "bbox": [
+            1815,
+            147,
+            1917,
+            171
+          ],
+          "matched_pred_idx": 37
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "院内処方",
+          "bbox": [
+            1815,
+            173,
+            1917,
+            196
+          ],
+          "matched_pred_idx": 38
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検体検査",
+          "bbox": [
+            1815,
+            198,
+            1917,
+            222
+          ],
+          "matched_pred_idx": 39
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "画像診断",
+          "bbox": [
+            1815,
+            224,
+            1917,
+            247
+          ],
+          "matched_pred_idx": 40
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "生理検査",
+          "bbox": [
+            1815,
+            249,
+            1917,
+            273
+          ],
+          "matched_pred_idx": 42
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "病名登録",
+          "bbox": [
+            1815,
+            275,
+            1917,
+            298
+          ],
+          "matched_pred_idx": 43
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "紹介状",
+          "bbox": [
+            1815,
+            300,
+            1917,
+            324
+          ],
+          "matched_pred_idx": 44
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "入院指示",
+          "bbox": [
+            1815,
+            326,
+            1917,
+            349
+          ],
+          "matched_pred_idx": -1
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "検査結果窓",
+          "bbox": [
+            1815,
+            378,
+            1917,
+            399
+          ],
+          "matched_pred_idx": 45
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "処方一覧窓",
+          "bbox": [
+            1815,
+            401,
+            1917,
+            423
+          ],
+          "matched_pred_idx": 46
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "バイタル窓",
+          "bbox": [
+            1815,
+            425,
+            1917,
+            446
+          ],
+          "matched_pred_idx": 47
+        },
+        {
+          "tag": "button",
+          "role": "button",
+          "text": "退院サマリ",
+          "bbox": [
+            1815,
+            1000,
+            1917,
+            1027
+          ],
+          "matched_pred_idx": 48
+        }
+      ],
+      "pred": [
+        {
+          "role": "menuitem",
+          "x": 35,
+          "y": 33,
+          "label": "ファイル(F)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 106,
+          "y": 33,
+          "label": "患者(P)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 165,
+          "y": 33,
+          "label": "カルテ(K)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 227,
+          "y": 33,
+          "label": "オーダ(O)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 309,
+          "y": 33,
+          "label": "テキスト挿入(T)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 396,
+          "y": 33,
+          "label": "スタンプ(S)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "menuitem",
+          "x": 467,
+          "y": 33,
+          "label": "ヘルプ(H)",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 52,
+          "y": 58,
+          "label": "患者一覧",
+          "matched_gt_idx": 0
+        },
+        {
+          "role": "button",
+          "x": 123,
+          "y": 58,
+          "label": "カルテ記載",
+          "matched_gt_idx": 1
+        },
+        {
+          "role": "button",
+          "x": 188,
+          "y": 58,
+          "label": "バイタル",
+          "matched_gt_idx": 2
+        },
+        {
+          "role": "button",
+          "x": 236,
+          "y": 58,
+          "label": "処方",
+          "matched_gt_idx": 3
+        },
+        {
+          "role": "button",
+          "x": 278,
+          "y": 58,
+          "label": "検査",
+          "matched_gt_idx": 4
+        },
+        {
+          "role": "button",
+          "x": 319,
+          "y": 58,
+          "label": "病名",
+          "matched_gt_idx": 5
+        },
+        {
+          "role": "button",
+          "x": 369,
+          "y": 58,
+          "label": "アレルギー",
+          "matched_gt_idx": 6
+        },
+        {
+          "role": "button",
+          "x": 442,
+          "y": 58,
+          "label": "検査結果窓",
+          "matched_gt_idx": 7
+        },
+        {
+          "role": "button",
+          "x": 515,
+          "y": 58,
+          "label": "処方一覧窓",
+          "matched_gt_idx": 8
+        },
+        {
+          "role": "button",
+          "x": 588,
+          "y": 58,
+          "label": "バイタル窓",
+          "matched_gt_idx": 9
+        },
+        {
+          "role": "button",
+          "x": 664,
+          "y": 58,
+          "label": "退院サマリ",
+          "matched_gt_idx": 10
+        },
+        {
+          "role": "button",
+          "x": 1784,
+          "y": 84,
+          "label": "アレルギー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1866,
+          "y": 84,
+          "label": "ロキソプロフェン",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 40,
+          "y": 108,
+          "label": "2025/12月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 134,
+          "y": 108,
+          "label": "2026/01月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 228,
+          "y": 108,
+          "label": "2026/02月",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 31,
+          "y": 149,
+          "label": "1",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 40,
+          "y": 162,
+          "label": "8",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 311,
+          "y": 121,
+          "label": "カルテ",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 372,
+          "y": 121,
+          "label": "検体検査",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 436,
+          "y": 121,
+          "label": "検査推移",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 497,
+          "y": 121,
+          "label": "処方",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 551,
+          "y": 121,
+          "label": "オーダー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 605,
+          "y": 121,
+          "label": "病名",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "tab",
+          "x": 651,
+          "y": 121,
+          "label": "文書",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 52,
+          "y": 210,
+          "label": "来院歴",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 106,
+          "y": 210,
+          "label": "アレルギー",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 159,
+          "y": 210,
+          "label": "身体情報",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "input",
+          "x": 136,
+          "y": 255,
+          "label": "入院中。心不全のフォロー中。...",
+          "matched_gt_idx": 11
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 135,
+          "label": "外来処方",
+          "matched_gt_idx": 12
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 158,
+          "label": "外来注射",
+          "matched_gt_idx": 13
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 180,
+          "label": "院内処方",
+          "matched_gt_idx": 14
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 203,
+          "label": "検体検査",
+          "matched_gt_idx": 15
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 226,
+          "label": "画像診断",
+          "matched_gt_idx": 16
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 248,
+          "label": "生理検査",
+          "matched_gt_idx": -1
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 271,
+          "label": "病名登録",
+          "matched_gt_idx": 17
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 294,
+          "label": "紹介状",
+          "matched_gt_idx": 18
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 316,
+          "label": "入院指示",
+          "matched_gt_idx": 19
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 384,
+          "label": "検査結果窓",
+          "matched_gt_idx": 21
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 407,
+          "label": "処方一覧窓",
+          "matched_gt_idx": 22
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 430,
+          "label": "バイタル窓",
+          "matched_gt_idx": 23
+        },
+        {
+          "role": "button",
+          "x": 1862,
+          "y": 1008,
+          "label": "退院サマリ",
+          "matched_gt_idx": 24
+        },
+        {
+          "role": "button",
+          "x": 35,
+          "y": 1063,
+          "label": "F1 ヘルプ",
+          "matched_gt_idx": -1
+        }
+      ],
+      "latency_sec": 86.318,
+      "prompt_text": "画面のスクリーンショットを見てください。\n画面内で **クリックできる・入力できる UI 要素** をすべて列挙してください。\n具体的には: ボタン / リンク / タブ / 入力欄 / チェックボックス / メニュー項目 など。\nテキストだけの装飾・見出し・表示のみのテキストは対象外。\n\n**重要**: 同じ種類の要素が繰り返し並んでいる場合 (カレンダーの日付やテーブルの各行の操作ボタン等) は\n<b>代表1〜2個</b>だけ返して全部を列挙しないこと。総数は多くても 50 個まで。\n\n各要素について以下を返してください:\n- role: \"button\" / \"input\" / \"tab\" / \"link\" / \"menuitem\" / \"checkbox\" / \"other\" のいずれか\n- x, y: その要素の中心座標 (0〜1000 正規化か絶対ピクセル、どちらでも可)\n- label: 見えているテキスト (無ければアイコン記述、40文字以内)\n\n画像サイズは 1920 × 1080 ピクセルです。\nJSON配列のみで返してください。",
+      "raw_response": "[\n  {\n    \"role\": \"menuitem\",\n    \"x\": 18,\n    \"y\": 31,\n    \"label\": \"ファイル(F)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 55,\n    \"y\": 31,\n    \"label\": \"患者(P)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 86,\n    \"y\": 31,\n    \"label\": \"カルテ(K)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 118,\n    \"y\": 31,\n    \"label\": \"オーダ(O)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 161,\n    \"y\": 31,\n    \"label\": \"テキスト挿入(T)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 206,\n    \"y\": 31,\n    \"label\": \"スタンプ(S)\"\n  },\n  {\n    \"role\": \"menuitem\",\n    \"x\": 243,\n    \"y\": 31,\n    \"label\": \"ヘルプ(H)\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 27,\n    \"y\": 54,\n    \"label\": \"患者一覧\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 64,\n    \"y\": 54,\n    \"label\": \"カルテ記載\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 98,\n    \"y\": 54,\n    \"label\": \"バイタル\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 123,\n    \"y\": 54,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 145,\n    \"y\": 54,\n    \"label\": \"検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 166,\n    \"y\": 54,\n    \"label\": \"病名\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 192,\n    \"y\": 54,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 230,\n    \"y\": 54,\n    \"label\": \"検査結果窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 268,\n    \"y\": 54,\n    \"label\": \"処方一覧窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 306,\n    \"y\": 54,\n    \"label\": \"バイタル窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 346,\n    \"y\": 54,\n    \"label\": \"退院サマリ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 929,\n    \"y\": 78,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 972,\n    \"y\": 78,\n    \"label\": \"ロキソプロフェン\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 21,\n    \"y\": 100,\n    \"label\": \"2025/12月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 70,\n    \"y\": 100,\n    \"label\": \"2026/01月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 119,\n    \"y\": 100,\n    \"label\": \"2026/02月\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 16,\n    \"y\": 138,\n    \"label\": \"1\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 21,\n    \"y\": 150,\n    \"label\": \"8\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 162,\n    \"y\": 112,\n    \"label\": \"カルテ\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 194,\n    \"y\": 112,\n    \"label\": \"検体検査\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 227,\n    \"y\": 112,\n    \"label\": \"検査推移\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 259,\n    \"y\": 112,\n    \"label\": \"処方\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 287,\n    \"y\": 112,\n    \"label\": \"オーダー\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 315,\n    \"y\": 112,\n    \"label\": \"病名\"\n  },\n  {\n    \"role\": \"tab\",\n    \"x\": 339,\n    \"y\": 112,\n    \"label\": \"文書\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 27,\n    \"y\": 194,\n    \"label\": \"来院歴\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 55,\n    \"y\": 194,\n    \"label\": \"アレルギー\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 83,\n    \"y\": 194,\n    \"label\": \"身体情報\"\n  },\n  {\n    \"role\": \"input\",\n    \"x\": 71,\n    \"y\": 236,\n    \"label\": \"入院中。心不全のフォロー中。...\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 125,\n    \"label\": \"外来処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 146,\n    \"label\": \"外来注射\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 167,\n    \"label\": \"院内処方\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 188,\n    \"label\": \"検体検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 209,\n    \"label\": \"画像診断\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 230,\n    \"label\": \"生理検査\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 251,\n    \"label\": \"病名登録\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 272,\n    \"label\": \"紹介状\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 293,\n    \"label\": \"入院指示\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 356,\n    \"label\": \"検査結果窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 377,\n    \"label\": \"処方一覧窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 398,\n    \"label\": \"バイタル窓\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 970,\n    \"y\": 933,\n    \"label\": \"退院サマリ\"\n  },\n  {\n    \"role\": \"button\",\n    \"x\": 18,\n    \"y\": 984,\n    \"label\": \"F1 ヘルプ\"\n  }\n]\n",
+      "tp": 24,
+      "fp": 26,
+      "fn": 1,
+      "precision": 0.48,
+      "recall": 0.96,
+      "f1": 0.64
+    }
+  ]
+}

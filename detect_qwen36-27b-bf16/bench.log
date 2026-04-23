@@ -1,0 +1,81 @@
+2026-04-23 20:27:45,002 [INFO] CDP connected: ws://localhost:9222/devtools/page/441DF647E447A7FFE5A1BD0780529926
+2026-04-23 20:27:45,003 [INFO] CDP offset detected: x=0, y=0
+2026-04-23 20:27:47,504 [INFO] === Detecting on login ===
+2026-04-23 20:27:54,192 [INFO]   GT interactables: 4
+2026-04-23 20:28:05,401 [INFO]   VLM predicted: 5 elements (11.2s)
+2026-04-23 20:28:05,401 [INFO]   TP=4 FP=1 FN=0  P=0.8 R=1.0 F1=0.889
+2026-04-23 20:28:05,473 [INFO] === Login ===
+2026-04-23 20:28:05,981 [INFO]   CDP: Login fields set (attempt 1)
+2026-04-23 20:28:17,209 [INFO]   Login succeeded (attempt 1)
+2026-04-23 20:28:18,409 [INFO] === Detecting on patient_list ===
+2026-04-23 20:28:19,130 [INFO]   GT interactables: 11
+2026-04-23 20:29:17,341 [INFO]   VLM predicted: 33 elements (58.2s)
+2026-04-23 20:29:17,341 [INFO]   TP=11 FP=22 FN=0  P=0.333 R=1.0 F1=0.5
+2026-04-23 20:29:17,450 [INFO] === Find Patient ===
+2026-04-23 20:29:21,242 [INFO]   Grounding: '画面上部の患者検索入力欄（テキストボックス）' -> raw(141,104) -> pixel(270,112)
+2026-04-23 20:29:21,242 [INFO]   Click pixel: (270, 112)
+2026-04-23 20:29:22,251 [INFO]   Type: '00000001'
+2026-04-23 20:29:26,466 [INFO]   Grounding: '「検索」ボタン' -> raw(235,104) -> pixel(451,112)
+2026-04-23 20:29:26,466 [INFO]   Click pixel: (451, 112)
+2026-04-23 20:29:32,998 [INFO]   Grounding: '患者一覧テーブルの最初の患者の行' -> raw(499,198) -> pixel(958,213)
+2026-04-23 20:29:32,998 [INFO]   Click pixel: (958, 213)
+2026-04-23 20:29:38,303 [INFO] === Detecting on karte ===
+2026-04-23 20:29:39,111 [INFO]   GT interactables: 24
+2026-04-23 20:31:03,649 [INFO]   VLM predicted: 50 elements (84.5s)
+2026-04-23 20:31:03,649 [INFO]   TP=11 FP=39 FN=13  P=0.22 R=0.458 F1=0.297
+2026-04-23 20:31:03,759 [INFO] === Navigate to 検体検査 ===
+2026-04-23 20:31:03,759 [INFO] Scrolling: 20
+2026-04-23 20:31:22,602 [WARNING] JSON extraction failed from: ユーザーは、画面上部のタブバーにある「検体検査」というテキストのタブの中心座標を求めています。
+
+画像を確認すると、画面上部には複数のタブが横一列に並んでいます。
+左から順に、「カルテ」、「検体検査」、「検査推移」、「処方」、「オーダー」、「病名」、「文書」というタブがあります。
+
+「検体検査」タブは、左から2番目の位置にあります。
+このタブの中心座標を推定します。
+
+画像の解像度は1920x10
+2026-04-23 20:31:22,603 [WARNING]   Grounding retry 1 for '画面上部のタブバーにある「検体検査」というテキストのタブ'
+2026-04-23 20:31:39,393 [WARNING] JSON extraction failed from: ユーザーは、画面上部のタブバーにある「検体検査」というテキストのタブの中心座標を求めています。
+
+画像を確認すると、画面上部には複数のタブが横一列に並んでいます。
+左から順に、「カルテ」、「検体検査」、「検査推移」、「処方」、「オーダー」、「病名」、「文書」というタブがあります。
+
+「検体検査」タブは、左から2番目の位置にあります。
+このタブの中心座標を推定します。
+
+画像の解像度は1920x10
+2026-04-23 20:31:39,393 [WARNING]   Grounding failed for '画面上部のタブバーにある「検体検査」というテキストのタブ': {'action': {'type': 'done'}}
+2026-04-23 20:31:50,859 [INFO] HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-23 20:31:50,865 [INFO] Planner recovery: {'action': 'extract', 'what': '検体検査タブの座標または存在有無'}
+2026-04-23 20:32:10,420 [INFO]   Grounding: '画面上部のタブバーにある「検体検査」というテキストのタブ' -> raw(230,100) -> pixel(441,108)
+2026-04-23 20:32:10,420 [INFO]   Click pixel: (441, 108)
+2026-04-23 20:32:24,309 [INFO]   Tab verified: 検体検査
+2026-04-23 20:32:25,610 [INFO] === Detecting on labs ===
+2026-04-23 20:32:26,282 [INFO]   GT interactables: 25
+2026-04-23 20:33:52,311 [INFO]   VLM predicted: 50 elements (86.0s)
+2026-04-23 20:33:52,311 [INFO]   TP=22 FP=28 FN=3  P=0.44 R=0.88 F1=0.587
+2026-04-23 20:33:52,423 [INFO] === Navigate to 処方 ===
+2026-04-23 20:33:52,423 [INFO] Scrolling: 20
+2026-04-23 20:33:56,909 [INFO]   Grounding: '画面上部のタブバーにある「処方」というテキストのタブ' -> raw(125,53) -> pixel(240,57)
+2026-04-23 20:33:56,909 [INFO]   Click pixel: (240, 57)
+2026-04-23 20:34:17,296 [INFO]   Tab verified: 処方
+2026-04-23 20:34:18,596 [INFO] === Detecting on meds ===
+2026-04-23 20:34:19,233 [INFO]   GT interactables: 29
+2026-04-23 20:35:44,833 [INFO]   VLM predicted: 50 elements (85.6s)
+2026-04-23 20:35:44,834 [INFO]   TP=23 FP=27 FN=6  P=0.46 R=0.793 F1=0.582
+2026-04-23 20:35:44,952 [INFO] === Navigate to 病名 ===
+2026-04-23 20:35:44,952 [INFO] Scrolling: 20
+2026-04-23 20:35:49,419 [INFO]   Grounding: '画面上部のタブバーにある「病名」というテキストのタブ' -> raw(316,111) -> pixel(606,119)
+2026-04-23 20:35:49,419 [INFO]   Click pixel: (606, 119)
+2026-04-23 20:36:03,165 [WARNING]   Tab verify failed (attempt 1): expected '病名', got: この画面は**電子カルテの「検査結果」タブ**で、患者「石川 弘」の血液検査データ（ALT、AST、CRP、Na、クレアチニン、白血球数）を日付別に棒グラフと数値で表示しています。
+
+主要なUI要素：
+2026-04-23 20:36:06,572 [INFO]   Grounding: '画面上部のタブバーにある「病名」というテキストのタブ' -> raw(315,111) -> pixel(604,119)
+2026-04-23 20:36:06,573 [INFO]   Click pixel: (604, 119)
+2026-04-23 20:36:19,677 [INFO]   Tab verified: 病名
+2026-04-23 20:36:20,977 [INFO] === Detecting on diagnoses ===
+2026-04-23 20:36:21,649 [INFO]   GT interactables: 25
+2026-04-23 20:37:47,967 [INFO]   VLM predicted: 50 elements (86.3s)
+2026-04-23 20:37:47,967 [INFO]   TP=24 FP=26 FN=1  P=0.48 R=0.96 F1=0.64
+2026-04-23 20:37:48,073 [INFO] DONE. bench_results/20260423_202744_qwen36-27b-bf16-v2_detect
+2026-04-23 20:37:48,073 [INFO]   P=0.399 R=0.805 F1=0.534 (TP=95 FP=143 FN=23)
