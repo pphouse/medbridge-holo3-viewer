@@ -30,17 +30,45 @@
   </div>
 </div>
 
-<h2>Benchmarks — Holo3 単体能力測定</h2>
+<h2>Benchmarks — VLM 単体能力測定</h2>
+
+<p style="color:#aaa; font-size:13px">同一の6画面スクショ (login/patient_list/karte/labs/meds/diagnoses) で Grounding (DOM bbox と予測点の一致率) と OCR (画面から構造化抽出 → SQLite GT との recall) を測定。Qwen3.6 は同じスクショで replay。</p>
 
 <div class="card">
-  <a href="bench_20260417_125301_all/viewer.html">Holo3 Grounding/OCR Benchmark — 20260417_125301</a>
+  <a href="bench_20260417_125301_all/viewer.html">Holo3-35B-A3B — 20260417_125301</a>
   <div class="meta">
     <span class="chip good">Grounding 0.84 (27/32)</span>
     <span class="chip mid">OCR 0.67</span>
-    <span class="chip info">6 screens</span>
     <span class="chip info">Mean 149px</span>
-    Patient 00000001
+    <span class="chip info">6 screens</span>
+    GUI特化VLM (vLLM BF16)
   </div>
 </div>
+
+<div class="card">
+  <a href="bench_20260423_073917_qwen36/viewer.html">Qwen3.6-35B-A3B (Q8_0 GGUF) — 20260423_073917</a>
+  <div class="meta">
+    <span class="chip bad">Grounding 0.09 (3/32)</span>
+    <span class="chip good">OCR 1.00</span>
+    <span class="chip info">Mean 248px</span>
+    <span class="chip info">6 screens</span>
+    汎用VLM (llama.cpp Q8_0 on A100)
+  </div>
+</div>
+
+<h3 style="margin-top:24px; font-size:14px; color:#9ca3af">比較サマリー (同一スクショ replay, 同一 DOM GT + SQLite GT)</h3>
+
+<table style="border-collapse:collapse; font-size:13px; margin-top:8px">
+<tr style="background:#1e232a"><th style="padding:6px 12px; text-align:left; border:1px solid #333">メトリック</th><th style="padding:6px 12px; border:1px solid #333">Holo3</th><th style="padding:6px 12px; border:1px solid #333">Qwen3.6</th><th style="padding:6px 12px; border:1px solid #333">勝者</th></tr>
+<tr><td style="padding:6px 12px; border:1px solid #333">Grounding hit rate</td><td style="padding:6px 12px; border:1px solid #333">0.84 (27/32)</td><td style="padding:6px 12px; border:1px solid #333">0.09 (3/32)</td><td style="padding:6px 12px; border:1px solid #333; color:#22c55e">Holo3 (+0.75)</td></tr>
+<tr><td style="padding:6px 12px; border:1px solid #333">Grounding 平均ピクセル距離</td><td style="padding:6px 12px; border:1px solid #333">149 px</td><td style="padding:6px 12px; border:1px solid #333">248 px</td><td style="padding:6px 12px; border:1px solid #333; color:#22c55e">Holo3</td></tr>
+<tr><td style="padding:6px 12px; border:1px solid #333">OCR recall (構造化抽出)</td><td style="padding:6px 12px; border:1px solid #333">0.67</td><td style="padding:6px 12px; border:1px solid #333">1.00</td><td style="padding:6px 12px; border:1px solid #333; color:#22c55e">Qwen3.6 (+0.33)</td></tr>
+</table>
+
+<p style="color:#aaa; font-size:13px; margin-top:16px">
+<b>所感:</b> Holo3 は GUI grounding に特化した Qwen3.5-VL ベースで、座標特定は圧倒的。<br>
+一方 Qwen3.6 は汎用VLMだが日本語カルテ画面の表構造を正確に読み取り、構造化抽出では Holo3 を上回る (検査値 6/6, 処方 1/1, 病名 2/2 全勝)。<br>
+→ <b>エージェントパイプラインでは両者併用が合理的</b> — クリック対象の特定は Holo3、画面内容の読み取りは Qwen/LLM に分業。
+</p>
 
 </body></html>
