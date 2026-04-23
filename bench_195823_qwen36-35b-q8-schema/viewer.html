@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>Holo3 Benchmark Viewer</title>
+<style>
+  body { font-family: sans-serif; margin: 0; background: #0b0d10; color: #eee; }
+  header { padding: 16px 24px; background: #111; border-bottom: 1px solid #222; }
+  header h1 { margin: 0 0 4px; font-size: 18px; }
+  header .meta { color: #aaa; font-size: 13px; }
+  .score { display: inline-block; padding: 4px 10px; border-radius: 4px; margin-right: 8px; font-weight: 600; }
+  .good { background: #16a34a; } .bad { background: #dc2626; } .mid { background: #ca8a04; }
+  .screen { margin: 24px; border: 1px solid #222; border-radius: 8px; overflow: hidden; background: #15181d; }
+  .screen h2 { margin: 0; padding: 12px 16px; background: #1a1e24; font-size: 15px; }
+  .body { display: flex; gap: 12px; padding: 12px; }
+  .body img { max-width: 60%; height: auto; border: 1px solid #333; }
+  .results { flex: 1; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; }
+  th, td { padding: 4px 8px; border-bottom: 1px solid #2a2e35; text-align: left; }
+  th { background: #1e232a; }
+  .hit { color: #22c55e; } .miss { color: #ef4444; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; padding: 4px 0; color: #60a5fa; }
+  pre { background: #0d1117; padding: 8px; overflow-x: auto; border-radius: 4px; font-size: 11px; max-height: 200px; }
+</style></head>
+<body>
+<header>
+  <h1>Holo3 Benchmark — 20260423_195823_qwen36-35b-q8-schema_replay</h1>
+  <div class="meta">patient=00000001 screens=6 time=2026-04-23T19:59:35.387563 • model=Qwen3.6-35B-A3B Q8_0 + JSON schema</div>
+  <div style="margin-top:8px"><span class="score bad">Grounding Hit: 0.09</span><span class="score good">Mean Pixel Dist: 388</span><span class="score good">OCR Recall: 1.00</span><span class="score" style="background:#374151">⏱ Avg grounding: 1.94s</span><span class="score" style="background:#374151">⏱ Avg OCR: 3.21s</span><span class="score" style="background:#374151">⏱ Total: 72s (35 calls)</span></div>
+</header>
+<div id="content">
+        <div class="screen">
+          <h2>login (DOM: 2 elements)</h2>
+          <div class="body">
+            <img src="annotated/login.png" alt="login">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th><th>Latency</th></tr>
+                <tr><td>#1</td><td>ログイン</td><td>[961, 606, 1041, 629]</td><td>(1000,615)</td><td class="hit">HIT</td><td>2.2px</td><td>1.97s</td></tr><tr><td>#2</td><td>キャンセル</td><td>[1049, 606, 1132, 629]</td><td>(1094,616)</td><td class="hit">HIT</td><td>4.1px</td><td>1.93s</td></tr>
+              </table>
+              
+              
+              <details style="margin-top:8px">
+                <summary>Show grounding prompts &amp; raw responses (2 items)</summary>
+                
+                <details style="margin:4px 0">
+                  <summary>#1 ログイン <span class="hit">[HIT]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「ログイン」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 521, &quot;y&quot;: 569}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#2 キャンセル <span class="hit">[HIT]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「キャンセル」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 570, &quot;y&quot;: 570}</pre></div>
+                  </div>
+                </details>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>patient_list (DOM: 11 elements)</h2>
+          <div class="body">
+            <img src="annotated/patient_list.png" alt="patient_list">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th><th>Latency</th></tr>
+                <tr><td>#1</td><td>検索条件を入力...</td><td>[130, 100, 410, 123]</td><td>(253,148)</td><td class="miss">MISS</td><td>40.7px</td><td>1.93s</td></tr><tr><td>#2</td><td>検索(S)</td><td>[418, 100, 485, 123]</td><td>(451,148)</td><td class="miss">MISS</td><td>37.0px</td><td>1.93s</td></tr><tr><td>#3</td><td>📋
+受付一覧</td><td>[4, 45, 73, 72]</td><td>(54,72)</td><td class="hit">HIT</td><td>21.3px</td><td>1.91s</td></tr><tr><td>#4</td><td>🏥
+受付管理</td><td>[83, 45, 153, 72]</td><td>(54,70)</td><td class="miss">MISS</td><td>65.1px</td><td>1.90s</td></tr><tr><td>#5</td><td>🛏
+入院管理</td><td>[163, 45, 232, 72]</td><td>(192,81)</td><td class="miss">MISS</td><td>23.5px</td><td>1.92s</td></tr><tr><td>#6</td><td>📅
+予約管理</td><td>[242, 45, 312, 72]</td><td>(192,78)</td><td class="miss">MISS</td><td>87.3px</td><td>1.92s</td></tr>
+              </table>
+              
+              
+              <details style="margin-top:8px">
+                <summary>Show grounding prompts &amp; raw responses (6 items)</summary>
+                
+                <details style="margin:4px 0">
+                  <summary>#1 検索条件を入力... <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検索条件を入力...」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 132, &quot;y&quot;: 137}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#2 検索(S) <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検索(S)」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 235, &quot;y&quot;: 137}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#3 📋
+受付一覧 <span class="hit">[HIT]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「📋
+受付一覧」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 28, &quot;y&quot;: 67}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#4 🏥
+受付管理 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「🏥
+受付管理」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 28, &quot;y&quot;: 65}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#5 🛏
+入院管理 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「🛏
+入院管理」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 100, &quot;y&quot;: 75}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#6 📅
+予約管理 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「📅
+予約管理」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 100, &quot;y&quot;: 72}</pre></div>
+                  </div>
+                </details>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>karte (DOM: 23 elements)</h2>
+          <div class="body">
+            <img src="annotated/karte.png" alt="karte">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th><th>Latency</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(192,45)</td><td class="miss">MISS</td><td>68.7px</td><td>1.94s</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(518,121)</td><td class="miss">MISS</td><td>286.7px</td><td>1.95s</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(733,108)</td><td class="miss">MISS</td><td>457.1px</td><td>1.95s</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(860,117)</td><td class="miss">MISS</td><td>544.5px</td><td>1.97s</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(1824,410)</td><td class="miss">MISS</td><td>1414.3px</td><td>1.95s</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(557,108)</td><td class="miss">MISS</td><td>61.9px</td><td>1.95s</td></tr>
+              </table>
+              
+              
+              <details style="margin-top:8px">
+                <summary>Show grounding prompts &amp; raw responses (6 items)</summary>
+                
+                <details style="margin:4px 0">
+                  <summary>#1 カルテ記載 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「カルテ記載」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 100, &quot;y&quot;: 42}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#2 処方 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 270, &quot;y&quot;: 112}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#3 検査 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 382, &quot;y&quot;: 100}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#4 病名 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「病名」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 448, &quot;y&quot;: 108}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#5 検査結果窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査結果窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 950, &quot;y&quot;: 380}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#6 処方一覧窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方一覧窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 290, &quot;y&quot;: 100}</pre></div>
+                  </div>
+                </details>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>labs (DOM: 26 elements)</h2>
+          <div class="body">
+            <img src="annotated/labs.png" alt="labs">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th><th>Latency</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(284,108)</td><td class="miss">MISS</td><td>168.5px</td><td>1.94s</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(576,203)</td><td class="miss">MISS</td><td>368.1px</td><td>1.94s</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(791,189)</td><td class="miss">MISS</td><td>529.2px</td><td>1.94s</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(768,216)</td><td class="miss">MISS</td><td>477.0px</td><td>1.94s</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(1824,637)</td><td class="miss">MISS</td><td>1487.6px</td><td>1.94s</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(1440,162)</td><td class="miss">MISS</td><td>921.2px</td><td>1.93s</td></tr>
+              </table>
+              
+              <details>
+                <summary class="hit">OCR [lab_results]: 6/6 (recall 1.00) • 3.61s</summary>
+                <div style="display:flex;gap:12px;flex-wrap:wrap">
+                  <div style="flex:1;min-width:200px"><b>GT</b><pre>[
+  {
+    &quot;name&quot;: &quot;AST(GOT)&quot;,
+    &quot;value&quot;: &quot;16.8&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ALT(GPT)&quot;,
+    &quot;value&quot;: &quot;19.3&quot;
+  },
+  {
+    &quot;name&quot;: &quot;クレアチニン(Cr)&quot;,
+    &quot;value&quot;: &quot;0.8&quot;
+  },
+  {
+    &quot;name&quot;: &quot;白血球数(WBC)&quot;,
+    &quot;value&quot;: &quot;5270.2&quot;
+  },
+  {
+    &quot;name&quot;: &quot;CRP定量&quot;,
+    &quot;value&quot;: &quot;0.1&quot;
+  },
+  {
+    &quot;name&quot;: &quot;Na(ナトリウム)&quot;,
+    &quot;value&quot;: &quot;139.6&quot;
+  }
+]</pre></div>
+                  <div style="flex:1;min-width:200px"><b>Predicted</b><pre>[
+  {
+    &quot;name&quot;: &quot;AST(GOT)&quot;,
+    &quot;value&quot;: &quot;16.8&quot;,
+    &quot;unit&quot;: &quot;U/L&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ALT(GPT)&quot;,
+    &quot;value&quot;: &quot;19.3&quot;,
+    &quot;unit&quot;: &quot;U/L&quot;
+  },
+  {
+    &quot;name&quot;: &quot;クレアチニン(Cr)&quot;,
+    &quot;value&quot;: &quot;0.8&quot;,
+    &quot;unit&quot;: &quot;mg/dL&quot;
+  },
+  {
+    &quot;name&quot;: &quot;白血球数(WBC)&quot;,
+    &quot;value&quot;: &quot;5270.2&quot;,
+    &quot;unit&quot;: &quot;/μL&quot;
+  },
+  {
+    &quot;name&quot;: &quot;CRP定量&quot;,
+    &quot;value&quot;: &quot;0.1&quot;,
+    &quot;unit&quot;: &quot;mg/dL&quot;
+  },
+  {
+    &quot;name&quot;: &quot;Na(ナトリウム)&quot;,
+    &quot;value&quot;: &quot;139.6&quot;,
+    &quot;unit&quot;: &quot;mEq/L&quot;
+  }
+]</pre></div>
+                </div>
+                <details style="margin-top:6px"><summary>prompt &amp; raw response</summary><div style="display:flex;gap:12px"><div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面に表示されている検査値をJSON配列で取得。各項目: name, value, unit
+回答はJSON配列のみ: [{...}, {...}]
+markdown fence(```)は一切不要、JSONだけ返してください。</pre></div><div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;name&quot;: &quot;AST(GOT)&quot;,
+    &quot;value&quot;: &quot;16.8&quot;,
+    &quot;unit&quot;: &quot;U/L&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ALT(GPT)&quot;,
+    &quot;value&quot;: &quot;19.3&quot;,
+    &quot;unit&quot;: &quot;U/L&quot;
+  },
+  {
+    &quot;name&quot;: &quot;クレアチニン(Cr)&quot;,
+    &quot;value&quot;: &quot;0.8&quot;,
+    &quot;unit&quot;: &quot;mg/dL&quot;
+  },
+  {
+    &quot;name&quot;: &quot;白血球数(WBC)&quot;,
+    &quot;value&quot;: &quot;5270.2&quot;,
+    &quot;unit&quot;: &quot;/μL&quot;
+  },
+  {
+    &quot;name&quot;: &quot;CRP定量&quot;,
+    &quot;value&quot;: &quot;0.1&quot;,
+    &quot;unit&quot;: &quot;mg/dL&quot;
+  },
+  {
+    &quot;name&quot;: &quot;Na(ナトリウム)&quot;,
+    &quot;value&quot;: &quot;139.6&quot;,
+    &quot;unit&quot;: &quot;mEq/L&quot;
+  }
+]</pre></div></div></details>
+              </details>
+              
+              <details style="margin-top:8px">
+                <summary>Show grounding prompts &amp; raw responses (6 items)</summary>
+                
+                <details style="margin:4px 0">
+                  <summary>#1 カルテ記載 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「カルテ記載」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 148, &quot;y&quot;: 100}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#2 処方 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 300, &quot;y&quot;: 188}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#3 検査 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 412, &quot;y&quot;: 175}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#4 病名 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「病名」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 400, &quot;y&quot;: 200}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#5 検査結果窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査結果窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 950, &quot;y&quot;: 590}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#6 処方一覧窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方一覧窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 750, &quot;y&quot;: 150}</pre></div>
+                  </div>
+                </details>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>meds (DOM: 30 elements)</h2>
+          <div class="body">
+            <img src="annotated/meds.png" alt="meds">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th><th>Latency</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(255,92)</td><td class="miss">MISS</td><td>136.1px</td><td>1.94s</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(553,360)</td><td class="miss">MISS</td><td>437.7px</td><td>1.95s</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(384,108)</td><td class="miss">MISS</td><td>117.6px</td><td>1.95s</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(960,583)</td><td class="miss">MISS</td><td>830.5px</td><td>1.94s</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(941,540)</td><td class="miss">MISS</td><td>686.6px</td><td>1.94s</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(941,540)</td><td class="miss">MISS</td><td>639.0px</td><td>1.94s</td></tr>
+              </table>
+              
+              <details>
+                <summary class="hit">OCR [medications]: 1/1 (recall 1.00) • 3.90s</summary>
+                <div style="display:flex;gap:12px;flex-wrap:wrap">
+                  <div style="flex:1;min-width:200px"><b>GT</b><pre>[
+  {
+    &quot;name&quot;: &quot;ランソプラゾールOD錠15mg&quot;,
+    &quot;dosage&quot;: &quot;1錠 1日1回 朝食前&quot;
+  }
+]</pre></div>
+                  <div style="flex:1;min-width:200px"><b>Predicted</b><pre>[
+  {
+    &quot;name&quot;: &quot;メトホルミン塩酸塩錠250mg&quot;,
+    &quot;dosage&quot;: &quot;500mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;アムロジピンベシル酸塩錠5mg&quot;,
+    &quot;dosage&quot;: &quot;5mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;カンデサルタンシレキセチル錠8mg&quot;,
+    &quot;dosage&quot;: &quot;8mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ロスバスタチンカルシウム錠2.5mg&quot;,
+    &quot;dosage&quot;: &quot;2.5mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ランソプラゾールOD錠15mg&quot;,
+    &quot;dosage&quot;: &quot;15mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;アスピリン腸溶錠100mg&quot;,
+    &quot;dosage&quot;: &quot;100mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ワルファリンカリウム錠1mg&quot;,
+    &quot;dosage&quot;: &quot;1-5mg/日&quot;
+  }
+]</pre></div>
+                </div>
+                <details style="margin-top:6px"><summary>prompt &amp; raw response</summary><div style="display:flex;gap:12px"><div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面に表示されている処方薬一覧をJSON配列で取得。各項目: name, dosage
+回答はJSON配列のみ: [{...}, {...}]
+markdown fence(```)は一切不要、JSONだけ返してください。</pre></div><div style="flex:1"><b>Raw response</b><pre>[
+  {
+    &quot;name&quot;: &quot;メトホルミン塩酸塩錠250mg&quot;,
+    &quot;dosage&quot;: &quot;500mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;アムロジピンベシル酸塩錠5mg&quot;,
+    &quot;dosage&quot;: &quot;5mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;カンデサルタンシレキセチル錠8mg&quot;,
+    &quot;dosage&quot;: &quot;8mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ロスバスタチンカルシウム錠2.5mg&quot;,
+    &quot;dosage&quot;: &quot;2.5mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ランソプラゾールOD錠15mg&quot;,
+    &quot;dosage&quot;: &quot;15mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;アスピリン腸溶錠100mg&quot;,
+    &quot;dosage&quot;: &quot;100mg/日&quot;
+  },
+  {
+    &quot;name&quot;: &quot;ワルファリンカリウム錠1mg&quot;,
+    &quot;dosage&quot;: &quot;1-5mg/日&quot;
+  }
+]</pre></div></div></details>
+              </details>
+              
+              <details style="margin-top:8px">
+                <summary>Show grounding prompts &amp; raw responses (6 items)</summary>
+                
+                <details style="margin:4px 0">
+                  <summary>#1 カルテ記載 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「カルテ記載」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 133, &quot;y&quot;: 85}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#2 処方 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 288, &quot;y&quot;: 333}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#3 検査 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 200, &quot;y&quot;: 100}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#4 病名 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「病名」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 500, &quot;y&quot;: 540}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#5 検査結果窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査結果窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 490, &quot;y&quot;: 500}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#6 処方一覧窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方一覧窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 490, &quot;y&quot;: 500}</pre></div>
+                  </div>
+                </details>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <h2>diagnoses (DOM: 32 elements)</h2>
+          <div class="body">
+            <img src="annotated/diagnoses.png" alt="diagnoses">
+            <div class="results">
+              <table>
+                <tr><th>#</th><th>Target</th><th>GT bbox</th><th>Pred</th><th>Result</th><th>Dist</th><th>Latency</th></tr>
+                <tr><td>#1</td><td>カルテ記載</td><td>[90, 45, 158, 66]</td><td>(250,124)</td><td class="miss">MISS</td><td>143.7px</td><td>1.94s</td></tr><tr><td>#2</td><td>処方</td><td>[220, 45, 258, 66]</td><td>(528,175)</td><td class="miss">MISS</td><td>312.9px</td><td>1.93s</td></tr><tr><td>#3</td><td>検査</td><td>[260, 45, 298, 66]</td><td>(403,135)</td><td class="miss">MISS</td><td>147.6px</td><td>1.93s</td></tr><tr><td>#4</td><td>病名</td><td>[300, 45, 338, 66]</td><td>(733,413)</td><td class="miss">MISS</td><td>547.3px</td><td>1.94s</td></tr><tr><td>#5</td><td>検査結果窓</td><td>[421, 45, 489, 66]</td><td>(947,559)</td><td class="miss">MISS</td><td>704.3px</td><td>1.93s</td></tr><tr><td>#6</td><td>処方一覧窓</td><td>[491, 45, 559, 66]</td><td>(954,559)</td><td class="miss">MISS</td><td>661.9px</td><td>1.93s</td></tr>
+              </table>
+              
+              <details>
+                <summary class="hit">OCR [diagnoses]: 2/2 (recall 1.00) • 2.12s</summary>
+                <div style="display:flex;gap:12px;flex-wrap:wrap">
+                  <div style="flex:1;min-width:200px"><b>GT</b><pre>[
+  {
+    &quot;name&quot;: &quot;うつ病エピソード&quot;,
+    &quot;icd10&quot;: &quot;F32&quot;
+  },
+  {
+    &quot;name&quot;: &quot;背部痛&quot;,
+    &quot;icd10&quot;: &quot;M54&quot;
+  }
+]</pre></div>
+                  <div style="flex:1;min-width:200px"><b>Predicted</b><pre>[
+  {
+    &quot;name&quot;: &quot;うつ病エピソード&quot;,
+    &quot;icd10&quot;: &quot;F32&quot;
+  },
+  {
+    &quot;name&quot;: &quot;背部痛&quot;,
+    &quot;icd10&quot;: &quot;M54.5&quot;
+  }
+]</pre></div>
+                </div>
+                <details style="margin-top:6px"><summary>prompt &amp; raw response</summary><div style="display:flex;gap:12px"><div style="flex:1"><b>Prompt</b><pre>画面のスクリーンショットを見てください。
+画面に表示されている病名一覧をJSON配列で取得。各項目: name, icd10
+回答はJSON配列のみ: [{...}, {...}]
+markdown fence(```)は一切不要、JSONだけ返してください。</pre></div><div style="flex:1"><b>Raw response</b><pre>[{&quot;name&quot;: &quot;うつ病エピソード&quot;, &quot;icd10&quot;: &quot;F32&quot;}, {&quot;name&quot;: &quot;背部痛&quot;, &quot;icd10&quot;: &quot;M54.5&quot;}]</pre></div></div></details>
+              </details>
+              
+              <details style="margin-top:8px">
+                <summary>Show grounding prompts &amp; raw responses (6 items)</summary>
+                
+                <details style="margin:4px 0">
+                  <summary>#1 カルテ記載 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「カルテ記載」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 130, &quot;y&quot;: 115}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#2 処方 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 275, &quot;y&quot;: 162}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#3 検査 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 210, &quot;y&quot;: 125}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#4 病名 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「病名」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 382, &quot;y&quot;: 382}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#5 検査結果窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「検査結果窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 493, &quot;y&quot;: 518}</pre></div>
+                  </div>
+                </details>
+                <details style="margin:4px 0">
+                  <summary>#6 処方一覧窓 <span class="miss">[MISS]</span> — prompt &amp; raw response</summary>
+                  <div style="display:flex;gap:12px;margin-top:4px">
+                    <div style="flex:1"><b>Prompt</b><pre>画像サイズは 1920 × 1080 ピクセルです。
+画面のスクリーンショットを見てください。
+「処方一覧窓」の中心座標を返してください。
+座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。
+回答はこのJSON形式のみ: {&quot;x&quot;: 整数, &quot;y&quot;: 整数}</pre></div>
+                    <div style="flex:1"><b>Raw response</b><pre>{&quot;x&quot;: 497, &quot;y&quot;: 518}</pre></div>
+                  </div>
+                </details>
+              </details>
+            </div>
+          </div>
+        </div></div>
+</body></html>

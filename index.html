@@ -2,7 +2,7 @@
 <html lang="ja"><head><meta charset="utf-8">
 <title>MedBridge Sandbox — Experiment Viewers</title>
 <style>
-  body { font-family: sans-serif; margin: 0 auto; background: #0b0d10; color: #eee; padding: 24px; max-width: 1000px; }
+  body { font-family: sans-serif; margin: 0 auto; background: #0b0d10; color: #eee; padding: 24px; max-width: 1080px; }
   h1 { margin: 0 0 12px; font-size: 22px; }
   h2 { margin: 32px 0 8px; font-size: 16px; color: #9ca3af; border-bottom: 1px solid #222; padding-bottom: 4px; }
   h3 { margin: 24px 0 8px; font-size: 14px; color: #9ca3af; }
@@ -14,10 +14,11 @@
   .chip { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 6px; }
   .good { background: #16a34a; } .mid { background: #ca8a04; } .bad { background: #dc2626; } .info { background: #2563eb; } .speed { background: #374151; }
   table { border-collapse: collapse; font-size: 13px; margin-top: 8px; }
-  th { background: #1e232a; padding: 6px 12px; text-align: left; border: 1px solid #333; }
-  td { padding: 6px 12px; border: 1px solid #333; }
+  th { background: #1e232a; padding: 6px 10px; text-align: left; border: 1px solid #333; }
+  td { padding: 6px 10px; border: 1px solid #333; }
   details { color: #aaa; }
   summary { cursor: pointer; color: #9ca3af; }
+  code { background: #1e232a; padding: 2px 6px; border-radius: 3px; font-size: 12px; }
 </style></head>
 <body>
 <h1>MedBridge Sandbox — Experiment Viewers</h1>
@@ -36,9 +37,9 @@
   </div>
 </div>
 
-<h2>Benchmarks — VLM 単体能力測定</h2>
+<h2>Benchmarks — VLM 単体能力測定 (最終版)</h2>
 
-<p style="color:#aaa; font-size:13px">同一の6画面スクショ (login/patient_list/karte/labs/meds/diagnoses) で Grounding (DOM bbox と予測点の一致率) と OCR (画面から構造化抽出 → SQLite GT との recall) を測定。各モデルは同じスクショで replay。v3 ランは推論時間と生プロンプト/生レスポンスを全件保存し、ビューワーでトグル展開できる。</p>
+<p style="color:#aaa; font-size:13px">同一の6画面スクショ (login/patient_list/karte/labs/meds/diagnoses) で Grounding (DOM bbox と予測点の一致率) と OCR (画面から構造化抽出 → SQLite GT との recall) を測定。<b>下記は JSON Schema 制約付き最終版</b>。llama.cpp の <code>response_format: json_schema</code> で出力形式を強制し、<code>{"x":[69,33],"y":[27]}</code> のような壊れた配列出力を防止。</p>
 
 <div class="card">
   <a href="bench_20260417_125301_all/viewer.html">① Holo3-35B-A3B (vLLM BF16) — 20260417_125301</a>
@@ -51,97 +52,108 @@
 </div>
 
 <div class="card">
-  <a href="bench_100914_qwen36-27b-v3/viewer.html">② Qwen3.6-27B dense Q8_0 — 20260423_100914 <span style="font-weight:400; color:#888">[v3 timing]</span></a>
+  <a href="bench_195519_qwen36-27b-q8-schema/viewer.html">② Qwen3.6-27B Q8_0 + schema <span style="font-weight:400; color:#888">[FINAL]</span></a>
   <div class="meta">
-    <span class="chip mid">Grounding 0.63 (20/32)</span>
+    <span class="chip good">Grounding 0.84 (27/32)</span>
     <span class="chip good">OCR 1.00</span>
-    <span class="chip info">Mean 111px</span>
-    <span class="chip speed">⏱ 5.0s/g, 5.9s/o</span>
-    Active 27B (dense)
+    <span class="chip info">Mean 148px</span>
+    <span class="chip speed">⏱ 3.3s/g, 2.8s/o</span>
+    Dense 27B, JSON schema で Holo3 タイ
   </div>
 </div>
 
 <div class="card">
-  <a href="bench_193031_qwen36-27b-bf16/viewer.html">② Qwen3.6-27B dense <b>BF16</b> — 20260423_193031 <span style="font-weight:400; color:#888">[NEW]</span></a>
+  <a href="bench_195212_qwen36-27b-bf16-schema/viewer.html">③ Qwen3.6-27B BF16 + schema <span style="font-weight:400; color:#888">[BEST]</span></a>
   <div class="meta">
-    <span class="chip mid">Grounding 0.66 (21/32)</span>
+    <span class="chip good">Grounding 0.84 (27/32)</span>
     <span class="chip good">OCR 1.00</span>
-    <span class="chip info">Mean 105px</span>
-    <span class="chip speed">⏱ 3.1s/g, 15.7s/o</span>
-    Active 27B (dense) — Q8 とほぼ同等、grounding は微増
+    <span class="chip info">Mean <b>127px</b></span>
+    <span class="chip speed">⏱ 2.8s/g, 15.7s/o</span>
+    Dense 27B FP, Holo3 を mean dist で上回る
   </div>
 </div>
 
 <div class="card">
-  <a href="bench_101524_qwen36-35b-v3/viewer.html">③ Qwen3.6-35B-A3B MoE Q8_0 — 20260423_101524 <span style="font-weight:400; color:#888">[v3 timing]</span></a>
+  <a href="bench_195823_qwen36-35b-q8-schema/viewer.html">④ Qwen3.6-35B-A3B Q8_0 + schema</a>
   <div class="meta">
     <span class="chip bad">Grounding 0.09 (3/32)</span>
     <span class="chip good">OCR 1.00</span>
     <span class="chip info">Mean 388px</span>
     <span class="chip speed">⏱ 1.9s/g, 3.2s/o</span>
-    Active 3B (MoE)
+    Active 3B MoE — schema で改善せず
   </div>
 </div>
 
 <div class="card">
-  <a href="bench_101721_qwen36-35b-bf16/viewer.html">④ Qwen3.6-35B-A3B MoE <b>BF16</b> (原モデル相当) — 20260423_101721 <span style="font-weight:400; color:#888">[NEW]</span></a>
+  <a href="bench_195953_qwen36-35b-bf16-schema/viewer.html">⑤ Qwen3.6-35B-A3B BF16 + schema</a>
   <div class="meta">
     <span class="chip bad">Grounding 0.06 (2/32)</span>
     <span class="chip good">OCR 1.00</span>
     <span class="chip info">Mean 376px</span>
     <span class="chip speed">⏱ 2.2s/g, 3.9s/o</span>
-    Active 3B (MoE) — 量子化ではなく MoE が原因と確定
+    Active 3B MoE, 量子化も format も関係なし
   </div>
 </div>
 
-<details style="margin:12px 0; color:#888; font-size:12px">
-<summary>旧 run (v1 座標未補正 / v2 初期) — 参考</summary>
-<div class="card"><a href="bench_20260423_073917_qwen36/viewer.html">Qwen3.6-35B Q8_0 v1 (座標未補正)</a> — hit 0.09, mean 248px</div>
-<div class="card"><a href="bench_20260423_081325_qwen36/viewer.html">Qwen3.6-35B Q8_0 v2 (初期)</a> — hit 0.09, mean 388px</div>
-<div class="card"><a href="bench_20260423_094045_qwen36-27b/viewer.html">Qwen3.6-27B Q8_0 v2 (初期)</a> — hit 0.63, mean 111px</div>
-</details>
-
-<h3>5-way 比較サマリー (timing 込み)</h3>
+<h3>主な数値</h3>
 
 <table>
-<tr><th>メトリック</th><th>Holo3</th><th>Qwen-27B Q8</th><th>Qwen-27B <b>BF16</b></th><th>Qwen-35B MoE Q8</th><th>Qwen-35B MoE BF16</th></tr>
-<tr><td>Active / Total</td><td>~3B / 35B MoE</td><td>27B dense</td><td>27B dense</td><td>~3B / 35B MoE</td><td>~3B / 35B MoE</td></tr>
-<tr><td>量子化</td><td>BF16 (vLLM)</td><td>Q8_0</td><td>BF16</td><td>Q8_0</td><td>BF16</td></tr>
-<tr><td>Grounding hit rate</td><td style="color:#22c55e"><b>0.84</b> (27/32)</td><td style="color:#ca8a04">0.63 (20/32)</td><td style="color:#ca8a04">0.66 (21/32)</td><td style="color:#ef4444">0.09 (3/32)</td><td style="color:#ef4444">0.06 (2/32)</td></tr>
-<tr><td>Mean pixel dist</td><td>149 px</td><td>111 px</td><td style="color:#22c55e"><b>105 px</b></td><td>388 px</td><td>376 px</td></tr>
-<tr><td>OCR recall</td><td>0.67</td><td style="color:#22c55e"><b>1.00</b></td><td style="color:#22c55e"><b>1.00</b></td><td style="color:#22c55e"><b>1.00</b></td><td style="color:#22c55e"><b>1.00</b></td></tr>
-<tr><td>Grounding lat</td><td>—</td><td>5.0s</td><td>3.1s</td><td style="color:#22c55e"><b>1.9s</b></td><td>2.2s</td></tr>
-<tr><td>OCR lat</td><td>—</td><td>5.9s</td><td>15.7s</td><td style="color:#22c55e"><b>3.2s</b></td><td>3.9s</td></tr>
-<tr><td>Total (35 calls)</td><td>—</td><td>178s</td><td>147s</td><td style="color:#22c55e"><b>72s</b></td><td>82s</td></tr>
+<tr><th>モデル</th><th>量子化</th><th>Schema</th><th>Hit rate</th><th>Mean dist</th><th>OCR</th><th>g-lat</th><th>Total (35 calls)</th></tr>
+<tr><td>Holo3-35B-A3B</td><td>BF16 (vLLM)</td><td>—</td><td style="color:#22c55e"><b>0.84</b> (27/32)</td><td>149px</td><td>0.67</td><td>—</td><td>—</td></tr>
+<tr><td>Qwen-27B dense</td><td>Q8_0</td><td>✗</td><td style="color:#ca8a04">0.63 (20/32)</td><td>111px</td><td>1.00</td><td>5.0s</td><td>178s</td></tr>
+<tr><td>Qwen-27B dense</td><td>Q8_0</td><td><b>✓</b></td><td style="color:#22c55e"><b>0.84</b> (27/32)</td><td>148px</td><td>1.00</td><td>3.3s</td><td><b>123s</b></td></tr>
+<tr><td>Qwen-27B dense</td><td>BF16</td><td>✗</td><td style="color:#ca8a04">0.66 (21/32)</td><td>105px</td><td>1.00</td><td>3.1s</td><td>147s</td></tr>
+<tr><td>Qwen-27B dense</td><td>BF16</td><td><b>✓</b></td><td style="color:#22c55e"><b>0.84</b> (27/32)</td><td style="color:#22c55e"><b>127px</b></td><td>1.00</td><td style="color:#22c55e"><b>2.8s</b></td><td>137s</td></tr>
+<tr><td>Qwen-35B MoE</td><td>Q8_0</td><td>✗/✓</td><td style="color:#ef4444">0.09 (3/32)</td><td>388px</td><td>1.00</td><td>1.9s</td><td>72s</td></tr>
+<tr><td>Qwen-35B MoE</td><td>BF16</td><td>✗/✓</td><td style="color:#ef4444">0.06 (2/32)</td><td>376px</td><td>1.00</td><td>2.2s</td><td>82s</td></tr>
 </table>
 
-<h3>画面別 grounding hit (hit / 出題数)</h3>
+<h3>画面別 grounding hit (schema付き最終版)</h3>
 <table>
-<tr><th>画面</th><th>Holo3</th><th>Qwen-27B Q8</th><th>Qwen-27B BF16</th><th>Qwen-35B Q8</th><th>Qwen-35B BF16</th></tr>
+<tr><th>画面</th><th>Holo3</th><th>27B-Q8 +sch</th><th>27B-BF16 +sch</th><th>35B-Q8 +sch</th><th>35B-BF16 +sch</th></tr>
 <tr><td>login</td><td>2/2</td><td>2/2</td><td>2/2</td><td>2/2</td><td>2/2</td></tr>
 <tr><td>patient_list</td><td>6/6</td><td>6/6</td><td>6/6</td><td>1/6</td><td>0/6</td></tr>
 <tr><td>karte</td><td>5/6</td><td>4/6</td><td>4/6</td><td>0/6</td><td>0/6</td></tr>
-<tr><td>labs</td><td>5/6</td><td>5/6</td><td>5/6</td><td>0/6</td><td>0/6</td></tr>
-<tr><td>meds</td><td>5/6</td><td>1/6</td><td>0/6</td><td>0/6</td><td>0/6</td></tr>
-<tr><td>diagnoses</td><td>4/6</td><td>2/6</td><td>4/6</td><td>0/6</td><td>0/6</td></tr>
+<tr><td>labs</td><td>5/6</td><td><b>6/6</b></td><td><b>6/6</b></td><td>0/6</td><td>0/6</td></tr>
+<tr><td>meds</td><td>5/6</td><td>4/6</td><td>4/6</td><td>0/6</td><td>0/6</td></tr>
+<tr><td>diagnoses</td><td>4/6</td><td><b>5/6</b></td><td><b>5/6</b></td><td>0/6</td><td>0/6</td></tr>
 </table>
 
-<h3>主な発見</h3>
+<h3>JSON Schema 制約の効果</h3>
 <p style="color:#aaa; font-size:13px">
-1️⃣ <b>量子化 (Q8_0 ↔ BF16) は grounding にほぼ影響しない</b> — 27B dense で 0.63→0.66 (+1 hit)、35B-MoE で 0.09→0.06 (−1 hit)。どちらも 1 trial 差で noise 範囲内。Q8_0 は BF16 の十分な代替。<br>
-<br>
-2️⃣ <b>Active params が grounding を支配する</b> — 同じ Qwen3.6 系で 27B-dense (active 27B) が 35B-MoE (active 3B) に 7 倍の hit率差。<b>総パラ数ではなく active パラが本質</b>。<br>
-<br>
-3️⃣ <b>速度トレードオフ</b> — 35B-MoE は 1.9 s/call と最速だが grounding では使い物にならない。27B-dense BF16 は 3.1 s/call で Q8 より速く精度も良い (A100でメモリ帯域を活かしきれる?) 。本用途では <b>27B-dense BF16 が accuracy/speed ともに Qwen 系最良</b>。<br>
-<br>
-4️⃣ <b>OCR は全 Qwen が Holo3 超え 1.00</b> — 構造化抽出では 3B active でも問題ない。「座標特定 = 27B-dense or Holo3」「画面読み取り = 35B-MoE」の分業が最適。<br>
-<br>
-5️⃣ <b>座標系</b> — Qwen3.6 は指示に関わらず 0-1000 正規化座標を返す。v1 では絶対ピクセルと誤解釈して login 画面でも外したが、v2/v3 で <code>pred × image_size / 1000</code> に自動変換済み。login 2/2 (dist 2-4px) はどのサイズ/量子化でも共通。
+問題: 27B-dense はしばしば <code>{"x": [69, 33], "y": [27]}</code> のような壊れた配列を返していた。パーサは配列から 1 点を取り出せず grounding 失敗。<br>
+解決: llama.cpp <code>response_format: json_schema</code> で <code>x: integer, y: integer</code> を強制。<br>
+<b>27B-dense は hit率 0.63-0.66 → 0.84 に +0.19 の大幅改善</b>で Holo3 タイ。<br>
+35B-MoE は 0.09/0.06 のまま不変 — 出力フォーマットではなく active 3B による認識精度の構造的限界が原因と確定した。
 </p>
 
-<h3>注: 生プロンプト & 生レスポンス</h3>
+<h3>最終結論</h3>
 <p style="color:#aaa; font-size:13px">
-各 benchmark viewer で各 grounding trial 行の下にある <b>「Show grounding prompts &amp; raw responses」</b> トグルを押すと、送信プロンプトと モデルの生レスポンス全文が展開される。OCR の下にも同様のトグルあり。デバッグと failure 分析に使う。
+<b>✅ 推奨</b>: <b>Qwen3.6-27B dense (Q8_0 or BF16) + JSON schema 制約</b> がベストチョイス。<br>
+・Holo3 とタイの hit率 0.84<br>
+・Holo3 を上回る OCR 1.00 と mean dist 127px (BF16)<br>
+・Holo3 特化 fine-tune なしに GUI agent として成立<br>
+・llama.cpp で動くので運用容易 (BF16 で A100 80GB 50GB 使用)<br>
+<br>
+<b>❌ 避けるべき</b>: Qwen3.6-35B-A3B (MoE) は grounding 用途に非推奨。active 3B が構造的に足りない。OCR 用途 (3.2s/call 最速) なら使える。<br>
+<br>
+<b>座標系注記</b>: Qwen3.6 は指示に関わらず 0-1000 正規化座標を返す (Qwen-VL踏襲)。<code>pred × image_size / 1000</code> で変換必要。どの量子化でも共通。
+</p>
+
+<details style="margin:24px 0; color:#888; font-size:12px">
+<summary>旧 run (schema なし / 座標補正なし) — 参考</summary>
+<div class="card"><a href="bench_20260423_073917_qwen36/viewer.html">Qwen3.6-35B Q8_0 v1 (座標未補正)</a> — hit 0.09</div>
+<div class="card"><a href="bench_20260423_081325_qwen36/viewer.html">Qwen3.6-35B Q8_0 v2 初期</a> — hit 0.09</div>
+<div class="card"><a href="bench_20260423_094045_qwen36-27b/viewer.html">Qwen3.6-27B Q8_0 v2 初期 (no schema)</a> — hit 0.63</div>
+<div class="card"><a href="bench_100914_qwen36-27b-v3/viewer.html">Qwen3.6-27B Q8_0 v3 (timing, no schema)</a> — hit 0.63</div>
+<div class="card"><a href="bench_193031_qwen36-27b-bf16/viewer.html">Qwen3.6-27B BF16 (no schema)</a> — hit 0.66</div>
+<div class="card"><a href="bench_101524_qwen36-35b-v3/viewer.html">Qwen3.6-35B Q8 v3 (no schema)</a> — hit 0.09</div>
+<div class="card"><a href="bench_101721_qwen36-35b-bf16/viewer.html">Qwen3.6-35B BF16 (no schema)</a> — hit 0.06</div>
+</details>
+
+<h3>ビューワーの使い方</h3>
+<p style="color:#aaa; font-size:13px">
+各 bench の viewer では grounding trial 毎に Latency 列と「Show grounding prompts &amp; raw responses」トグルがあり、送信プロンプト全文と モデルの生レスポンス全文を展開して確認できる。schema 付き run では raw response が <code>{"x": 255, "y": 55}</code> の整った形で返っていることが確認できる。
 </p>
 
 </body></html>
