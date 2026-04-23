@@ -1,0 +1,923 @@
+{
+  "metadata": {
+    "session_name": "20260423_101524_qwen36-35b-v3_replay",
+    "replay_from": "bench_results/20260417_125301_all",
+    "patient_id": "00000001",
+    "server_url": "http://127.0.0.1:8001",
+    "model": "Qwen3.6-35B-A3B-GGUF:Q8_0 (MoE 3B active)",
+    "start_time": "2026-04-23T10:15:24.067436",
+    "end_time": "2026-04-23T10:16:36.186563"
+  },
+  "summary": {
+    "grounding_hits": 3,
+    "grounding_total": 32,
+    "grounding_hit_rate": 0.094,
+    "grounding_mean_dist": 388.5,
+    "ocr_mean_recall": 1.0,
+    "grounding_mean_latency_sec": 1.93,
+    "ocr_mean_latency_sec": 3.21,
+    "total_latency_sec": 71.5,
+    "total_calls": 35
+  },
+  "screens": [
+    {
+      "screen_name": "login",
+      "screenshot_path": "screenshots/login.png",
+      "annotated_path": "annotated/login.png",
+      "grounding": [
+        {
+          "target": "ログイン",
+          "gt_bbox": [
+            961,
+            606,
+            1041,
+            629
+          ],
+          "gt_center": [
+            1001,
+            617
+          ],
+          "pred_point": [
+            1000,
+            615
+          ],
+          "hit": true,
+          "pixel_distance": 2.2,
+          "latency_sec": 1.97,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「ログイン」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 521, \"y\": 569}"
+        },
+        {
+          "target": "キャンセル",
+          "gt_bbox": [
+            1049,
+            606,
+            1132,
+            629
+          ],
+          "gt_center": [
+            1090,
+            617
+          ],
+          "pred_point": [
+            1094,
+            616
+          ],
+          "hit": true,
+          "pixel_distance": 4.1,
+          "latency_sec": 1.927,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「キャンセル」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 570, \"y\": 570}"
+        }
+      ],
+      "ocr": [],
+      "dom_elements_count": 2
+    },
+    {
+      "screen_name": "patient_list",
+      "screenshot_path": "screenshots/patient_list.png",
+      "annotated_path": "annotated/patient_list.png",
+      "grounding": [
+        {
+          "target": "検索条件を入力...",
+          "gt_bbox": [
+            130,
+            100,
+            410,
+            123
+          ],
+          "gt_center": [
+            270,
+            111
+          ],
+          "pred_point": [
+            253,
+            148
+          ],
+          "hit": false,
+          "pixel_distance": 40.7,
+          "latency_sec": 1.936,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検索条件を入力...」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 132, \"y\": 137}"
+        },
+        {
+          "target": "検索(S)",
+          "gt_bbox": [
+            418,
+            100,
+            485,
+            123
+          ],
+          "gt_center": [
+            451,
+            111
+          ],
+          "pred_point": [
+            451,
+            148
+          ],
+          "hit": false,
+          "pixel_distance": 37.0,
+          "latency_sec": 1.922,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検索(S)」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 235, \"y\": 137}"
+        },
+        {
+          "target": "📋\n受付一覧",
+          "gt_bbox": [
+            4,
+            45,
+            73,
+            72
+          ],
+          "gt_center": [
+            38,
+            58
+          ],
+          "pred_point": [
+            54,
+            72
+          ],
+          "hit": true,
+          "pixel_distance": 21.3,
+          "latency_sec": 1.912,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「📋\n受付一覧」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 28, \"y\": 67}"
+        },
+        {
+          "target": "🏥\n受付管理",
+          "gt_bbox": [
+            83,
+            45,
+            153,
+            72
+          ],
+          "gt_center": [
+            118,
+            58
+          ],
+          "pred_point": [
+            54,
+            70
+          ],
+          "hit": false,
+          "pixel_distance": 65.1,
+          "latency_sec": 1.915,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「🏥\n受付管理」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 28, \"y\": 65}"
+        },
+        {
+          "target": "🛏\n入院管理",
+          "gt_bbox": [
+            163,
+            45,
+            232,
+            72
+          ],
+          "gt_center": [
+            197,
+            58
+          ],
+          "pred_point": [
+            192,
+            81
+          ],
+          "hit": false,
+          "pixel_distance": 23.5,
+          "latency_sec": 1.928,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「🛏\n入院管理」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 100, \"y\": 75}"
+        },
+        {
+          "target": "📅\n予約管理",
+          "gt_bbox": [
+            242,
+            45,
+            312,
+            72
+          ],
+          "gt_center": [
+            277,
+            58
+          ],
+          "pred_point": [
+            192,
+            78
+          ],
+          "hit": false,
+          "pixel_distance": 87.3,
+          "latency_sec": 1.921,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「📅\n予約管理」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 100, \"y\": 72}"
+        }
+      ],
+      "ocr": [],
+      "dom_elements_count": 11
+    },
+    {
+      "screen_name": "karte",
+      "screenshot_path": "screenshots/karte.png",
+      "annotated_path": "annotated/karte.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            192,
+            45
+          ],
+          "hit": false,
+          "pixel_distance": 68.7,
+          "latency_sec": 1.96,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「カルテ記載」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 100, \"y\": 42}"
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            518,
+            121
+          ],
+          "hit": false,
+          "pixel_distance": 286.7,
+          "latency_sec": 1.939,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 270, \"y\": 112}"
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            733,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 457.1,
+          "latency_sec": 1.961,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 382, \"y\": 100}"
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            860,
+            117
+          ],
+          "hit": false,
+          "pixel_distance": 544.5,
+          "latency_sec": 1.947,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「病名」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 448, \"y\": 108}"
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            1824,
+            410
+          ],
+          "hit": false,
+          "pixel_distance": 1414.3,
+          "latency_sec": 1.96,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査結果窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 950, \"y\": 380}"
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            557,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 61.9,
+          "latency_sec": 1.94,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方一覧窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 290, \"y\": 100}"
+        }
+      ],
+      "ocr": [],
+      "dom_elements_count": 23
+    },
+    {
+      "screen_name": "labs",
+      "screenshot_path": "screenshots/labs.png",
+      "annotated_path": "annotated/labs.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            284,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 168.5,
+          "latency_sec": 1.931,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「カルテ記載」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 148, \"y\": 100}"
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            576,
+            203
+          ],
+          "hit": false,
+          "pixel_distance": 368.1,
+          "latency_sec": 1.946,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 300, \"y\": 188}"
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            791,
+            189
+          ],
+          "hit": false,
+          "pixel_distance": 529.2,
+          "latency_sec": 1.932,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 412, \"y\": 175}"
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            768,
+            216
+          ],
+          "hit": false,
+          "pixel_distance": 477.0,
+          "latency_sec": 1.933,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「病名」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 400, \"y\": 200}"
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            1824,
+            637
+          ],
+          "hit": false,
+          "pixel_distance": 1487.6,
+          "latency_sec": 1.939,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査結果窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 950, \"y\": 590}"
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            1440,
+            162
+          ],
+          "hit": false,
+          "pixel_distance": 921.2,
+          "latency_sec": 1.931,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方一覧窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 750, \"y\": 150}"
+        }
+      ],
+      "ocr": [
+        {
+          "category": "lab_results",
+          "gt": [
+            {
+              "name": "AST(GOT)",
+              "value": "16.8"
+            },
+            {
+              "name": "ALT(GPT)",
+              "value": "19.3"
+            },
+            {
+              "name": "クレアチニン(Cr)",
+              "value": "0.8"
+            },
+            {
+              "name": "白血球数(WBC)",
+              "value": "5270.2"
+            },
+            {
+              "name": "CRP定量",
+              "value": "0.1"
+            },
+            {
+              "name": "Na(ナトリウム)",
+              "value": "139.6"
+            }
+          ],
+          "predicted": [
+            {
+              "name": "AST(GOT)",
+              "value": "16.8",
+              "unit": "U/L"
+            },
+            {
+              "name": "ALT(GPT)",
+              "value": "19.3",
+              "unit": "U/L"
+            },
+            {
+              "name": "クレアチニン(Cr)",
+              "value": "0.8",
+              "unit": "mg/dL"
+            },
+            {
+              "name": "白血球数(WBC)",
+              "value": "5270.2",
+              "unit": "/μL"
+            },
+            {
+              "name": "CRP定量",
+              "value": "0.1",
+              "unit": "mg/dL"
+            },
+            {
+              "name": "Na(ナトリウム)",
+              "value": "139.6",
+              "unit": "mEq/L"
+            }
+          ],
+          "matched": 6,
+          "recall": 1.0,
+          "latency_sec": 3.62,
+          "prompt_text": "画面のスクリーンショットを見てください。\n画面に表示されている検査値をJSON配列で取得。各項目: name, value, unit\n回答はJSON配列のみ: [{...}, {...}]\nmarkdown fence(```)は一切不要、JSONだけ返してください。",
+          "raw_response": "[\n  {\n    \"name\": \"AST(GOT)\",\n    \"value\": \"16.8\",\n    \"unit\": \"U/L\"\n  },\n  {\n    \"name\": \"ALT(GPT)\",\n    \"value\": \"19.3\",\n    \"unit\": \"U/L\"\n  },\n  {\n    \"name\": \"クレアチニン(Cr)\",\n    \"value\": \"0.8\",\n    \"unit\": \"mg/dL\"\n  },\n  {\n    \"name\": \"白血球数(WBC)\",\n    \"value\": \"5270.2\",\n    \"unit\": \"/μL\"\n  },\n  {\n    \"name\": \"CRP定量\",\n    \"value\": \"0.1\",\n    \"unit\": \"mg/dL\"\n  },\n  {\n    \"name\": \"Na(ナトリウム)\",\n    \"value\": \"139.6\",\n    \"unit\": \"mEq/L\"\n  }\n]"
+        }
+      ],
+      "dom_elements_count": 26
+    },
+    {
+      "screen_name": "meds",
+      "screenshot_path": "screenshots/meds.png",
+      "annotated_path": "annotated/meds.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            255,
+            92
+          ],
+          "hit": false,
+          "pixel_distance": 136.1,
+          "latency_sec": 1.938,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「カルテ記載」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 133, \"y\": 85}"
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            553,
+            360
+          ],
+          "hit": false,
+          "pixel_distance": 437.7,
+          "latency_sec": 1.937,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 288, \"y\": 333}"
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            384,
+            108
+          ],
+          "hit": false,
+          "pixel_distance": 117.6,
+          "latency_sec": 1.941,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 200, \"y\": 100}"
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            960,
+            583
+          ],
+          "hit": false,
+          "pixel_distance": 830.5,
+          "latency_sec": 1.917,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「病名」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 500, \"y\": 540}"
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            941,
+            540
+          ],
+          "hit": false,
+          "pixel_distance": 686.6,
+          "latency_sec": 1.93,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査結果窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 490, \"y\": 500}"
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            941,
+            540
+          ],
+          "hit": false,
+          "pixel_distance": 639.0,
+          "latency_sec": 1.925,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方一覧窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 490, \"y\": 500}"
+        }
+      ],
+      "ocr": [
+        {
+          "category": "medications",
+          "gt": [
+            {
+              "name": "ランソプラゾールOD錠15mg",
+              "dosage": "1錠 1日1回 朝食前"
+            }
+          ],
+          "predicted": [
+            {
+              "name": "メトホルミン塩酸塩錠250mg",
+              "dosage": "500mg/日"
+            },
+            {
+              "name": "アムロジピンベシル酸塩錠5mg",
+              "dosage": "5mg/日"
+            },
+            {
+              "name": "カンデサルタンシレキセチル錠8mg",
+              "dosage": "8mg/日"
+            },
+            {
+              "name": "ロスバスタチンカルシウム錠2.5mg",
+              "dosage": "2.5mg/日"
+            },
+            {
+              "name": "ランソプラゾールOD錠15mg",
+              "dosage": "15mg/日"
+            },
+            {
+              "name": "アスピリン腸溶錠100mg",
+              "dosage": "100mg/日"
+            },
+            {
+              "name": "ワルファリンカリウム錠1mg",
+              "dosage": "1-5mg/日"
+            }
+          ],
+          "matched": 1,
+          "recall": 1.0,
+          "latency_sec": 3.912,
+          "prompt_text": "画面のスクリーンショットを見てください。\n画面に表示されている処方薬一覧をJSON配列で取得。各項目: name, dosage\n回答はJSON配列のみ: [{...}, {...}]\nmarkdown fence(```)は一切不要、JSONだけ返してください。",
+          "raw_response": "[\n  {\n    \"name\": \"メトホルミン塩酸塩錠250mg\",\n    \"dosage\": \"500mg/日\"\n  },\n  {\n    \"name\": \"アムロジピンベシル酸塩錠5mg\",\n    \"dosage\": \"5mg/日\"\n  },\n  {\n    \"name\": \"カンデサルタンシレキセチル錠8mg\",\n    \"dosage\": \"8mg/日\"\n  },\n  {\n    \"name\": \"ロスバスタチンカルシウム錠2.5mg\",\n    \"dosage\": \"2.5mg/日\"\n  },\n  {\n    \"name\": \"ランソプラゾールOD錠15mg\",\n    \"dosage\": \"15mg/日\"\n  },\n  {\n    \"name\": \"アスピリン腸溶錠100mg\",\n    \"dosage\": \"100mg/日\"\n  },\n  {\n    \"name\": \"ワルファリンカリウム錠1mg\",\n    \"dosage\": \"1-5mg/日\"\n  }\n]"
+        }
+      ],
+      "dom_elements_count": 30
+    },
+    {
+      "screen_name": "diagnoses",
+      "screenshot_path": "screenshots/diagnoses.png",
+      "annotated_path": "annotated/diagnoses.png",
+      "grounding": [
+        {
+          "target": "カルテ記載",
+          "gt_bbox": [
+            90,
+            45,
+            158,
+            66
+          ],
+          "gt_center": [
+            124,
+            55
+          ],
+          "pred_point": [
+            250,
+            124
+          ],
+          "hit": false,
+          "pixel_distance": 143.7,
+          "latency_sec": 1.919,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「カルテ記載」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 130, \"y\": 115}"
+        },
+        {
+          "target": "処方",
+          "gt_bbox": [
+            220,
+            45,
+            258,
+            66
+          ],
+          "gt_center": [
+            239,
+            55
+          ],
+          "pred_point": [
+            528,
+            175
+          ],
+          "hit": false,
+          "pixel_distance": 312.9,
+          "latency_sec": 1.915,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 275, \"y\": 162}"
+        },
+        {
+          "target": "検査",
+          "gt_bbox": [
+            260,
+            45,
+            298,
+            66
+          ],
+          "gt_center": [
+            279,
+            55
+          ],
+          "pred_point": [
+            403,
+            135
+          ],
+          "hit": false,
+          "pixel_distance": 147.6,
+          "latency_sec": 1.919,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 210, \"y\": 125}"
+        },
+        {
+          "target": "病名",
+          "gt_bbox": [
+            300,
+            45,
+            338,
+            66
+          ],
+          "gt_center": [
+            319,
+            55
+          ],
+          "pred_point": [
+            733,
+            413
+          ],
+          "hit": false,
+          "pixel_distance": 547.3,
+          "latency_sec": 1.925,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「病名」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 382, \"y\": 382}"
+        },
+        {
+          "target": "検査結果窓",
+          "gt_bbox": [
+            421,
+            45,
+            489,
+            66
+          ],
+          "gt_center": [
+            455,
+            55
+          ],
+          "pred_point": [
+            947,
+            559
+          ],
+          "hit": false,
+          "pixel_distance": 704.3,
+          "latency_sec": 1.915,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「検査結果窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 493, \"y\": 518}"
+        },
+        {
+          "target": "処方一覧窓",
+          "gt_bbox": [
+            491,
+            45,
+            559,
+            66
+          ],
+          "gt_center": [
+            525,
+            55
+          ],
+          "pred_point": [
+            954,
+            559
+          ],
+          "hit": false,
+          "pixel_distance": 661.9,
+          "latency_sec": 1.928,
+          "prompt_text": "画像サイズは 1920 × 1080 ピクセルです。\n画面のスクリーンショットを見てください。\n「処方一覧窓」の中心座標を返してください。\n座標は 0〜1000 の正規化値でも、絶対ピクセル値でも構いません。\n回答はこのJSON形式のみ: {\"x\": 整数, \"y\": 整数}",
+          "raw_response": "{\"x\": 497, \"y\": 518}"
+        }
+      ],
+      "ocr": [
+        {
+          "category": "diagnoses",
+          "gt": [
+            {
+              "name": "うつ病エピソード",
+              "icd10": "F32"
+            },
+            {
+              "name": "背部痛",
+              "icd10": "M54"
+            }
+          ],
+          "predicted": [
+            {
+              "name": "うつ病エピソード",
+              "icd10": "F32"
+            },
+            {
+              "name": "背部痛",
+              "icd10": "M54.5"
+            }
+          ],
+          "matched": 2,
+          "recall": 1.0,
+          "latency_sec": 2.112,
+          "prompt_text": "画面のスクリーンショットを見てください。\n画面に表示されている病名一覧をJSON配列で取得。各項目: name, icd10\n回答はJSON配列のみ: [{...}, {...}]\nmarkdown fence(```)は一切不要、JSONだけ返してください。",
+          "raw_response": "[{\"name\": \"うつ病エピソード\", \"icd10\": \"F32\"}, {\"name\": \"背部痛\", \"icd10\": \"M54.5\"}]"
+        }
+      ],
+      "dom_elements_count": 32
+    }
+  ]
+}

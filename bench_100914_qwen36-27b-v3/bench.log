@@ -1,0 +1,89 @@
+2026-04-23 10:09:14,714 [INFO] === Replaying login (Qwen) ===
+2026-04-23 10:09:14,721 [INFO]   image: 1920x1080
+2026-04-23 10:09:21,061 [INFO]   Grounding: 'ログイン' -> pixel(1000, 616) (6.34s)
+2026-04-23 10:09:21,061 [INFO]     'ログイン' hit=True dist=1.4px lat=6.34s
+2026-04-23 10:09:24,369 [INFO]   Grounding: 'キャンセル' -> pixel(1089, 615) (3.31s)
+2026-04-23 10:09:24,369 [INFO]     'キャンセル' hit=True dist=2.2px lat=3.308s
+2026-04-23 10:09:24,447 [INFO] === Replaying patient_list (Qwen) ===
+2026-04-23 10:09:24,448 [INFO]   image: 1920x1080
+2026-04-23 10:09:30,966 [INFO]   Grounding: '検索条件を入力...' -> pixel(273, 112) (6.52s)
+2026-04-23 10:09:30,966 [INFO]     '検索条件を入力...' hit=True dist=3.2px lat=6.518s
+2026-04-23 10:09:37,682 [INFO]   Grounding: '検索(S)' -> pixel(451, 112) (6.72s)
+2026-04-23 10:09:37,714 [INFO]     '検索(S)' hit=True dist=1.0px lat=6.716s
+2026-04-23 10:09:40,984 [INFO]   Grounding: '📋
+受付一覧' -> pixel(42, 62) (3.27s)
+2026-04-23 10:09:40,984 [INFO]     '📋
+受付一覧' hit=True dist=5.7px lat=3.27s
+2026-04-23 10:09:44,237 [INFO]   Grounding: '🏥
+受付管理' -> pixel(117, 62) (3.25s)
+2026-04-23 10:09:44,237 [INFO]     '🏥
+受付管理' hit=True dist=4.1px lat=3.252s
+2026-04-23 10:09:48,868 [INFO]   Grounding: '🛏
+入院管理' -> pixel(198, 62) (4.63s)
+2026-04-23 10:09:50,765 [INFO]     '🛏
+入院管理' hit=True dist=4.1px lat=4.631s
+2026-04-23 10:09:54,062 [INFO]   Grounding: '📅
+予約管理' -> pixel(276, 62) (3.30s)
+2026-04-23 10:09:54,063 [INFO]     '📅
+予約管理' hit=True dist=4.1px lat=3.298s
+2026-04-23 10:09:54,152 [INFO] === Replaying karte (Qwen) ===
+2026-04-23 10:09:54,152 [INFO]   image: 1920x1080
+2026-04-23 10:09:57,398 [INFO]   Grounding: 'カルテ記載' -> pixel(154, 57) (3.25s)
+2026-04-23 10:09:57,399 [INFO]     'カルテ記載' hit=True dist=30.1px lat=3.246s
+2026-04-23 10:10:00,696 [INFO]   Grounding: '処方' -> pixel(244, 57) (3.30s)
+2026-04-23 10:10:00,696 [INFO]     '処方' hit=True dist=5.4px lat=3.297s
+2026-04-23 10:10:04,004 [INFO]   Grounding: '検査' -> pixel(278, 57) (3.31s)
+2026-04-23 10:10:04,004 [INFO]     '検査' hit=True dist=2.2px lat=3.308s
+2026-04-23 10:10:07,327 [INFO]   Grounding: '病名' -> pixel(609, 121) (3.32s)
+2026-04-23 10:10:07,327 [INFO]     '病名' hit=False dist=297.4px lat=3.323s
+2026-04-23 10:10:10,654 [INFO]   Grounding: '検査結果窓' -> pixel(1841, 391) (3.33s)
+2026-04-23 10:10:10,654 [INFO]     '検査結果窓' hit=False dist=1426.1px lat=3.327s
+2026-04-23 10:10:16,765 [INFO]   Grounding: '処方一覧窓' -> pixel(513, 57) (6.11s)
+2026-04-23 10:10:16,765 [INFO]     '処方一覧窓' hit=True dist=12.2px lat=6.11s
+2026-04-23 10:10:16,880 [INFO] === Replaying labs (Qwen) ===
+2026-04-23 10:10:16,881 [INFO]   image: 1920x1080
+2026-04-23 10:10:20,157 [INFO]   Grounding: 'カルテ記載' -> pixel(123, 57) (3.28s)
+2026-04-23 10:10:20,157 [INFO]     'カルテ記載' hit=True dist=2.2px lat=3.276s
+2026-04-23 10:10:23,461 [INFO]   Grounding: '処方' -> pixel(240, 57) (3.30s)
+2026-04-23 10:10:23,461 [INFO]     '処方' hit=True dist=2.2px lat=3.304s
+2026-04-23 10:10:30,466 [INFO]   Grounding: '検査' -> pixel(280, 57) (7.00s)
+2026-04-23 10:10:30,466 [INFO]     '検査' hit=True dist=2.2px lat=7.005s
+2026-04-23 10:10:33,768 [INFO]   Grounding: '病名' -> pixel(317, 57) (3.30s)
+2026-04-23 10:10:33,768 [INFO]     '病名' hit=True dist=2.8px lat=3.301s
+2026-04-23 10:10:38,069 [INFO]   Grounding: '検査結果窓' -> pixel(451, 51) (4.30s)
+2026-04-23 10:10:38,069 [INFO]     '検査結果窓' hit=True dist=5.7px lat=4.301s
+2026-04-23 10:10:41,714 [WARNING]   retry 1 for '処方一覧窓': '```json\n{"x": [269, 52], "y": [52, 62]}\n```'
+2026-04-23 10:10:46,219 [WARNING]     '処方一覧窓' grounding FAILED (8.15s)
+2026-04-23 10:10:52,270 [INFO]     OCR[lab_results] matched=6/6 recall=1.0 lat=6.05s
+2026-04-23 10:10:52,376 [INFO] === Replaying meds (Qwen) ===
+2026-04-23 10:10:52,376 [INFO]   image: 1920x1080
+2026-04-23 10:10:58,414 [WARNING]   retry 1 for 'カルテ記載': '{"x": [65, 52], "y": [34, 58]}'
+2026-04-23 10:10:59,155 [WARNING]     'カルテ記載' grounding FAILED (6.778s)
+2026-04-23 10:11:02,456 [INFO]   Grounding: '処方' -> pixel(238, 57) (3.30s)
+2026-04-23 10:11:02,456 [INFO]     '処方' hit=True dist=2.2px lat=3.301s
+2026-04-23 10:11:07,108 [WARNING]   retry 1 for '検査': '```json\n{"x": [143, 52], "y": [52, 52]}\n```'
+2026-04-23 10:11:08,001 [WARNING]     '検査' grounding FAILED (5.544s)
+2026-04-23 10:11:11,588 [WARNING]   retry 1 for '病名': '{"x": [316, 111], "y": [111, 111]}'
+2026-04-23 10:11:12,422 [WARNING]     '病名' grounding FAILED (4.421s)
+2026-04-23 10:11:18,714 [WARNING]   retry 1 for '検査結果窓': '{"x": [150, 280, 937, 412], "y": [280, 412, 937, 280]}'
+2026-04-23 10:11:20,075 [WARNING]     '検査結果窓' grounding FAILED (7.652s)
+2026-04-23 10:11:23,659 [WARNING]   retry 1 for '処方一覧窓': '```json\n{"x": [969, 381], "y": [381]}\n```'
+2026-04-23 10:11:24,493 [WARNING]     '処方一覧窓' grounding FAILED (4.418s)
+2026-04-23 10:11:32,265 [INFO]     OCR[medications] matched=1/1 recall=1.0 lat=7.772s
+2026-04-23 10:11:32,379 [INFO] === Replaying diagnoses (Qwen) ===
+2026-04-23 10:11:32,379 [INFO]   image: 1920x1080
+2026-04-23 10:11:40,620 [WARNING]   retry 1 for 'カルテ記載': '{"x": [63, 52], "y": [52, 63]}'
+2026-04-23 10:11:41,346 [WARNING]     'カルテ記載' grounding FAILED (8.966s)
+2026-04-23 10:11:44,649 [INFO]   Grounding: '処方' -> pixel(238, 57) (3.30s)
+2026-04-23 10:11:44,649 [INFO]     '処方' hit=True dist=2.2px lat=3.303s
+2026-04-23 10:11:52,222 [WARNING]   retry 1 for '検査': '{"x": [145, 52], "y": [52, 52]}'
+2026-04-23 10:11:52,977 [WARNING]     '検査' grounding FAILED (8.328s)
+2026-04-23 10:12:00,820 [INFO]   Grounding: '病名' -> pixel(916, 480) (7.84s)
+2026-04-23 10:12:00,820 [INFO]     '病名' hit=False dist=732.8px lat=7.843s
+2026-04-23 10:12:04,134 [INFO]   Grounding: '検査結果窓' -> pixel(451, 56) (3.31s)
+2026-04-23 10:12:04,135 [INFO]     '検査結果窓' hit=True dist=4.1px lat=3.314s
+2026-04-23 10:12:07,719 [WARNING]   retry 1 for '処方一覧窓': '```json\n{"x": [969, 383], "y": [383]}\n```'
+2026-04-23 10:12:11,559 [WARNING]     '処方一覧窓' grounding FAILED (7.424s)
+2026-04-23 10:12:15,362 [INFO]     OCR[diagnoses] matched=2/2 recall=1.0 lat=3.803s
+2026-04-23 10:12:15,465 [INFO] DONE. bench_results/20260423_100914_qwen36-27b-v3_replay
+2026-04-23 10:12:15,465 [INFO]   Grounding: 0.625, OCR: 1.000, Mean dist: 111.1px
