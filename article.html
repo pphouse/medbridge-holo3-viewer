@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電子カルテのベンダーロックインを、画面操作 AI で迂回する話</title>
+<meta name="description" content="OSS の視覚 AI で電子カルテのベンダーロックインを迂回する実証ベンチマーク。Holo3 / Qwen3.6 比較。">
+<meta property="og:title" content="電子カルテのベンダーロックインを、画面操作 AI で迂回する話">
+<meta property="og:description" content="OSS の視覚 AI (Qwen3.6 / Holo3) で電子カルテ自動化の射程を実測。MoE active params が grounding の天井を決める。">
+<meta property="og:type" content="article">
+<meta property="og:image" content="article_img/grounding_annotated_meds.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/atom-one-dark.min.css">
+<style>
+  :root {
+    --fg: #1a1a1a;
+    --fg-mute: #555;
+    --bg: #fafaf7;
+    --card: #ffffff;
+    --accent: #c0392b;
+    --accent-soft: #fdecea;
+    --border: #e5e5e0;
+    --code-bg: #282c34;
+    --table-stripe: #f7f7f4;
+    --max-content: 760px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.85;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(0, var(--max-content)) 240px 1fr;
+    gap: 32px;
+    padding: 48px 24px 96px;
+  }
+  .article {
+    grid-column: 2 / 3;
+    background: var(--card);
+    padding: 56px 64px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.03);
+  }
+  .sidebar {
+    grid-column: 3 / 4;
+  }
+  .toc {
+    position: sticky;
+    top: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 16px 24px;
+    font-size: 13px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+  .toc h3 {
+    margin: 0 0 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-mute);
+    font-weight: 600;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { line-height: 1.5; margin: 0; }
+  .toc li a {
+    display: block;
+    color: var(--fg-mute);
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc li a:hover { color: var(--accent); background: var(--accent-soft); border-left-color: var(--accent); }
+  .toc-l2 a { font-weight: 600; }
+  .toc-l3 a { padding-left: 20px; font-size: 12px; }
+
+  h1 {
+    font-size: 30px;
+    line-height: 1.4;
+    margin: 0 0 32px;
+    padding-bottom: 24px;
+    border-bottom: 3px solid var(--accent);
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 22px;
+    margin: 56px 0 20px;
+    padding-left: 14px;
+    border-left: 4px solid var(--accent);
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 17px;
+    margin: 36px 0 14px;
+    font-weight: 700;
+    color: #333;
+  }
+  p { margin: 16px 0; }
+  ul, ol { margin: 16px 0; padding-left: 28px; }
+  li { margin: 6px 0; }
+  blockquote {
+    border-left: 4px solid #cfc8b8;
+    background: #fbf8f0;
+    margin: 24px 0;
+    padding: 16px 24px;
+    color: #5a513b;
+    border-radius: 0 4px 4px 0;
+  }
+  blockquote p { margin: 8px 0; }
+  strong { color: #b03020; font-weight: 700; }
+  code {
+    background: #f0ede5;
+    color: #b03020;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: "SF Mono", Menlo, Monaco, "Roboto Mono", monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    color: #f8f8f2;
+    padding: 18px 22px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 20px 0;
+  }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+  a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(192,57,43,0.35); }
+  a:hover { text-decoration-color: var(--accent); }
+  hr {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 48px 0;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+  }
+  thead { background: #f0ede5; }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { font-weight: 700; color: #333; }
+  tbody tr:nth-child(even) { background: var(--table-stripe); }
+
+  figure.screenshot {
+    margin: 32px -16px;
+    text-align: center;
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 6px;
+  }
+  figure.screenshot img {
+    max-width: 100%;
+    height: auto;
+    cursor: zoom-in;
+    border-radius: 3px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  figure.screenshot figcaption {
+    color: #d0c8b8;
+    font-size: 13px;
+    margin-top: 12px;
+    line-height: 1.6;
+    text-align: left;
+    padding: 0 8px;
+  }
+
+  .article-meta {
+    color: var(--fg-mute);
+    font-size: 13px;
+    margin-top: -16px;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .article-meta .tag {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 2px 10px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--fg-mute);
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  /* mobile */
+  @media (max-width: 1100px) {
+    .layout {
+      grid-template-columns: 1fr;
+      padding: 24px 16px 64px;
+      gap: 16px;
+    }
+    .article { grid-column: 1; padding: 32px 20px; }
+    .sidebar { grid-column: 1; order: -1; }
+    .toc { position: static; max-height: none; }
+    .toc-l3 { display: none; }
+    figure.screenshot { margin: 24px -8px; padding: 12px; }
+    h1 { font-size: 24px; }
+    h2 { font-size: 19px; }
+    table { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <article class="article">
+    <a class="back-link" href="index.html">← ベンチマークビューワーに戻る</a>
+    <h1>電子カルテのベンダーロックインを、画面操作 AI で迂回する話</h1>
+    <div class="article-meta">
+      <span class="tag">VLM</span>
+      <span class="tag">EMR</span>
+      <span class="tag">Computer-Use</span>
+      <span>2026年5月</span>
+    </div>
+    <blockquote>
+<p>「API を出してくれない」「カスタマイズ見積もりが数千万、納期 1 年」——
+このご時世、人間が画面を見て操作できることを、AI に肩代わりさせる選択肢はないのか？
+ローカル GPU 1 枚で動く OSS の視覚 AI で、どこまで現実的か実測した記録です。</p>
+</blockquote>
+<h2 id="sec-0">TL;DR</h2>
+<ul>
+<li>電子カルテ（EMR）の業務自動化は、ベンダー API ではなく <strong>画面操作 AI（VLM ベース computer-use エージェント）</strong> で迂回できる時代に入りつつある</li>
+<li>自前で立てた EMR モック画面で、<strong>OSS の Qwen3.6-27B (Dense) + JSON Schema 制約</strong> が GUI grounding 精度 <strong>84.4%</strong> を達成し、GUI 特化モデル Holo3-35B と並んだ</li>
+<li>一方、同じ「Qwen3.6」でも <strong>MoE 構造の 35B-A3B（active 3B）は 6〜9%</strong> と壊滅。<strong>総パラ数ではなく active パラ数が天井を決める</strong></li>
+<li>「クリックできる場所を全部列挙する」タスク（キーワードヒントなし）の F1 は <strong>0.53</strong>。完全自動化はまだ早く、<strong>Human-in-the-loop 前提の業務補助なら今すぐ実用射程</strong></li>
+<li>全部 A100 1 枚＋ローカル完結。<strong>画像が外に出ない構成</strong>なので医療情報安全管理ガイドラインとの整合説明もしやすい</li>
+</ul>
+<hr>
+<h2 id="sec-1">なぜこの話を書くか：病院・ヘルスケア IT 部門の沈黙の負債</h2>
+<p>電子カルテのベンダーに「この画面のデータを CSV で吐けるようにして」と頼んだことがある人は分かると思います。返ってくる答えはだいたいこうです。</p>
+<ul>
+<li>「カスタマイズ対応になります。見積もりは追ってご連絡します」（数百万〜数千万）</li>
+<li>「次期バージョンで FHIR 対応を予定しています」（時期未定）</li>
+<li>「ベンダー間連携は弊社の SaaS でのみ可能です」（実質ロックイン）</li>
+</ul>
+<p>結果、<strong>画面では一瞬で見える情報</strong> が機械的に取り出せず、転記・集計・部門間共有は人手のままです。退院サマリ、検査結果一覧、処方履歴、病名サマリ、紹介状作成——どれも「人が画面を見て、人が別の画面に打ち込む」が温存されています。</p>
+<p>これに対して、近年急速に立ち上がってきたのが <strong>Computer-use 型の視覚言語モデル (VLM)</strong> です。Anthropic Claude Computer Use、Mind2Web、Holo3、Qwen3-VL シリーズ、UI-TARS など、<strong>「スクリーンショットを見て、クリック座標を返す」</strong> モデルが揃ってきました。</p>
+<p>つまり——<strong>ベンダー協力ゼロで、人間オペレータの仕事を肩代わりするエージェント</strong> が、技術的には現実になりつつあります。問題は「OSS でどこまで使えるのか」「自前 GPU で動くのか」「医療現場で安全に運用できるのか」です。</p>
+<p>この記事は、その射程を実測した記録です。</p>
+<hr>
+<h2 id="sec-2">実験設定：MedBridge サンドボックス</h2>
+<p>ベンダー製の本物の EMR で実験するわけにはいかないので、社内で <strong>電子カルテ風の Web アプリケーション</strong> を作って計測台にしました。</p>
+<ul>
+<li>フロント: Next.js（病院 EMR っぽい 6 画面：ログイン／患者一覧／カルテ／検査結果／処方／病名）</li>
+<li>起動: Electron で CDP (Chrome DevTools Protocol) を開き、headless Linux 上で Xvfb + openbox で表示</li>
+<li>推論: A100 80GB 1 枚に llama.cpp llama-server (CUDA) で各種 VLM をロード</li>
+</ul>
+<p>EMR 自動化エージェントに必要な能力を 3 つに分解して測ります。</p>
+<table>
+<thead>
+<tr>
+<th>タスク</th>
+<th>何を測るか</th>
+<th>病院業務での意味</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Grounding</strong></td>
+<td>「ログインボタンの座標を返して」のような指示で正しい場所をクリックできるか</td>
+<td>既知の操作シナリオを自動化できるか</td>
+</tr>
+<tr>
+<td><strong>OCR</strong></td>
+<td>画面に表示された患者名・検査値を正確に読めるか</td>
+<td>転記・集計の精度</td>
+</tr>
+<tr>
+<td><strong>Detection</strong></td>
+<td>キーワードなしで「クリック可能な要素」を全列挙できるか</td>
+<td>未知画面で自律的に動けるか（汎用 computer-use）</td>
+</tr>
+</tbody></table>
+<p>比較したモデルは以下：</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>種別</th>
+<th>サイズ</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Holo3-35B-A3B</td>
+<td>GUI 特化 VLM</td>
+<td>MoE 35B (active 3B)</td>
+<td>vLLM BF16、GUI grounding 専用学習</td>
+</tr>
+<tr>
+<td>Qwen3.6-35B-A3B</td>
+<td>汎用 VLM</td>
+<td>MoE 35B (active 3B)</td>
+<td>BF16 / Q8 両方</td>
+</tr>
+<tr>
+<td>Qwen3.6-27B</td>
+<td>汎用 VLM (Dense)</td>
+<td>27B 全部 active</td>
+<td>BF16 / Q8 両方</td>
+</tr>
+</tbody></table>
+<p>すべてのテストで <code>enable_thinking: false</code>（Qwen3.6 のデフォ思考モードを切る）と JSON Schema による出力構造強制を行っています。後述しますが、これをやらないと結果が読めるレベルになりません。</p>
+<figure class="screenshot"><a href="./article_img/screenshot_karte.png" target="_blank"><img src="./article_img/screenshot_karte.png" alt="EMR モック画面（カルテ）" loading="lazy"></a><figcaption>▲ 計測台として作った EMR 風カルテ画面。患者基本情報、診療記録、検査・処方・病名タブを持つ典型的なレイアウト。</figcaption></figure>
+<hr>
+<h2 id="sec-3">結果 1：Grounding——「ボタンの場所、教えて」</h2>
+<p>最初に「画面のスクリーンショット＋『ログインの座標』のような指示」で正しい場所を当てられるかを 32 タスク × 6 画面で測りました。</p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>Hit率</th>
+<th>平均ピクセル誤差</th>
+<th>平均レイテンシ</th>
+<th>病院的に意味すること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Holo3-35B-A3B</strong> (GUI 特化)</td>
+<td><strong>84.4%</strong></td>
+<td>149 px</td>
+<td>—</td>
+<td>既存 EMR 操作の自動化が「今すぐ」設計可能</td>
+</tr>
+<tr>
+<td><strong>Qwen3.6-27B BF16 + JSON Schema</strong></td>
+<td><strong>84.4%</strong></td>
+<td>127 px</td>
+<td>2.82 s/call</td>
+<td><strong>汎用 OSS が GUI 特化と並んだ</strong></td>
+</tr>
+<tr>
+<td>Qwen3.6-27B Q8_0 + JSON Schema</td>
+<td>84.4%</td>
+<td>148 px</td>
+<td>3.32 s/call</td>
+<td>量子化でも精度ほぼ不変</td>
+</tr>
+<tr>
+<td>Qwen3.6-35B-A3B BF16 + JSON Schema</td>
+<td><strong>6.3%</strong></td>
+<td>376 px</td>
+<td>2.18 s/call</td>
+<td>active 3B では grounding に不足</td>
+</tr>
+<tr>
+<td>Qwen3.6-35B-A3B Q8_0 + JSON Schema</td>
+<td>9.4%</td>
+<td>388 px</td>
+<td>1.94 s/call</td>
+<td>同上</td>
+</tr>
+</tbody></table>
+<p><strong>画面別の grounding 精度（Holo3-35B、参考値）</strong></p>
+<table>
+<thead>
+<tr>
+<th>画面</th>
+<th>正解 / タスク数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ログイン</td>
+<td>2/2</td>
+</tr>
+<tr>
+<td>患者一覧</td>
+<td>6/6</td>
+</tr>
+<tr>
+<td>カルテ</td>
+<td>5/6</td>
+</tr>
+<tr>
+<td>検査結果</td>
+<td>5/6</td>
+</tr>
+<tr>
+<td>処方</td>
+<td>5/6</td>
+</tr>
+<tr>
+<td>病名</td>
+<td>4/6</td>
+</tr>
+</tbody></table>
+<figure class="screenshot"><a href="./article_img/grounding_annotated_meds.png" target="_blank"><img src="./article_img/grounding_annotated_meds.png" alt="Grounding 結果可視化（緑＝GT、赤＝予測点）" loading="lazy"></a><figcaption>▲ 処方画面での grounding 結果（Qwen3.6-27B Dense + JSON Schema）。緑四角が「正解の領域」、赤い小さな点が VLM が返した座標。多くは小さな UI 要素にきれいに乗っている。</figcaption></figure>
+<figure class="screenshot"><a href="./article_img/grounding_35bmoe_login.png" target="_blank"><img src="./article_img/grounding_35bmoe_login.png" alt="同じ画面・同じプロンプトで 35B-MoE" loading="lazy"></a><figcaption>▲ 同じログイン画面を Qwen3.6-35B-A3B（MoE, active 3B）に投げた結果。座標が画面のほぼ中央付近に集中し、ボタンに乗らない。総パラ数だけ見て「大きい方が強い」と決めると痛い目に遭う実例。</figcaption></figure>
+<h3 id="sec-4">何を意味するか（経営／IT 部門目線）</h3>
+<ul>
+<li><strong>「ベンダー画面のクリック自動化」を OSS スタックで設計できる</strong>ことが実測ベースで言える</li>
+<li>A100 1 枚で 1 クリック判断に 2〜3 秒。RPA 的な用途には十分速い</li>
+<li>OCR は全モデルで Recall 1.0、検査値・氏名読み取りは信頼できる水準</li>
+</ul>
+<hr>
+<h2 id="sec-5">結果 2：MoE 35B が Dense 27B に負けた——調達担当者が知っておくべき罠</h2>
+<p>ここが今回一番面白い発見です。</p>
+<p><strong>同じ「Qwen3.6」シリーズで、サイズが大きいはずの 35B-A3B が、27B-Dense にダブルスコアどころか「桁違いに」負けました。</strong></p>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>公称サイズ</th>
+<th>active パラメータ</th>
+<th>Grounding Hit率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Qwen3.6-<strong>35B</strong>-A3B</td>
+<td>35B</td>
+<td><strong>3B</strong> (MoE)</td>
+<td><strong>6〜9%</strong></td>
+</tr>
+<tr>
+<td>Qwen3.6-<strong>27B</strong> (Dense)</td>
+<td>27B</td>
+<td><strong>27B</strong> (全部 active)</td>
+<td><strong>84.4%</strong></td>
+</tr>
+</tbody></table>
+<p><strong>MoE (Mixture of Experts) は、合計パラメータが大きくても 1 トークンあたりに動く専門家は一部だけ</strong> という構造です。Qwen3.6-35B-A3B は active が 3B しかなく、その「3B 相当の推論能力」が画像と座標の幾何的対応付けに必要な容量に足りていない、と読めます。</p>
+<p>これは量子化のせいではありません。<strong>BF16（フル精度）でも Q8（8bit 量子化）でも結果はほぼ同じ</strong> で、構造的な天井です。</p>
+<h3 id="sec-6">調達者向けの教訓</h3>
+<p>VLM を含む生成 AI 製品の RFP・選定で、ベンダーが「<strong>700B クラスの巨大モデル搭載！</strong>」と謳っていても、それが MoE であれば active パラメータを必ず確認すべきです。特に <strong>GUI 操作や画像内の幾何タスク</strong> では、active 容量が決定的に効きます。</p>
+<p><strong>RFP に入れるべき測定条項の例：</strong></p>
+<ul>
+<li>「自院の代表的 EMR 画面 5 枚に対し、ボタン中心座標を ±20 px 以内で返す精度 ≥ 80%」</li>
+<li>「処方画面の薬剤名・用量を OCR Recall ≥ 0.95」</li>
+<li>「上記を 1 操作あたりレイテンシ ≤ 5 秒」</li>
+</ul>
+<p>これだけで、見せかけのスペック競争を一気に絞り込めます。</p>
+<hr>
+<h2 id="sec-7">結果 3：「キーワードなしで操作可能要素を見つけられるか」——computer-use の本丸</h2>
+<p>ここまでは「『ログインボタン』のように <strong>何を探すか</strong> を教えた」ベンチでした。本当の computer-use エージェントは、<strong>未知の画面を見て、自分で操作可能な要素を発見する</strong> 必要があります。</p>
+<p>そこで Detection ベンチを作りました。プロンプトには <strong>キーワードを一切含めず</strong>、「画面を見て、クリックできる場所と入力できる場所を JSON で全部返して」とだけ指示します。GT は CDP でブラウザの DOM から <code>button, input, [role=button]</code> などを実際に列挙して生成しました。</p>
+<p><strong>結果（Qwen3.6-27B BF16 + JSON Schema）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>画面</th>
+<th>TP</th>
+<th>FP</th>
+<th>FN</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>F1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ログイン</td>
+<td>4</td>
+<td>1</td>
+<td>0</td>
+<td>0.80</td>
+<td>1.00</td>
+<td><strong>0.89</strong></td>
+</tr>
+<tr>
+<td>患者一覧</td>
+<td>11</td>
+<td>22</td>
+<td>0</td>
+<td>0.33</td>
+<td>1.00</td>
+<td>0.50</td>
+</tr>
+<tr>
+<td>カルテ</td>
+<td>11</td>
+<td>39</td>
+<td>13</td>
+<td>0.22</td>
+<td>0.46</td>
+<td>0.30</td>
+</tr>
+<tr>
+<td>検査結果</td>
+<td>22</td>
+<td>28</td>
+<td>3</td>
+<td>0.44</td>
+<td>0.88</td>
+<td>0.59</td>
+</tr>
+<tr>
+<td>処方</td>
+<td>23</td>
+<td>27</td>
+<td>6</td>
+<td>0.46</td>
+<td>0.79</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>病名</td>
+<td>24</td>
+<td>26</td>
+<td>1</td>
+<td>0.48</td>
+<td>0.96</td>
+<td>0.64</td>
+</tr>
+<tr>
+<td><strong>全体</strong></td>
+<td><strong>95</strong></td>
+<td><strong>143</strong></td>
+<td><strong>23</strong></td>
+<td><strong>0.40</strong></td>
+<td><strong>0.81</strong></td>
+<td><strong>0.53</strong></td>
+</tr>
+</tbody></table>
+<figure class="screenshot"><a href="./article_img/detect_annotated_karte.png" target="_blank"><img src="./article_img/detect_annotated_karte.png" alt="Detection 結果（カルテ画面）" loading="lazy"></a><figcaption>▲ Detection ベンチの可視化（カルテ画面）。緑＝GT のうちモデルが当てた要素、赤＝モデルが見逃した GT、青＝モデルが正しく見つけた点、橙＝モデルが見つけたが GT になかった「過検出」。カレンダー UI で「14, 15, 16…20」を全部クリック対象として列挙してしまう傾向が見える。</figcaption></figure>
+<figure class="screenshot"><a href="./article_img/detect_annotated_login.png" target="_blank"><img src="./article_img/detect_annotated_login.png" alt="Detection 結果（ログイン画面）" loading="lazy"></a><figcaption>▲ シンプルな画面（ログイン）なら F1=0.89。「操作可能要素を全部教えて」だけで実用域に乗る。</figcaption></figure>
+<h3 id="sec-8">観察</h3>
+<ul>
+<li><strong>Recall は高い（0.81）が、Precision が低い（0.40）</strong>。「見逃しは少ないが、過検出が多い」</li>
+<li>カルテ画面のカレンダー UI で「日付セル」を全部クリック対象として列挙してしまう</li>
+<li>ログインのようなシンプル画面では F1 = 0.89 と実用域</li>
+</ul>
+<h3 id="sec-9">病院オペレーションへの示唆</h3>
+<ul>
+<li><strong>完全自動操作（人間が見ない RPA）にはまだ早い</strong>。「過検出」を実行に移すと事故になる</li>
+<li><strong>Human-in-the-loop（候補提示→人間確認）なら今すぐ十分に有用</strong><ul>
+<li>例：退院サマリ作成時、「この画面で次にクリックしそうな場所」を 3 つ候補表示</li>
+<li>例：転記補助で「読み取り候補欄」をハイライトし、人間が承認したものだけ転送</li>
+</ul>
+</li>
+<li>段階導入シナリオ：<strong>① 転記補助 → ② 下書き生成（編集前提）→ ③ 確認付き自動実行</strong></li>
+</ul>
+<hr>
+<h2 id="sec-10">実装ハック：「動くこと」を阻む 3 つの罠</h2>
+<p>ここからは実装した人間向けの話ですが、調達側にも「導入時にここを聞け」というチェックリストになります。</p>
+<h3 id="sec-11">罠 1：素の出力は JSON が壊れる</h3>
+<p>JSON Schema 制約をかけないと、Qwen3.6 はこういうものを返してきます。</p>
+<pre><code>{&quot;x&quot;:[69,33],&quot;y&quot;:[27]}
+</code></pre>
+<p>座標を返してほしいのに配列。これだけで grounding 精度は 0.63 → 0.84 に跳ねました（27B Dense）。llama.cpp 側で <code>response_format: {type: &quot;json_schema&quot;, json_schema: {...}}</code> を渡すと、内部的に GBNF（文法制約）が効いて出力構造が強制されます。</p>
+<pre><code class="language-python">payload = {
+    &quot;model&quot;: MODEL,
+    &quot;messages&quot;: [...],
+    &quot;response_format&quot;: {
+        &quot;type&quot;: &quot;json_schema&quot;,
+        &quot;json_schema&quot;: {
+            &quot;name&quot;: &quot;out&quot;,
+            &quot;schema&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;x&quot;: {&quot;type&quot;: &quot;integer&quot;},
+                    &quot;y&quot;: {&quot;type&quot;: &quot;integer&quot;}
+                },
+                &quot;required&quot;: [&quot;x&quot;, &quot;y&quot;]
+            }
+        }
+    }
+}
+</code></pre>
+<p><strong>運用での意味</strong>：本番では「壊れた JSON で業務エージェントが停止する」事故を構造的に防げます。RPA 製品の MTBF を語る前にここを聞くべきです。</p>
+<h3 id="sec-12">罠 2：座標は 0-1000 正規化規約</h3>
+<p>Qwen-VL / Holo3 系は座標を <strong>画像サイズで割って 0-1000 にスケールした値</strong> で返してきます。ドキュメントが薄いので、最初は「全部画面の左上に集まっている」ように見えて混乱します。<strong>ベンダー乗り換え時にこの規約の違いが互換性ハマりポイントになる</strong> ので、抽象化レイヤを最初から噛ませるのが安全。</p>
+<h3 id="sec-13">罠 3：思考モードでトークンが枯渇する</h3>
+<p>Qwen3.6 はデフォルトで <code>&lt;think&gt;...&lt;/think&gt;</code> ブロックを大量に吐きます。max_tokens を 512 程度にしていると本文が全く返ってきません。</p>
+<pre><code class="language-python">payload[&quot;chat_template_kwargs&quot;] = {&quot;enable_thinking&quot;: False}
+</code></pre>
+<p>これで grounding のような短い構造化出力ではレイテンシが 1/3 になります。<strong>運用での意味</strong>：医療現場のリアルタイム性に乗せるには必須設定。</p>
+<hr>
+<h2 id="sec-14">アーキテクチャ：医療情報安全管理ガイドラインとの整合</h2>
+<p>このスタックの構成上、<strong>患者画面のスクリーンショットも VLM の推論も、すべて院内 GPU で完結</strong> します。</p>
+<pre><code>[EMR 端末]──CDP/RPA経由──→[院内 GPU サーバ (A100 1枚)]
+                              ├ llama-server (Qwen3.6-27B BF16)
+                              ├ 業務エージェント (Python)
+                              └ ログ・監査トレース
+</code></pre>
+<ul>
+<li>モデル重み：完全ローカル（モデル課金なし）</li>
+<li>推論：完全ローカル（外部 API 不使用 → クラウド送信問題なし）</li>
+<li>監査：全プロンプト・全画像・全応答をローカル DB に記録可能</li>
+<li>ベンダー：不要（ベンダー間連携契約・データ提供同意書の追加不要）</li>
+</ul>
+<p>医療情報システムの安全管理ガイドライン上、<strong>外部送信なし</strong>で構成できることは「情報共有同意」「越境データ問題」を一気に消せる強みです。</p>
+<hr>
+<h2 id="sec-15">概算コスト感</h2>
+<ul>
+<li><strong>モデル重み</strong>：0 円（OSS、Hugging Face から取得）</li>
+<li><strong>GPU</strong>：A100 80GB 1 枚（中古 ~250 万、クラウド ~400 円/h）</li>
+<li><strong>電力</strong>：A100 ~300W、年間 24h 稼働で電気代 ~7 万円</li>
+<li><strong>構築</strong>：エンジニア 1〜2 人月で PoC、本番運用には UI 設計込みで 6 人月程度</li>
+</ul>
+<p>ベンダー API カスタマイズ見積もり 数千万 / 1 年と比べると、<strong>自前 PoC の方が早くて安いケース</strong> は確実に存在します。</p>
+<hr>
+<h2 id="sec-16">結論：いつ「待たない」決断をすべきか</h2>
+<p>ベンダー API ロードマップを 3 年待つ間にも、人は転記し続け、退院サマリは未作成のまま積み上がっています。</p>
+<p>このベンチで分かったのは、<strong>「人が画面で 1〜2 秒で判断できる UI 操作」は、OSS の VLM ＋ A100 1 枚で 2〜3 秒の精度 84% で再現できる</strong> ということです。完全自動はまだ早いが、Human-in-the-loop の業務補助なら今が PoC のタイミングです。</p>
+<p>調達側の方には特に伝えたい：</p>
+<ul>
+<li><strong>「MoE 700B 搭載」より「active 27B Dense」を選ぶべき場面がある</strong></li>
+<li><strong>RFP に grounding 精度の実測条項を入れろ</strong></li>
+<li><strong>画面操作 AI は「ベンダーロックインの迂回路」になる</strong></li>
+</ul>
+<p>ベンダーが API を出してくれないなら、画面の方を AI に見せればいい——技術的には、もうそういう時代です。</p>
+<hr>
+<h2 id="sec-17">付録：使ったモデル・コード</h2>
+<ul>
+<li>Holo3-35B-A3B: <a href="https://huggingface.co/Holo1/Holo3-35B-A3B">https://huggingface.co/Holo1/Holo3-35B-A3B</a></li>
+<li>Qwen3.6-35B-A3B: <a href="https://huggingface.co/Qwen/Qwen3.6-35B-A3B">https://huggingface.co/Qwen/Qwen3.6-35B-A3B</a></li>
+<li>Qwen3.6-27B: <a href="https://huggingface.co/Qwen/Qwen3.6-27B">https://huggingface.co/Qwen/Qwen3.6-27B</a></li>
+<li>推論バックエンド: llama.cpp (CUDA sm_80 自前ビルド)</li>
+<li>Holo3 互換シム / ベンチコード一式: 社内リポジトリ（公開検討中）</li>
+</ul>
+<p>ベンチ可視化ビューワ（社内）：</p>
+<ul>
+<li>Grounding: <code>bench_195212_qwen36-27b-bf16-schema/viewer.html</code> ほか</li>
+<li>Detection: <code>detect_qwen36-27b-bf16/viewer.html</code></li>
+</ul>
+<hr>
+<p><em>この記事は MedBridge プロジェクト（院内 EMR 自動化エージェントの社内 PoC）の検証ログを基にしています。質問・反論・「うちの病院ではこれはダメだ」というツッコミ歓迎です。</em></p>
+
+  </article>
+  <aside class="sidebar"><nav class="toc"><h3>目次</h3><ol><li class="toc-l2"><a href="#sec-0">TL;DR</a></li><li class="toc-l2"><a href="#sec-1">なぜこの話を書くか：病院・ヘルスケア IT 部門の沈黙の負債</a></li><li class="toc-l2"><a href="#sec-2">実験設定：MedBridge サンドボックス</a></li><li class="toc-l2"><a href="#sec-3">結果 1：Grounding——「ボタンの場所、教えて」</a></li><li class="toc-l3"><a href="#sec-4">何を意味するか（経営／IT 部門目線）</a></li><li class="toc-l2"><a href="#sec-5">結果 2：MoE 35B が Dense 27B に負けた——調達担当者が知っておくべき罠</a></li><li class="toc-l3"><a href="#sec-6">調達者向けの教訓</a></li><li class="toc-l2"><a href="#sec-7">結果 3：「キーワードなしで操作可能要素を見つけられるか」——computer-use の本丸</a></li><li class="toc-l3"><a href="#sec-8">観察</a></li><li class="toc-l3"><a href="#sec-9">病院オペレーションへの示唆</a></li><li class="toc-l2"><a href="#sec-10">実装ハック：「動くこと」を阻む 3 つの罠</a></li><li class="toc-l3"><a href="#sec-11">罠 1：素の出力は JSON が壊れる</a></li><li class="toc-l3"><a href="#sec-12">罠 2：座標は 0-1000 正規化規約</a></li><li class="toc-l3"><a href="#sec-13">罠 3：思考モードでトークンが枯渇する</a></li><li class="toc-l2"><a href="#sec-14">アーキテクチャ：医療情報安全管理ガイドラインとの整合</a></li><li class="toc-l2"><a href="#sec-15">概算コスト感</a></li><li class="toc-l2"><a href="#sec-16">結論：いつ「待たない」決断をすべきか</a></li><li class="toc-l2"><a href="#sec-17">付録：使ったモデル・コード</a></li></ol></nav></aside>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/languages/python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/languages/json.min.js"></script>
+<script>
+  hljs.registerLanguage('python', window.hljsDefineLanguage ? window.hljsDefineLanguage : (() => {}));
+  document.querySelectorAll('pre code').forEach(b => { try { hljs.highlightElement(b); } catch(e) {} });
+</script>
+</body>
+</html>
